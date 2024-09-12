@@ -1,0 +1,602 @@
+<div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+    <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="align-self-center">
+            <h3 class="page-title text-themecolor m-0"><b>Información del Proveedor</b></h3>
+        </div>
+        <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100" class="align-self-center">
+            <div class="breadcrumb d-flex align-items-center float-right float-sm-left">             
+                <ul class="list-style-none d-flex align-items-center">
+                    <li class="breadcrumb-item ">
+                        <h5 class="m-0"><b></b> </h5> 
+                    </li>
+                    <li class="breadcrumb-item abajo" >
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15 abajo">                         
+                            <mat-label>Siguiente Tarea</mat-label>
+                            <mat-select placeholder="" name="SelEstatus" placeholder="Workflow" [disabled]="bloqueoWf=='0'"  >
+                                <mat-option *ngFor="let work of workInicial" [value]="work.siguienteEstatus">
+                                    {{work.opcion}}
+                                </mat-option>
+                            </mat-select>
+                    </mat-form-field>
+                    </li>
+                    <li class="breadcrumb-item" >
+                        <button mat-raised-button class="" color="primary" [disabled]="btnGda !== '1'"> <mat-icon>edit</mat-icon> </button>
+                    </li>
+                    <li class="breadcrumb-item" >
+                        <button mat-raised-button class="arriba2" color="primary" (click)=guardarProveedores() [disabled]="btnGda !== '1'"> <mat-icon>save</mat-icon> </button>
+                    </li>
+                    <li class="breadcrumb-item" >
+                        <button mat-raised-button (click)=cerrarGastosZ() color="warn"> <mat-icon>highlight_off</mat-icon> </button>                         
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row">
+    <div fxFlex="100">
+      <mat-card>
+        <mat-card-content>
+          <div fxLayout="row wrap" class="align-items-center">
+              <div fxFlex.gt-md="75" class="text-right">
+                  
+                </div>
+            <div fxFlex.gt-md="25" fxFlex.gt-lg="25" fxFlex="100">
+              <mat-form-field>
+                <mat-label>Nombre Comercial</mat-label>
+                <input type="text" matInput >
+              </mat-form-field>
+            </div>
+            
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div fxLayout="row wrap">
+    <div fxFlex="100">  
+        <form #userForm="ngForm"> 
+    <mat-tab-group>
+        <mat-tab label="Datos"> 
+            <mat-accordion class="example-headers-align">
+                <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <b>Datos Generales</b>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Razón Social</mat-label>
+                        <input type="text" matInput id="razonSocial" name="razonSocial" [(ngModel)]="tesoreriaListData.razonSocial"  placeholder="Razón Social" [disabled]="!bloqueo">
+                    </mat-form-field>   
+                </div>   
+                </div>
+                
+                <div fxFlex="50" fxFlex.gt-md="50">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                          <mat-label>Tipo de Proveedor</mat-label>
+                          <mat-select required placeholder="Tipo de Proveedor" [(ngModel)]="tesoreriaListData.idProveedor"  id="idProveedor" name="idProveedor"  [disabled]="!bloqueo" >
+                              <mat-option *ngFor="let tipop of TipoP" [value]="tipop.idProveedor" >
+                                  {{tipop.TipoProveedor}}
+                              </mat-option>
+                          </mat-select>                  
+                        </mat-form-field>
+                    </div>
+                </div>	
+                <div fxFlex="50" fxFlex.gt-md="50">
+                    
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                          <mat-label>Términos de Pago</mat-label>
+                          <mat-select required placeholder="Término de Pago" [(ngModel)]="tesoreriaListData.idTerminoPago"  id="idTerminoPago" name="idTerminoPago"  [disabled]="!bloqueo" >
+                              <mat-option *ngFor="let terminop of TerminoP" [value]="terminop.idTerminoPago"  >
+                                  {{terminop.TerminoPago}}
+                              </mat-option>
+                          </mat-select>                  
+                        </mat-form-field>
+                    </div>
+                </div>	
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Sitio Web</mat-label>
+                        <input type="text" matInput id="sitioWeb" name="sitioWeb" [(ngModel)]="tesoreriaListData.sitioWeb" placeholder="Sitio Web" [disabled]="!bloqueo">
+                    </mat-form-field>   
+                </div>   
+                </div>
+            <div fxFlex="50" fxFlex.gt-xs="50">
+                <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                            <mat-label>Nacionalidad</mat-label>
+                            <mat-select required placeholder="Nacionalidad"  id="idNacionalidad" [(ngModel)]="tesoreriaListData.idNacionalidad" name="idNacionalidad"  [disabled]="!bloqueo">
+                                <mat-option *ngFor="let nacionalidad of Nacionalidad" [value]="nacionalidad.idNacionalidad">
+                                    {{nacionalidad.Nacionalidad}}
+                                </mat-option>
+                            </mat-select>                      
+                        </mat-form-field> 
+                    </div>
+                    </div> 
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Observaciones</mat-label>
+                            <input type="text" matInput id="Observaciones" name="Observaciones" [(ngModel)]="tesoreriaListData.Observaciones" placeholder="ID Colaborador" [disabled]="!bloqueo">
+                        </mat-form-field>   
+                    </div>   
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                <mat-label>Fecha registro</mat-label>
+                                <input type="text" matInput id="fecharegistro" name="fecharegistro" [(ngModel)]="tesoreriaListData.fecharegistro" placeholder="Fecha Registro" [disabled]="bloqueo">
+                            </mat-form-field>   
+                        </div>   
+                    </div>
+                <!--
+                <mat-action-row>
+                    <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                </mat-action-row>-->
+            </div>
+            <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+            </mat-action-row>
+        
+        </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <b>Información Fiscal</b>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="50" fxFlex.gt-md="50">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                          <mat-label>Tipo de Persona</mat-label>
+                          <mat-select required placeholder="Tipo de Persona" [(ngModel)]="tesoreriaListData.idPersona" id="idPersona" name="idPersona"  [disabled]="!bloqueo" >
+                              <mat-option *ngFor="let tipo of Tipo" [value]="tipo.idPersona" >
+                                  {{tipo.TipoPersona}}
+                              </mat-option>
+                          </mat-select>                  
+                        </mat-form-field>
+                    </div>
+                </div>	
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>RFC / TAX ID</mat-label>
+                        <input type="text" matInput id="RFC" name="RFC" [(ngModel)]="tesoreriaListData.RFC" placeholder="RFC / TAX ID" [disabled]="!bloqueo">
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="50" fxFlex.gt-md="50">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                          <mat-label> Regimen fiscal</mat-label>
+                          <mat-select required placeholder="RegimenFiscal" [(ngModel)]="tesoreriaListData.idRegFiscal" id="idRegFiscal" name="idRegFiscal"  [disabled]="!bloqueo" >
+                              <mat-option *ngFor="let reg of RegimenFiscal" [value]="reg.idRegFiscal">
+                                  {{reg.RegFiscal}}
+                              </mat-option>
+                          </mat-select>                  
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="50" fxFlex.gt-md="50">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                          <mat-label> Actividad economica</mat-label>
+                          <mat-select required placeholder="Actividad Economica" [(ngModel)]="tesoreriaListData.idActividadEconomica" id="idActividadEconomica" name="idActividadEconomica"  [disabled]="!bloqueo" >
+                              <mat-option *ngFor="let act of ActividadEconomica" [value]="act.idActividadEconomica" >
+                                  {{act.ActividadEconomica}}
+                              </mat-option>
+                          </mat-select>                  
+                        </mat-form-field>
+                    </div>
+                </div>		
+            <div fxFlex="50" fxFlex.gt-xs="50">
+                <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                            <mat-label>Uso CFDI</mat-label>
+                            <mat-select required placeholder="Uso CFDI" [(ngModel)]="tesoreriaListData.idUsoCFDI" id="idUsoCFDI" name="idUsoCFDI"  [disabled]="!bloqueo">
+                                <mat-option *ngFor="let uso of UsoCFDI" [value]="uso.idUsoCFDI">
+                                    {{uso.UsoCFDI}}
+                                </mat-option>
+                            </mat-select>                      
+                        </mat-form-field> 
+                    </div>
+                    </div> 
+                <!--
+                <mat-action-row>
+                    <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                </mat-action-row>-->
+                
+                </div>
+                <mat-action-row>
+                    <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                    <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                </mat-action-row>
+                </mat-expansion-panel>
+                <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <b>Domicilio Fiscal</b>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>    
+                <div fxLayout="row wrap" class="align-items-center">
+                    <div fxFlex="50" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                              <mat-label>País</mat-label>
+                              <mat-select required placeholder="País" [(ngModel)]="tesoreriaListData.idPais" id="idPais" name="idPais"  [disabled]="!bloqueo" >
+                                  <mat-option *ngFor="let p of Pais"  [value]="p.idPais">
+                                      {{p.Pais}}
+                                  </mat-option>
+                              </mat-select>                  
+                            </mat-form-field>
+                        </div>
+                    </div>	
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Código Postal</mat-label>
+                            <input type="text" matInput id="cp" name="cp" [(ngModel)]="tesoreriaListData.cp" placeholder="Código Postal" [disabled]="!bloqueo">
+                        </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Calle</mat-label>
+                            <input type="text" matInput id="calle" name="calle" [(ngModel)]="tesoreriaListData.calle" placeholder="Calle " [disabled]="!bloqueo">
+                        </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Número Exterior</mat-label>
+                            <input type="text" matInput id="noExterior" name="noExterior" [(ngModel)]="tesoreriaListData.noExterior" placeholder="Número Exterior" [disabled]="!bloqueo">
+                        </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Número Interior</mat-label>
+                            <input type="text" matInput id="noInterior" name="noInterior" [(ngModel)]="tesoreriaListData.noInterior" placeholder="Número Interior" [disabled]="!bloqueo">
+                        </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Colonia</mat-label>
+                            <input type="text" matInput id="colonia" name="colonia" [(ngModel)]="tesoreriaListData.colonia" placeholder="Colonia" [disabled]="!bloqueo">
+                        </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Alcaldia o municipio</mat-label>
+                            <input type="text" matInput id="alcaldia" name="alcaldia" [(ngModel)]="tesoreriaListData.alcaldia" placeholder="Alcaldia " [disabled]="!bloqueo">
+                        </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Estado</mat-label>
+                            <input type="text" matInput id="estado" name="estado" [(ngModel)]="tesoreriaListData.estado" placeholder="Estado " [disabled]="!bloqueo">
+                        </mat-form-field>
+                        </div>
+                    </div>
+                    <!--
+                    <mat-action-row>
+                        <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                    </mat-action-row>-->
+                    
+                </div>
+                    <mat-action-row>
+                        <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                        <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                    </mat-action-row>
+                    </mat-expansion-panel>
+                <!---------------------->
+                <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <b>Datos Financieros</b>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>    
+                <div fxLayout="row wrap" class="align-items-center">
+                    <div fxFlex="50" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Banco</mat-label>
+                         <!--  <input type="text" matInput id="BancoEmisor" name="BancoEmisor" [(ngModel)]="tesoreriaListData.BancoEmisor" placeholder="Banco Emisor">--> 
+                            <mat-select required placeholder="Banco"  [(ngModel)]="tesoreriaListData.idMoneda" id="idBanco" name="idBanco"   [disabled]="!bloqueoBanco">
+                                <mat-option *ngFor="let nbanco of NomBancos"  [value]="nbanco.idBanco">
+                                    {{nbanco.Banco}}
+                                </mat-option>
+                            </mat-select>    
+                        </mat-form-field>
+                        </div>
+                    </div>	
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Sucursal</mat-label>
+                            <input type="text" matInput id="sucursal" name="sucursal" [(ngModel)]="tesoreriaListData.sucursal" placeholder="Sucursal" [disabled]="!bloqueo">
+                        </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="50" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                <mat-label>Moneda</mat-label>
+                                <mat-select required placeholder="Moneda" [(ngModel)]="tesoreriaListData.idMoneda" id="idMoneda" name="idMoneda"  [disabled]="!bloqueo">
+                                    <mat-option *ngFor="let moned of MonedaL"  [value]="moned.idMoneda">
+                                        {{moned.tipo}}
+                                    </mat-option>
+                                </mat-select>                      
+                            </mat-form-field> 
+                        </div>
+                    </div>
+
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Cuenta</mat-label>
+                            <input type="text" matInput id="cuenta" name="cuenta" [(ngModel)]="tesoreriaListData.cuenta" placeholder="Cuenta " [disabled]="!bloqueo">
+                        </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Clave Interbancaria</mat-label>
+                            <input type="text" matInput id="cveinter" name="cveinter" [(ngModel)]="tesoreriaListData.cveinter" placeholder="Clave Interbancaria" [disabled]="!bloqueo">
+                        </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Convenio</mat-label>
+                            <input type="text" matInput id="convenio" name="convenio" [(ngModel)]="tesoreriaListData.convenio" placeholder="Convenio" [disabled]="!bloqueo">
+                        </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Código Swift</mat-label>
+                            <input type="text" matInput id="codigo" name="codigo" [(ngModel)]="tesoreriaListData.codigo" placeholder="Código" [disabled]="!bloqueo">
+                        </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Código ABA</mat-label>
+                            <input type="codigoA" matInput id="codigoA" name="codigoA" [(ngModel)]="tesoreriaListData.codigoA" placeholder="Codigo ABA " [disabled]="!bloqueo">
+                        </mat-form-field>
+                        </div>
+                    </div>
+                    
+                </div>
+                    <mat-action-row>
+                        <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                        <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                    </mat-action-row>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <b>Registro en ERP</b>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>        
+                    <div fxLayout="row wrap" class="align-items-center">
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                <mat-label>ID_ERP_PROVEEDOR</mat-label>
+                                <input type="text" matInput id="id_erp" name="id_erp" [(ngModel)]="tesoreriaListData.id_erp" placeholder="ID_ERP_PROVEEDOR" [disabled]="!bloqueo">
+                            </mat-form-field>
+                            </div>
+                        </div>
+                        <!--
+                        <mat-action-row>
+                            <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                        </mat-action-row>-->
+                        
+                    </div>
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                            <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                        </mat-action-row>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <b>Usuario / Personas de Contacto</b>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header> 
+                            <div fxLayout="row wrap">
+                                <div fxFlex="100">
+                                  <mat-card>
+                                    <mat-card-content>
+                                      <div fxLayout="row wrap" class="align-items-center">
+                                        <div fxFlex.gt-md="100" class="text-left">
+                                          <button mat-raised-button color="primary" (click)="openDialog('Add',{})"><mat-icon>person_add</mat-icon></button>
+                                        </div>
+                                      </div>
+                                    </mat-card-content>
+                                  </mat-card>
+                                </div>
+                              </div>           
+                            <div fxLayout="row wrap">
+                                <div fxFlex="100">
+                                  <mat-card>
+                                    <mat-card-content>
+                                        <div class="table-responsive">
+                                            <table mat-table [dataSource]="dataSource" class="table employee-list no-wrap">
+
+                                                <ng-container matColumnDef="Nombre">
+                                                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                                    <td mat-cell *matCellDef="let element">{{element.Nombre}}  </td>
+                                                  </ng-container>
+                                      
+                                                  <ng-container matColumnDef="e-mail">
+                                                    <th mat-header-cell *matHeaderCellDef> e-mail </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.mail}} </td>
+                                                  </ng-container>
+                                      
+                                                  <ng-container matColumnDef="telefono">
+                                                    <th mat-header-cell *matHeaderCellDef> telefono </th>
+                                                    <td mat-cell *matCellDef="let element">{{element.telefono}}  </td>
+                                                  </ng-container>
+                                      
+                                                  <ng-container matColumnDef="Opciones">
+                                                    <th mat-header-cell *matHeaderCellDef> Opciones </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.Opciones}} </td>
+                                                  </ng-container>
+                            
+                                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                            </table>
+                                            <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                              </div>
+                            </div>
+                            <mat-action-row>
+                                <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                                <button mat-button color="primary" (click)="nextStep()">Final</button>
+                            </mat-action-row>
+                            </mat-expansion-panel>
+                           
+        </mat-accordion>
+</mat-tab>
+        <mat-tab label="Comprobante">
+            <div class="table-responsive">
+                <mat-card-content>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>   <th scope="col">Documento PDF</th>  </tr>
+                        </thead>
+                        <tbody>
+                        <tr> <td> <div class="d-flex align-items-center m-b-15"> {{tesoreriaListData.comprobante}} </div></td> </tr>
+                        </tbody>
+                    </table> 
+                    <div class="d-flex align-items-center m-b-15">
+                        <form (ngSubmit)="enviar()">
+                            <div fxLayout="row wrap" class="align-items-center">
+                                <div fxFlex.gt-xs="100" fxFlex="100" fxFlex.gt-md="100"  class="d-flex align-items-center m-b-15"> 
+                                    <button mat-raised-button color="primary" class="m-l-15 input-file-button" [disabled]="!bloqueo" [disabled]="siPDF" >
+                                        <input 
+                                            #inputPdf
+                                            id="file" 
+                                            type="file" 
+                                            class="form-control"                                                
+                                            accept="application/pdf"
+                                            (change)="cargaArchivoPDF($event)" #fileUpload 
+                                            [disabled]="!bloqueo">
+                                    </button>  
+                                </div>
+                            </div>                                
+                        </form>                              
+                    </div> 
+                    <mat-card>
+                        <ng-container *ngIf="tesoreriaListData.comprobante===null;  then sinArch; else conArch">
+                        </ng-container>                
+                        <ng-template #sinArch>
+                            <h4>No se cuenta con vista previa debido a que no se ha cargado ningín comprobante PDF.</h4>
+                        </ng-template>                                
+                        <ng-template #conArch>
+                            <div fxLayout="row wrap" class="align-items-center">
+                                <div fxFlex="33" fxFlex.gt-xs="33">
+                                     <button mat-raised-button color="primary" (click)="pdf()">
+                                        <mat-icon>download_for_offline</mat-icon> Descargar
+                                    </button>  
+                                </div>
+                                <div fxFlex="33" fxFlex.gt-xs="33">
+                                    <button mat-raised-button color="primary" (click)="delPdf()">
+                                        <mat-icon>delete</mat-icon> Eliminar
+                                    </button>
+                                </div>
+                                <div fxFlex="33" fxFlex.gt-xs="33">
+                                    <button mat-mini-fab color="primary" (click)="incrementZoom(-0.1)">
+                                        <mat-icon>zoom_out</mat-icon>
+                                    </button>
+                                    <button mat-mini-fab color="primary" (click)="incrementZoom(0.05)">
+                                        <mat-icon>zoom_in</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="pdf-viewer">
+                                <pdf-viewer 
+                                    [src]="FileUrlPDF" 
+                                    [original-size]="false"
+                                    [render-text]="true"
+                                    [rotation]="0"
+                                    [show-all]="false"
+                                    [fit-to-page]="false"
+                                    [external-link-target]="'blank'"
+                                    [autoresize]="true"
+                                    [show-borders]="false"
+                                    class="pdf-viewer"
+                                    >
+                                </pdf-viewer>
+                            </div>
+                        </ng-template>
+                    </mat-card>
+                </mat-card-content>
+            </div>
+                            
+        </mat-tab>
+        <mat-tab label="Historial"> 
+            <div class="table-responsive">
+                <table mat-table [dataSource]="Historial" matSort class="table employee-list no-wrap">
+                    <ng-container matColumnDef="fechaRegistro">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha/Hora de Registro </th>
+                            <td mat-cell *matCellDef="let element"> {{element.fechaRegistro | date :'dd/MMM/yyyy'}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="idUser">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario</th>
+                            <td mat-cell *matCellDef="let element"> {{element.idUser}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="evento">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Evento</th>
+                            <td mat-cell *matCellDef="let element"> {{element.evento}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="estatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element"> {{element.estatus}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="comentarios">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Comentarios</th>
+                            <td mat-cell *matCellDef="let element"> {{element.comentarios}} </td>
+                    </ng-container>
+    
+                    <tr mat-header-row *matHeaderRowDef="histColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: histColumns;"></tr>
+                </table>
+                <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</form>
+</div>
+</div>

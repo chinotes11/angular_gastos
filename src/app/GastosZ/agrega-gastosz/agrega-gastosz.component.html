@@ -1,0 +1,228 @@
+<div class="sideL">
+    <div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="align-self-center">
+                <h3 class="page-title text-themecolor m-0"><b>Gastos</b></h3>
+            </div>
+            <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100" class="align-self-center">
+                <div class="breadcrumb d-flex align-items-center float-right float-sm-left">             
+                    <ul class="list-style-none d-flex align-items-center">
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button class="arriba2" color="primary" (click)=guardarGastosZ(1) [disabled]="btnGda !== '1'"> <mat-icon>save</mat-icon> </button>
+                        </li>
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button (click)=cerrarGastosZ() color="warn"> <mat-icon>highlight_off</mat-icon> </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row wrap"> <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">  <h4><b>&nbsp;<br></b> </h4></div></div>
+
+<div fxLayout="row wrap">
+    <div fxFlex="100">
+
+     
+        <mat-slide-toggle [(ngModel)]="siFiscal" (change)="comprobante($event)" ><b>Comprobante Fiscal</b></mat-slide-toggle>
+        <form #userForm="ngForm">
+        <!--<mat-slide-toggle>Fiscal</mat-slide-toggle>-->
+
+        <mat-tab-group>
+            <mat-tab label="Datos"> 
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <b>Sección Datos Generales</b>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                
+                    <div fxLayout="row wrap" class="align-items-center">
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                    <mat-label>C-ID</mat-label>
+                                    <input type="text" matInput id="idUser" name="idUser" [(ngModel)]="gasto.idUser" disabled placeholder="C-ID">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                    <mat-label>Nombre</mat-label>
+                                    <input type="text" matInput id="nombre" name="nombre" [(ngModel)]="gasto.nombre" disabled placeholder="Nombre">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                    <mat-label>Fecha Registro</mat-label>
+                                    <input type="date" matInput id="FechaReg" name="FechaReg" [(ngModel)]="FechaReg" disabled placeholder="Fecha Registro">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                <mat-label>Notas</mat-label>
+                                <input type="text" matInput id="notas" name="notas" [(ngModel)]="gasto.notas"  (keydown)="cambiaNota($event,gasto)">
+                            </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                    <mat-label>Empresa</mat-label>
+                                    <mat-select required placeholder="Empresa" [(ngModel)]="gasto.idEmpresa" id="idEmpresa" name="idEmpresa" (selectionChange)="cambiaEmp($event,gasto)" >
+                                        <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                        <mat-option *ngFor="let emp of Empresas" [value]="emp.id">
+                                            {{emp.clave}}
+                                        </mat-option>
+                                    </mat-select>                      
+                                </mat-form-field> 
+                            </div>
+                        </div>  
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Proyecto</mat-label>
+                                    <mat-select [(ngModel)]="gasto.idProyecto" id="idProyecto" name="idProyecto" (selectionChange)="cambiaProy($event,gasto)"  >
+                                        <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                        <mat-option *ngFor="let proy of Proyectos" [value]="proy.idProyecto">
+                                            {{proy.descripcionProyecto}}
+                                        </mat-option>
+                                    </mat-select>                      
+                                </mat-form-field> 
+                            </div>
+                        </div> 
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                    <mat-label>Centro de Costos</mat-label>
+                                    <mat-select required placeholder="Centro de Costos" [(ngModel)]="gasto.idCentrosCostos" id="idCentrosCostos" name="idCentrosCostos" (selectionChange)="cambiaCC($event,gasto)" >
+                                        <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                        <mat-option *ngFor="let centro of CentroCosto" [value]="centro.idCentrosCostos">
+                                            {{centro.descripcionCentrosCostos}}
+                                        </mat-option>
+                                    </mat-select>                      
+                                </mat-form-field> 
+                            </div>
+                        </div> 
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                    <mat-label>Tipo de Gasto</mat-label>
+                                    <mat-select required 
+                                        [(ngModel)]="gasto.idTipoGasto" id="idTipoGasto" name="idTipoGasto"
+                                        (selectionChange)="cambiaTipoG($event,gasto)"  >
+                                        <mat-option value="option2" selected aria-selected="true" disabled>- Seleccione Opción -</mat-option>
+                                        <mat-option *ngFor="let tipo of Tipogasto" [value]="tipo.idTipoGastos">
+                                            {{tipo.nombreGasto}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>  
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                    <mat-label>Cuenta Contable</mat-label>
+                                    <input type="text" matInput id="ctaCont" name="ctaCont"
+                                        [(ngModel)]="gastos.ctaContable" [disabled]="true">
+                                </mat-form-field>
+                            </div>
+                        </div>            
+                    </div>
+                    <mat-action-row>
+                        <button mat-raised-button  color="primary" (click)=guardarGastosZ(2) [disabled]="btnGda !== '1'">Siguiente</button>
+                    </mat-action-row>
+
+                    </mat-expansion-panel>
+               
+                    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle [disabled]="!bloqueo">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <b>Documentos</b>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    
+                    
+                    <mat-action-row>
+                        <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                        <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                    </mat-action-row>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle [disabled]="!bloqueo">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <b>Datos del comprobante </b>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                            <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                        </mat-action-row>
+                        </mat-expansion-panel>
+                
+                    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle [disabled]="!bloqueo">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <b>Datos Adicionales</b>
+                        </mat-panel-title>                
+                    </mat-expansion-panel-header>
+                                
+                    <mat-action-row>
+                        <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                        <button mat-button color="primary" (click)="nextStep()">Final</button>
+                    </mat-action-row>
+                    </mat-expansion-panel>
+               
+                </mat-accordion>
+            </mat-tab>
+            <mat-tab label="Historial"> 
+                    <table class="mat-table table employee-list no-wrap" >
+                        <tr class="mat-header-row">
+                        <th class="mat-header-cell">Hora Registro</th>
+                        <th class="mat-header-cell">Usuario</th>
+                        <th class="mat-header-cell">Evento</th>
+                        <th class="mat-header-cell">Estatus del Registro</th>
+                        <th class="mat-header-cell">Comentarios</th>
+                        </tr>
+                        <tr class="mat-row">
+                        <td class="mat-cell"></td>
+                        <td class="mat-cell"></td>
+                        <td class="mat-cell"></td>
+                        <td class="mat-cell"></td>
+                        <td class="mat-cell"></td>
+                        </tr>
+                    </table>
+            </mat-tab>
+        </mat-tab-group>
+        
+        </form>
+    </div>
+</div>
+
+ <!--
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxFlex.gt-md="40"> 
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="30" fxFlex="50" class="align-self-center"> 
+     
+                    <button mat-raised-button (click)=cerrarGastosZ()  color="warn"><mat-icon>highlight_off</mat-icon> Cancelar</button>
+ 
+            </div>
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="30" fxFlex="50" class="align-self-center"> 
+                  <button mat-raised-button color="primary" (click)=guardarGastosZ() [disabled]="userForm.invalid"><mat-icon>save</mat-icon> Guardar</button>      
+            </div>
+        </div>     
+    </div>
+    <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="60" fxFlex="100" class="align-self-center"></div>
+</div>
+-->
+

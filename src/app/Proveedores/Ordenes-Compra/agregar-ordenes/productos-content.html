@@ -1,0 +1,100 @@
+<div class="sideL">
+  <div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+      <div fxLayout="row wrap">
+          <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="align-self-center">
+              <h4 class="page-title text-themecolor m-0"><b><strong>{{action}}</strong> Productos </b></h4>
+          </div>
+          <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100" class="align-self-center">
+              <div class="breadcrumb d-flex align-items-center float-right float-sm-left">             
+                  <ul class="list-style-none d-flex align-items-center">
+                      <li class="breadcrumb-item" >
+                          <button mat-raised-button class="arriba2" color="primary" (click)="doAction()" ><mat-icon>check_circle</mat-icon> Aceptar</button> 
+                      </li>
+                      <li class="breadcrumb-item" >
+                          <button mat-raised-button  color="warn" (click)="closeDialog()"><mat-icon>highlight_off</mat-icon> Cancelar</button>    
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div fxLayout="row wrap"> <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">  <h4><b>&nbsp;<br></b> </h4></div></div>
+<div fxLayout="row wrap">
+  <div fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+<mat-dialog-content class="mat-typography" *ngIf="action != 'Borrar'; else elseTemplate">
+  <form #userForm="ngForm">
+    <div fxLayout="row wrap" class="align-items-center">
+    <div fxFlex="100" fxFlex.gt-xs="50">
+    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+      <input type="text" matInput required id="Cantidad" name="Cantidad" [(ngModel)]="local_data.Cantidad"
+        placeholder="Cantidad">
+    </mat-form-field>
+    </div>
+    <div fxFlex="100" fxFlex.gt-xs="50">
+    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+      <input type="text" matInput required id="Unidad" name="Unidad" [(ngModel)]="local_data.Unidad"
+        placeholder="Unidad">
+    </mat-form-field>
+  </div>
+  <div fxFlex="100" fxFlex.gt-xs="50">
+    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+      <input type="text" matInput required id="IDProducto" name="IDProducto" [(ngModel)]="local_data.IDProducto"
+        placeholder="ID Producto">
+    </mat-form-field>
+  </div>
+  <div fxFlex="100" fxFlex.gt-xs="50">
+    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+      <input type="text" matInput required id="CuentaC" name="CuentaC" [(ngModel)]="local_data.CuentaC"
+        placeholder="Cuenta Contable">
+    </mat-form-field>
+  </div>
+  <div fxFlex="100" fxFlex.gt-xs="50">
+    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+      <input type="text" matInput required id="Tarifa" name="Tarifa" [(ngModel)]="local_data.Tarifa"
+        placeholder="Tarifa">
+    </mat-form-field>
+  </div>
+  <div fxFlex="100" fxFlex.gt-xs="50">
+    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+      <input type="text" matInput required id="Monto" name="Monto" [(ngModel)]="local_data.Monto"
+        placeholder="Monto">
+    </mat-form-field>
+  </div>
+  <div fxFlex="100" fxFlex.gt-xs="50">
+    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+      <input type="text" matInput required id="Descuento" name="Descuento" [(ngModel)]="local_data.Descuento"
+        placeholder="Descuento">
+    </mat-form-field>
+  </div>
+  <div fxFlex="100" fxFlex.gt-xs="50">
+    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+      <input type="text" matInput required id="ImpuestoAplicable" name="ImpuestoAplicable" [(ngModel)]="local_data.ImpuestoAplicable"
+        placeholder="Impuesto Aplicable">
+    </mat-form-field>
+  </div>
+  <div fxFlex="100" fxFlex.gt-xs="50">
+    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+      <input type="text" matInput required id="MontoDescuento" name="MontoDescuento" [(ngModel)]="local_data.MontoDescuento"
+        placeholder="Monto Descuento">
+    </mat-form-field>
+  </div>
+  <div fxFlex="100" fxFlex.gt-xs="50">
+    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+      <input type="text" matInput required id="Importe" name="Importe" [(ngModel)]="local_data.Importe"
+        placeholder="Importe">
+    </mat-form-field>
+  </div>
+  </div>
+  </form>
+</mat-dialog-content>
+</mat-card-content>
+</mat-card>
+</div>
+</div>
+<ng-template #elseTemplate>
+  Esta seguro de borrar este Registro <b>{{local_data.IDProducto}}</b>?
+</ng-template>
+

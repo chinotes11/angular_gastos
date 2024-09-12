@@ -1,0 +1,269 @@
+<div class="sideL">
+    <div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="align-self-center">
+                <h3 class="page-title text-themecolor m-0"><b>Devoluciones</b></h3>
+            </div>
+            <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100" class="align-self-center">
+                <div class="breadcrumb d-flex align-items-center float-right float-sm-left">             
+                    <ul class="list-style-none d-flex align-items-center">
+                        <li class="breadcrumb-item ">
+                            <h5 class="m-0"><b>{{devolucionArr.estatus}}</b> </h5> 
+                        </li>
+                        <li class="breadcrumb-item abajo" >
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15 abajo">                         
+                                <mat-label>Siguiente Tarea</mat-label>
+                                <mat-select placeholder="" [(ngModel)]="devolucionArr.estatus" (selectionChange)="cambiaWork($event,devolucionArr)" name="SelEstatus" placeholder="Workflow"  [disabled]="bloqueoWf=='0'" >
+                                    <mat-option *ngFor="let work of workInicial" [value]="work.siguienteEstatus">
+                                        {{work.opcion}}
+                                    </mat-option>
+                                </mat-select>
+                        </mat-form-field>
+                        </li>
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button class="arriba2" color="primary" (click)=aceptarDialog() [disabled]="btnGda !== '1'"> <mat-icon>save</mat-icon> </button>
+                        </li>
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button (click)=cerrarDialog() color="warn"> <mat-icon>highlight_off</mat-icon> </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row wrap"> <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">  <h4><b>&nbsp;<br></b> </h4></div></div>
+
+<div fxLayout="row wrap">
+    <div fxFlex="100">        
+
+        <form #userForm="ngForm">
+        <mat-tab-group>
+            <mat-tab label="Datos"> 
+                <br>
+                        <div fxLayout="row wrap" class="align-items-center">
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                        <mat-label>Empresa</mat-label>
+                                        <mat-select required  [(ngModel)]="reporte.idEmpresas" id="idEmpresa" name="idEmpresa" disabled>
+                                            <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                            <mat-option *ngFor="let emp of Empresas" [value]="emp.id">
+                                                {{emp.clave}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div> 
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                        <mat-label>Centro de Costos</mat-label>
+                                        <mat-select required  [(ngModel)]="reporte.idCentroCostos" id="idCentroCostos" name="idCentroCostos" disabled>
+                                            <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                            <mat-option *ngFor="let centro of CentroCosto"   [value]="centro.idCentrosCostos">
+                                                {{centro.descripcionCentrosCostos}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>C-ID</mat-label>
+                                        <input type="text" matInput required id="idUser" name="idUser"
+                                            [(ngModel)]="reporte.idUser" disabled placeholder="idUser">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Nombre</mat-label>
+                                        <input type="text" matInput id="NombreCompleto" name="NombreCompleto" [(ngModel)]="reporte.NombreCompleto" disabled placeholder="Nombre">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Reporte Gastos EXR-ID</mat-label>
+                                        <input type="text" matInput id="id" name="id" [(ngModel)]="reporte.id" disabled placeholder="Reporte Gastos EXR-ID">
+                                    </mat-form-field> 
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Motivo</mat-label>
+                                        <input type="text" matInput id="concepto" name="concepto" disabled [(ngModel)]="devolucionArr.concepto" >
+                                </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>RF-ID Devolución</mat-label>
+                                        <input type="text" matInput id="idUser" name="idUser" [(ngModel)]="devolucionArr.id" disabled placeholder="RR-ID">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">         
+                                        <mat-label>Fecha Registro</mat-label>
+                                        <input type="text" matInput id="fechaReg" name="fechaReg" [(ngModel)]="reporte.fechaReg" disabled placeholder="fechaReg">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Monto</mat-label>
+                                        <input type="text" matInput id="monto" name="monto" [(ngModel)]="reporte.montoFormato" disabled placeholder="monto">
+                                    </mat-form-field>
+                                </div>
+                            </div>                              
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Anticipo APR-ID</mat-label>
+                                        <input type="text" matInput id="idAnticiposFondos" name="idAnticiposFondos" [(ngModel)]="devolucionArr.idAnticiposFondos" disabled placeholder="Anticipo APR-ID">
+                                    </mat-form-field>
+                                </div>
+                            </div><div fxFlex="100" fxFlex.gt-xs="100">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                        <mat-label>Observaciones</mat-label>
+                                        <input type="text" matInput id="observaciones" name="observaciones" [(ngModel)]="devolucionArr.observaciones" [disabled]="btnGda !== '1'" >
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            
+                            <!--
+                            <div fxFlex="100" fxFlex.gt-xs="100">
+                                <mat-tab-group>
+                                    <mat-tab label="Vista Previa">
+                                        <mat-card-content>
+                                            <div class="d-flex align-items-center m-b-15">
+                                                <img src="assets/images/ejemplos/documento.png" class="png-icon" width="100%">
+                                            </div>
+                                        </mat-card-content>
+                                    </mat-tab>
+                                </mat-tab-group>
+                            </div>    
+                            -->
+                        </div>
+            </mat-tab>            
+            <mat-tab label="Comprobante"> 
+                <mat-card-content>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>   <th scope="col">Documento PDF</th>  </tr>
+                        </thead>
+                        <tbody>
+                        <tr> <td> <div class="d-flex align-items-center m-b-15"> {{devolucionArr.comprobante}} </div></td> </tr>
+                        </tbody>
+                    </table> 
+                    <div class="d-flex align-items-center m-b-15">
+                        <form (ngSubmit)="enviar()">
+                            <div fxLayout="row wrap" class="align-items-center">
+                                <div fxFlex.gt-xs="100" fxFlex="100" fxFlex.gt-md="100"  class="d-flex align-items-center m-b-15"> 
+                                        <label for="file" class="m-l-15 mat-raised-button mat-button-base mat-primary p-5 p-l-15 p-r-15">{{devolucionArr.comprobante || 'Seleccione archivo'}}</label>                                                            
+                                        <input #inputPdf id="file" type="file" class="form-control"                                                
+                                            accept="application/pdf"
+                                            (change)="cargaArchivoPDF($event)" #fileUpload 
+                                            [disabled]="siPDF"
+                                            style="visibility:hidden; display: none;" > 
+                                    
+                                </div>
+                            </div>                                
+                        </form>                              
+                    </div> 
+                    <mat-card>
+                        <ng-container *ngIf="devolucionArr.comprobante==='';  then sinArch; else conArch">
+                        </ng-container>                
+                        <ng-template #sinArch>
+                            <h4>No se cuenta con vista previa debido a que no se ha cargado ningín comprobante PDF.</h4>
+                        </ng-template>                                
+                        <ng-template #conArch>
+                            <div fxLayout="row wrap" class="align-items-center">
+                                <div fxFlex="50" fxFlex.gt-xs="50">
+                                     <button mat-raised-button color="primary" (click)="pdf()">
+                                        <mat-icon>download_for_offline</mat-icon> Descargar
+                                    </button>  
+                                </div>
+                                <!-- <div fxFlex="33" fxFlex.gt-xs="33">
+                                    <button mat-raised-button color="primary" (click)="delPdf()" [disabled]="!bloqueo">
+                                        <mat-icon>delete</mat-icon> Eliminar
+                                    </button>
+                                </div> -->
+                                <div fxFlex="50" fxFlex.gt-xs="50">
+                                    <!-- <button mat-mini-fab color="primary" (click)="incrementZoom(-0.1)">
+                                        <mat-icon>zoom_out</mat-icon>
+                                    </button>
+                                    <button mat-mini-fab color="primary" (click)="incrementZoom(0.05)">
+                                        <mat-icon>zoom_in</mat-icon>
+                                    </button> -->
+                                </div>
+                            </div>
+                            <div class="pdf-viewer">
+                                <pdf-viewer 
+                                    [src]="FileUrlPDF" 
+                                    [original-size]="false"
+                                    [render-text]="true"
+                                    [rotation]="0"
+                                    [show-all]="false"
+                                    [fit-to-page]="false"
+                                    [external-link-target]="'blank'"
+                                    [autoresize]="true"
+                                    [show-borders]="false"
+                                    class="pdf-viewer"
+                                    >
+                                </pdf-viewer>
+                            </div>
+                        </ng-template>
+                    </mat-card>
+                </mat-card-content>
+
+            </mat-tab>
+            <mat-tab label="Historial"> 
+                <div class="table-responsive">
+                    <table mat-table [dataSource]="Historial" matSort class="table employee-list no-wrap">
+                        <ng-container matColumnDef="fechaRegistro">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha/Hora de Registro </th>
+                                <td mat-cell *matCellDef="let element"> {{element.fechaRegistro | date :'dd/MMM/yyyy'}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="idUser">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario</th>
+                                <td mat-cell *matCellDef="let element"> {{element.idUser}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="evento">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Evento</th>
+                                <td mat-cell *matCellDef="let element"> {{element.evento}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="estatus">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                                <td mat-cell *matCellDef="let element"> {{element.estatus}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="comentarios">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Comentarios</th>
+                                <td mat-cell *matCellDef="let element"> {{element.comentarios}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="histColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: histColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+        
+        </form>
+    </div>
+</div>

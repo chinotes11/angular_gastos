@@ -1,0 +1,331 @@
+<div class="sideL">
+    <div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="align-self-center">
+                <h3 class="page-title text-themecolor m-0"><b>Anticipos</b></h3>
+            </div>
+            <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100" class="align-self-center">
+                <div class="breadcrumb d-flex align-items-center float-right float-sm-left">             
+                    <ul class="list-style-none d-flex align-items-center">
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button class="arriba2" color="primary" (click)=guardarAnticipos() [disabled]="btnGda !== '1'"> <mat-icon>save</mat-icon> </button>
+                        </li>
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button (click)=cerrarAnticipos() color="warn"> <mat-icon>highlight_off</mat-icon> </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row wrap"> <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">  <h4><b>&nbsp;<br></b> </h4></div></div>
+
+
+<mat-tab-group>
+    <mat-tab label="Detalle de información">
+
+        <mat-accordion class="example-headers-align">
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <b>Datos Generales</b>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div fxLayout="row wrap"> 
+                <form #userForm="ngForm">
+                    <!--  
+                    <div class="d-flex align-items-center m-b-15">
+                        <button mat-raised-button color="primary" class="m-l-15 input-file-button">
+                            <input type="file" (change)="selectFile($event)" #fileInput>
+                        </button>
+                    </div>-->
+                    <div fxLayout="row wrap" class="align-items-center">
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>C-ID</mat-label>
+                                    <input type="text" matInput required id="idUser" name="idUser" [(ngModel)]="anticipo.idUser" disabled placeholder="C-ID">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Nombre</mat-label>
+                                    <input type="text" matInput required id="nombre" name="nombre" [(ngModel)]="anticipo.nombre" disabled placeholder="Nombre">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!--
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Id Anticipo</mat-label>
+                                    <input type="text" matInput required id="id" name="id" [(ngModel)]="anticipo.id" disabled placeholder="Id Anticipo">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        -->
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Fecha Registro</mat-label>
+                                    <input type="date" matInput required id="FechaReg" name="FechaReg" [(ngModel)]="FechaReg" disabled placeholder="Fecha Registro">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Centro de Costos</mat-label>
+                                    <mat-select required placeholder="Centro de Costos" [(ngModel)]="anticipo.idCentrosCostos" id="idCentrosCostos" name="idCentrosCostos" (selectionChange)="cambiaCC($event,anticipo)" [disabled]="!bloqueo" >
+                                        <mat-option *ngFor="let centro of CentroCosto" [value]="centro.idCentrosCostos">
+                                            {{centro.descripcionCentrosCostos}}
+                                        </mat-option>
+                                    </mat-select>                      
+                                </mat-form-field> 
+                            </div>
+                        </div>                        
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">         
+                                    <mat-label>Selecciona fecha inicial</mat-label>
+                                    <input matInput [(ngModel)]="anticipo.fechaIni" [min]="fechaHoy" [matDatepicker]="fechaIni" (dateChange)="CalcDias($event,anticipo,1)" name="fechaIni" (input)="valida($event)" [disabled]="!bloqueo">                      
+                                    <mat-datepicker-toggle matSuffix [for]="fechaIni"></mat-datepicker-toggle>
+                                    <mat-datepicker #fechaIni></mat-datepicker>
+                                  </mat-form-field>
+                                <!--
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">         
+                                    <mat-label>Selecciona fecha inicial y fecha final</mat-label>
+                                    <mat-date-range-input required [formGroup]="range" [rangePicker]="picker"  (click)="CalcDias($event,anticipo,1)">
+                                      <input required matStartDate formControlName="start" placeholder="Fecha Incicio"  [(ngModel)]="anticipo.fechaIni" (dateChange)="CalcDias($event,anticipo,1)">
+                                      <input required matEndDate formControlName="end" placeholder="Fecha Fin" [(ngModel)]="anticipo.fechaFin" (dateChange)="CalcDias($event,anticipo,2)">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker></mat-date-range-picker>
+                                  
+                                    <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Fecha inicial invalida</mat-error>
+                                    <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Fecha final invalida</mat-error>
+                                  </mat-form-field> 
+                                -->
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always" floatLabel="always">         
+                                    <mat-label>Selecciona fecha final</mat-label>
+                                    <input matInput [(ngModel)]="anticipo.fechaFin" [min]="fechaHoy" [matDatepicker]="fechaFin" (dateChange)="CalcDias($event,anticipo,2)" name="fechaFin" (input)="valida($event)" [disabled]="!bloqueo">                      
+                                    <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+                                    <mat-datepicker #fechaFin></mat-datepicker>
+                                  </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">                    
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always" floatLabel="always">                         
+                                    <mat-label>Tipo Solicitud</mat-label>
+                                    <mat-select required  [(ngModel)]="anticipo.idUsoFondos" id="idUsoFondos" name="idUsoFondos" (selectionChange)="cambiaTipoSol($event,anticipo)" [disabled]="!bloqueo">
+                                        <mat-option *ngFor="let tipo of TipoSol" [value]="tipo.id" >
+                                            {{tipo.descripcion}}
+                                        </mat-option>   
+                                    </mat-select>                      
+                                </mat-form-field> 
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Días</mat-label>
+                                    <input type="text" matInput required id="Dias" name="Dias" [(ngModel)]="anticipo.diasDura" disabled placeholder="Días" (input)="valida($event)">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Monto</mat-label>
+                                    <input type="text" matInput required id="monto" name="monto"  [(ngModel)]="anticipo.montoFormato" disabled placeholder="Monto" (input)="valida($event)">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Moneda</mat-label>
+                                    <mat-select required [(ngModel)]="anticipo.idMoneda" id="Moneda" name="Moneda" (selectionChange)="cambiaMoneda($event,anticipo)" disabled >
+                                        <mat-option *ngFor="let moned of MonedaL" [value]="moned.id">
+                                            {{moned.clave}}
+                                        </mat-option>
+                                    </mat-select>                      
+                                </mat-form-field> 
+                            </div>
+                        </div>
+                        
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Motivo de Solicitud</mat-label>
+                                    <input type="text" matInput required id="motivo" name="motivo" [(ngModel)]="anticipo.motivo"  (input)="valida($event)" [disabled]="!bloqueo">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <button mat-button (click)="doAction()" mat-flat-button color="warn"
+                        [disabled]="!userForm.valid">{{action}}</button>
+                    <button mat-button (click)="closeDialog()">Cancel</button>
+                    -->
+                </form>
+             </div>
+            
+
+            <mat-action-row>
+                <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+            </mat-action-row>
+            </mat-expansion-panel>
+        
+            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <b>Solicitar Gastos</b>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div fxLayout="row wrap">
+                <button mat-raised-button (click)="selGstoDialog('Add',anticipo)" color="primary" [disabled]="bloqTipo" ><img src="assets/images/iconos/Icono_agrega_registro_BLANCO.png" class="png-icon" width="20"> Gastos Solicitados</button>
+            </div>
+            <div fxLayout="row wrap">
+                <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxFlex.gt-md="100">
+                    <mat-card-content>
+                        <div class="table-responsive">
+                            <table mat-table [dataSource]="GastosSol" matSort class="table employee-list no-wrap">      
+                                <ng-container matColumnDef="nombreGasto">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Descripción </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.nombreGasto}} </td>
+                                        <td mat-footer-cell *matFooterCellDef> Total </td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="dias">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Días Duración</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.dias}} </td>
+                                        <td mat-footer-cell *matFooterCellDef>  </td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="monto">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Monto</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.monto | currency:"MXN":"symbol"}} </td>
+                                        <td mat-footer-cell *matFooterCellDef> {{getTotal() | currency:"MXN":"symbol"}}  </td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="Borrar">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Borrar</th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            <a (click)="borrarGasto($event,element)" >
+                                                <button mat-raised-button color="primary"  ><mat-icon>delete</mat-icon></button>
+                                            </a>
+                                        </td>
+                                        <td mat-footer-cell *matFooterCellDef>  </td>
+                                </ng-container>
+            
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+                            </table>
+                            <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
+                    </mat-card-content>
+               </div>                
+            </div>
+
+
+            <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                <button mat-button color="primary" (click)="nextStep()">Final</button>
+            </mat-action-row>
+            </mat-expansion-panel>
+        
+        </mat-accordion>
+
+
+    </mat-tab>
+    <mat-tab label="Documentos"> 
+
+        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxFlex.gt-md="100">
+            <mat-card>
+                <mat-tab-group>
+                    <mat-tab label="Pagaré">
+                        <mat-card-content>
+                            
+                        </mat-card-content>
+                    </mat-tab>                          
+                </mat-tab-group>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                     
+                      <th scope="col">Documento</th>
+                      <th scope="col">Estatus</th>
+                      <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr >
+                      <td>
+                        <div class="d-flex align-items-center m-b-15">
+                         <!--  <button mat-raised-button color="primary" (click)=generaPagare() ><mat-icon>file_download</mat-icon> Generar Pagare</button>  --> 
+                        </div>
+                      </td>
+                      <td> 
+                        <ng-container *ngIf="anticipo.rutaArchivo===null;  then vacio; else conarchivo">
+                        </ng-container>                
+                        <ng-template #vacio>
+                            <span >Sin Pagaré </span>
+                        </ng-template>
+                    
+                        <ng-template #conarchivo>
+                            <span>Por aprobar </span>
+                        </ng-template>
+                    </td>
+                      <td>
+                        <ng-container *ngIf="anticipo.rutaArchivo===null;  then vacioI; else conarchivoI">
+                        </ng-container>                
+                        <ng-template #vacioI>
+                            <mat-icon class="iconoScala" color="warn">gpp_bad</mat-icon>
+                        </ng-template>
+                    
+                        <ng-template #conarchivoI>
+                            <mat-icon color="accent">check</mat-icon>
+                        </ng-template>
+                        </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                
+            </mat-card>
+        </div>
+            
+    </mat-tab>
+</mat-tab-group>
+
+
+<!-- 
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxFlex.gt-md="40"> 
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="30" fxFlex="50" class="align-self-center">                 
+                <button mat-raised-button color="primary" (click)=guardarAnticipos() [disabled]="btnGda !== '1'"><mat-icon>save</mat-icon> Guardar</button>             
+            </div>
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="30" fxFlex="50" class="align-self-center"> 
+              <button mat-raised-button (click)=cerrarAnticipos() color="warn"><mat-icon>highlight_off</mat-icon> Cancelar</button>     
+            </div>
+        </div>     
+    </div>
+    <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="60" fxFlex="100" class="align-self-center"></div>
+</div>
+ -->    

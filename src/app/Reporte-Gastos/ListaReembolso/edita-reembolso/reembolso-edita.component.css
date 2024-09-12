@@ -1,0 +1,15 @@
+table {
+    width: 100%;
+    margin-top: 0px;
+  }
+
+  th.mat-header-cell {
+    color: #9b26b6;   
+    font-weight: bold;
+  }
+  .example-container {
+    height: 100%;
+   /* width: 40%;*/
+    max-width: 100%;
+    overflow: auto;
+  }

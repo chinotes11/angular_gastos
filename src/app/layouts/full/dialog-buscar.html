@@ -1,0 +1,1341 @@
+<button mat-icon-button class="close-button" [mat-dialog-close]="false">
+    <mat-icon class="close-icon">close</mat-icon>
+</button>
+<h2 class="font-medium" mat-dialog-title>
+    <strong *ngIf="titulo == '/colaborador';">Buscar Colaboradores</strong>
+    <strong *ngIf="titulo == '/anticipos';">Buscar Solicitud de Anticipo</strong>
+    <strong *ngIf="titulo == '/gastosz';">Buscar Gastos</strong>
+    <strong *ngIf="titulo == '/reportesgastos/reportegasto';">Buscar Reporte de Gastos</strong>
+    <strong *ngIf="titulo == '/reportesgastos/reembolso';">Buscar Reembolsos</strong>
+    <strong *ngIf="titulo == '/reportesgastos/devolucion';">Buscar Devolución</strong>
+    <strong *ngIf="titulo == '/estadocuenta';">Buscar Estado de Cuenta</strong>
+
+    <strong *ngIf="titulo == '/pagoscolaborador/tesoreria';">Buscar Tesoreria</strong>
+    <strong *ngIf="titulo == '/pagoscolaborador/ListaPagos';">Buscar Pagos</strong>
+    <strong *ngIf="titulo == '/pagoscolaborador/layoutpago';">Buscar Layouts Históricos</strong>
+    <strong *ngIf="titulo == '/pagoscolaborador/ListaConciliacion';">Buscar Conciliación</strong>
+    <strong *ngIf="titulo == '/pagoscolaborador/ListaArchivo';">Buscar en Archivo</strong>
+    <strong *ngIf="titulo == '/reporteoperacion';">Buscar Poliza Contable</strong>
+    <strong *ngIf="titulo == '/administrador/configurarpolitica';">Buscar Política</strong>
+</h2>
+<mat-dialog-content class="pb-3">
+    <!-- Anticipos INICIO-->
+    <div *ngIf="this.local_data.titulo === '/anticipos' ">
+        <form>
+            <div></div>
+            <div class="d-flex align-items-center m-b-15"> </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Nombre</mat-label>
+                            <input type="text" matInput id="nombre" name="nombre" [(ngModel)]="local_data.nombre"
+                                placeholder="Nombre">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Apellido Paterno</mat-label>
+                            <input type="text" matInput id="apellidoPaterno" name="apellidoPaterno"
+                                [(ngModel)]="local_data.apellidoPaterno" placeholder="Apellido Paterno">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Apellido Materno</mat-label>
+                            <input type="text" matInput id="apellidoMaterno" name="apellidoMaterno"
+                                [(ngModel)]="local_data.apellidoMaterno" placeholder="Apellido Materno">
+                        </mat-form-field>
+                    </div>
+                </div>
+               
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha registro rango inicial</mat-label>
+                            <input type="date" placeholder="Fecha Inicio" matInput id="fechaIni" name="fechaIni"
+                                [(ngModel)]="local_data.fechaIni">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha registro rango final</mat-label>
+                            <input type="date" placeholder="Fecha Fin" matInput id="fechaFin" name="fechaFin"
+                                [(ngModel)]="local_data.fechaFin">
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Motivo</mat-label>
+                            <input type="text" matInput id="motivo" name="motivo" [(ngModel)]="local_data.motivo"
+                                placeholder="Motivo">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Estatus</mat-label>
+                            <mat-select placeholder="Estatus" [(ngModel)]="local_data.estatus" id="estatus"
+                                name="estatus">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let work of local_data.cat.workflow" [value]="work.estatus">
+                                    {{work.estatus}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Tipo Solicitud</mat-label>
+                            <mat-select placeholder="Tipo Solicitud" [(ngModel)]="local_data.idUsoFondos"
+                                id="idUsoFondos" name="idUsoFondos">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let tipos of local_data.cat.TipoSol" [value]="tipos.id">
+                                    {{tipos.descripcion}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>    
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Empresa</mat-label>
+                            <mat-select placeholder="Empresa" [(ngModel)]="local_data.idEmpresa" id="idEmpresa" name="Empresa">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let emp of local_data.cat.Empresas" [value]="emp.id">
+                                    {{emp.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>           
+            </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxFlex.gt-md="40">
+                    <div fxLayout="row wrap">
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="doAction()" color="primary">Buscar</button>
+                        </div>
+                        <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex.gt-md="10" fxFlex="10"
+                            class="align-self-center"> </div>
+
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="closeDialog()" color="primary">Cerrar</button>
+                        </div>
+                        <div fxFlex.gt-sm="23" fxFlex.gt-xs="23" fxFlex.gt-md="10" fxFlex="23"
+                            class="align-self-center"> </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div *ngIf="this.local_data.titulo === '/gastosz' ">
+        <form>
+            <div></div>
+            <div class="d-flex align-items-center m-b-15"> </div>
+            <div fxLayout="row wrap" class="align-items-center">
+
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Id Gasto</mat-label>
+                            <input type="text" matInput id="idGasto" name="idGasto" [(ngModel)]="local_data.id"
+                                placeholder="Id Gasto">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Estatus</mat-label>
+                            <mat-select placeholder="Estatus" [(ngModel)]="local_data.estatus" id="estatus"
+                                name="estatus">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let work of local_data.cat.workflow" [value]="work.estatus">
+                                    {{work.estatus}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Tipo Comprobante</mat-label>
+                            <mat-select placeholder="Tipo Comprobante" [(ngModel)]="local_data.idTipoComprobante"
+                                id="idTipoComprobante" name="idTipoComprobante">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let mon of local_data.cat.TipoComprobante" [value]="mon.id">
+                                    {{mon.tipo}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Tipo Gastos</mat-label>
+                            <mat-select placeholder="Tipo Gastos" [(ngModel)]="local_data.tipodegasto" id="idTipoGasto"
+                                name="idTipoGasto">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let tipo of local_data.cat.Tipogasto" [value]="tipo.nombreGasto">
+                                    {{tipo.nombreGasto}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!--
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Empresa</mat-label>
+                            <mat-select placeholder="Empresa" [(ngModel)]="local_data.idEmpresa" id="idEmpresa" name="Empresa">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let emp of local_data.cat.Empresas" [value]="emp.id">
+                                    {{emp.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Moneda</mat-label>
+                            <mat-select placeholder="Moneda" [(ngModel)]="local_data.moneda" id="Moneda" name="Moneda">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let mon of local_data.cat.MonedaL" [value]="mon.clave">
+                                    {{mon.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                -->
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha registro rango inicial</mat-label>
+                            <input type="date" placeholder="Fecha Inicio" matInput id="fechaIni" name="fechaIni"
+                                [(ngModel)]="local_data.fechaIni">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha registro rango final</mat-label>
+                            <input type="date" placeholder="Fecha Fin" matInput id="fechaFin" name="fechaFin"
+                                [(ngModel)]="local_data.fechaFin">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Empresa</mat-label>
+                            <mat-select placeholder="Empresa" [(ngModel)]="local_data.idEmpresa" id="idEmpresa" name="Empresa">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let emp of local_data.cat.Empresas" [value]="emp.id">
+                                    {{emp.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+
+            </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxFlex.gt-md="40">
+                    <div fxLayout="row wrap">
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="doAction()" color="primary">Buscar</button>
+                        </div>
+                        <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex.gt-md="10" fxFlex="10"
+                            class="align-self-center"> </div>
+
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="closeDialog()" color="primary">Cerrar</button>
+                        </div>
+                        <div fxFlex.gt-sm="23" fxFlex.gt-xs="23" fxFlex.gt-md="10" fxFlex="23"
+                            class="align-self-center"> </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <!-- Gastos FIN-->
+    <div *ngIf="this.local_data.titulo === '/reportesgastos/reportegasto' ">
+        <form>
+            <div class="d-flex align-items-center m-b-15"> </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>ID</mat-label>
+                            <input type="text" matInput id="idReportes" name="idReportes"
+                                [(ngModel)]="local_data.id" placeholder="ID Reporte">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Motivo</mat-label>
+                            <input type="text" matInput id="notas" name="notas" [(ngModel)]="local_data.notas"
+                                placeholder="Motivo">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!--
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>ID Reembolso</mat-label>
+                            <input type="text" matInput required id="idReportes" name="idReportes"
+                                [(ngModel)]="local_data.id" placeholder="ID Reembolso">
+                        </mat-form-field>
+                    </div>
+                </div>    -->             
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Estatus</mat-label>
+                            <mat-select placeholder="Estatus" [(ngModel)]="local_data.estatus" id="estatus"
+                                name="estatus">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let work of local_data.cat.workflow" [value]="work.estatus">
+                                    {{work.estatus}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>RF-ID</mat-label>
+                            <input type="text" matInput  id="rfId" name="rfId"
+                                [(ngModel)]="local_data.rfId" placeholder="RF-ID">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>RR-ID</mat-label>
+                            <input type="text" matInput  id="rrId" name="rrId"
+                                [(ngModel)]="local_data.rrId" placeholder="RR-ID">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>ID Anticipo</mat-label>
+                            <input type="text" matInput  id="idAnticipo" name="idAnticipo"
+                                [(ngModel)]="local_data.idAnticipoFondos" placeholder="ID Anticipo">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha registro rango inicial</mat-label>
+                            <input type="date" placeholder="Fecha Inicio" matInput id="fechaIni" name="fechaIni"
+                                [(ngModel)]="local_data.fechaIni">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha registro rango final</mat-label>
+                            <input type="date" placeholder="Fecha Fin" matInput id="fechaFin" name="fechaFin"
+                                [(ngModel)]="local_data.fechaFin">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Empresa</mat-label>
+                            <mat-select placeholder="Empresa" [(ngModel)]="local_data.idEmpresa" id="idEmpresa" name="Empresa">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let emp of local_data.cat.Empresas" [value]="emp.id">
+                                    {{emp.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+            </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxFlex.gt-md="40">
+                    <div fxLayout="row wrap">
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="doAction()" color="primary">Buscar</button>
+                        </div>
+                        <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex.gt-md="10" fxFlex="10"
+                            class="align-self-center"> </div>
+
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="closeDialog()" color="primary">Cerrar</button>
+                        </div>
+                        <div fxFlex.gt-sm="23" fxFlex.gt-xs="23" fxFlex.gt-md="10" fxFlex="23"
+                            class="align-self-center"> </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <!-- reportegasto FIN-->
+    <div *ngIf="this.local_data.titulo === '/reportesgastos/reembolso' ">
+        <form>
+            <div class="d-flex align-items-center m-b-15"> </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>RR-ID</mat-label>
+                            <input type="number" matInput id="idReportes" name="idReportes" [(ngModel)]="local_data.id"
+                                placeholder="ID Reembolso">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>ID Reporte Gastos</mat-label>
+                            <input type="number" matInput id="idReportesGastos" name="idReportesGastos"
+                                [(ngModel)]="local_data.idReportesGastos" placeholder="ID Reporte Gastos">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>C-ID</mat-label>
+                            <input type="number" matInput id="idUser" name="idUser"
+                                [(ngModel)]="local_data.idUser" placeholder="C-ID">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Nombre</mat-label>
+                            <input type="text" matInput id="nombre" name="nombre" [(ngModel)]="local_data.NombreCompleto"
+                                placeholder="Nombre">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha registro rango inicial</mat-label>
+                            <input type="date" placeholder="Fecha Inicio" matInput id="fechaIni" name="fechaIni"
+                                [(ngModel)]="local_data.fechaIni">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha registro rango final</mat-label>
+                            <input type="date" placeholder="Fecha Fin" matInput id="fechaFin" name="fechaFin"
+                                [(ngModel)]="local_data.fechaFin">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>ID Anticipo</mat-label>
+                            <input type="number" matInput id="idAnticipo" name="idAnticipo"
+                                [(ngModel)]="local_data.idAnticiposFondos" placeholder="ID Anticipo">
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Estatus</mat-label>
+                            <mat-select placeholder="Estatus" [(ngModel)]="local_data.estatus" id="estatus"
+                                name="estatus">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let work of local_data.cat.workflow" [value]="work.estatus">
+                                    {{work.estatus}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div> 
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Motivo</mat-label>
+                            <input type="text" matInput id="motivo" name="motivo" [(ngModel)]="local_data.motivo" placeholder="motivo">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Empresa</mat-label>
+                            <mat-select placeholder="Empresa" [(ngModel)]="local_data.idEmpresa" id="idEmpresa" name="Empresa">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let emp of local_data.cat.Empresas" [value]="emp.id">
+                                    {{emp.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxFlex.gt-md="40">
+                    <div fxLayout="row wrap">
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="doAction()" color="primary">Buscar</button>
+                        </div>
+                        <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex.gt-md="10" fxFlex="10"
+                            class="align-self-center"> </div>
+
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="closeDialog()" color="primary">Cerrar</button>
+                        </div>
+                        <div fxFlex.gt-sm="23" fxFlex.gt-xs="23" fxFlex.gt-md="10" fxFlex="23"
+                            class="align-self-center"> </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <!-- reembolso FIN-->
+    <div *ngIf="this.local_data.titulo === '/reportesgastos/devolucion' ">
+        <form>
+            <div class="d-flex align-items-center m-b-15"> </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>RF-ID</mat-label>
+                            <input type="number" matInput id="idReportes" name="idReportes" [(ngModel)]="local_data.id"
+                                placeholder="ID Reembolso">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>ID Reporte Gastos</mat-label>
+                            <input type="number" matInput id="idReportesGastos" name="idReportesGastos"
+                                [(ngModel)]="local_data.idReportesGastos" placeholder="ID Reporte Gastos">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>C-ID</mat-label>
+                            <input type="number" matInput id="idUser" name="idUser"
+                                [(ngModel)]="local_data.idUser" placeholder="C-ID">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Nombre</mat-label>
+                            <input type="text" matInput id="nombre" name="nombre" [(ngModel)]="local_data.NombreCompleto"
+                                placeholder="Nombre">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha registro rango inicial</mat-label>
+                            <input type="date" placeholder="Fecha Inicio" matInput id="fechaIni" name="fechaIni"
+                                [(ngModel)]="local_data.fechaIni">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha registro rango final</mat-label>
+                            <input type="date" placeholder="Fecha Fin" matInput id="fechaFin" name="fechaFin"
+                                [(ngModel)]="local_data.fechaFin">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>ID Anticipo</mat-label>
+                            <input type="number" matInput id="idAnticipo" name="idAnticipo"
+                                [(ngModel)]="local_data.idAnticiposFondos" placeholder="ID Anticipo">
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Estatus</mat-label>
+                            <mat-select placeholder="Estatus" [(ngModel)]="local_data.estatus" id="estatus"
+                                name="estatus">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let work of local_data.cat.workflow" [value]="work.estatus">
+                                    {{work.estatus}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div> 
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Motivo</mat-label>
+                            <input type="text" matInput id="motivo" name="motivo" [(ngModel)]="local_data.motivo" placeholder="motivo">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Empresa</mat-label>
+                            <mat-select placeholder="Empresa" [(ngModel)]="local_data.idEmpresa" id="idEmpresa" name="Empresa">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let emp of local_data.cat.Empresas" [value]="emp.id">
+                                    {{emp.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxFlex.gt-md="40">
+                    <div fxLayout="row wrap">
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="doAction()" color="primary">Buscar</button>
+                        </div>
+                        <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex.gt-md="10" fxFlex="10"
+                            class="align-self-center"> </div>
+
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="closeDialog()" color="primary">Cerrar</button>
+                        </div>
+                        <div fxFlex.gt-sm="23" fxFlex.gt-xs="23" fxFlex.gt-md="10" fxFlex="23"
+                            class="align-self-center"> </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+     <!-- devolucion FIN-->
+     <div *ngIf="this.local_data.titulo === '/pagoscolaborador/tesoreria' ">
+        <form>
+            <div class="d-flex align-items-center m-b-15"> </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>C-ID</mat-label>
+                            <input type="number" matInput id="idUser" name="idUser" [(ngModel)]="local_data.idUser"
+                                placeholder="C-ID">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Nombre</mat-label>
+                            <input type="text" matInput id="nombre" name="nombre" [(ngModel)]="local_data.nombre"
+                                placeholder="Nombre">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Banco Receptor</mat-label>
+                            <input matInput [matAutocomplete]="auto" name="bancoEmisor" #jokeField="ngModel"
+                                [(ngModel)]="local_data.siglasBanco" (ngModelChange)="doFilter(Bancos)">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let ban of local_data.cat.NomBancos" [value]="ban.siglas">
+                                    {{ban.siglas}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Cuenta Receptor</mat-label>
+                            <input type="text" matInput id="cuenta" name="cuenta" [(ngModel)]="local_data.cuenta"
+                                placeholder="Cta Receptor">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Tipo Transacción</mat-label>
+                            <mat-select placeholder="Tipo Transacción" [(ngModel)]="local_data.tipoTransaccion"
+                                id="tipoTransaccion" name="tipoTransaccion">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let tipos of local_data.cat.Tipotrans" [value]="tipos.tipo">
+                                    {{tipos.tipo}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Moneda</mat-label>
+                            <mat-select placeholder="Moneda" [(ngModel)]="local_data.moneda" id="Moneda"
+                                name="Moneda">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let mon of local_data.cat.MonedaL" [value]="mon.clave">
+                                    {{mon.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>ID-Pago</mat-label>
+                            <input type="text" matInput id="id" name="id" [(ngModel)]="local_data.id"
+                                placeholder="ID-Pago">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha Aprob rango inicial</mat-label>
+                            <input type="date" placeholder="Fecha Inicio" matInput id="fechaIni" name="fechaIni"
+                                [(ngModel)]="local_data.fechaIni">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha Aprob rango final</mat-label>
+                            <input type="date" placeholder="Fecha Fin" matInput id="fechaFin" name="fechaFin"
+                                [(ngModel)]="local_data.fechaFin">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Empresa</mat-label>
+                            <mat-select placeholder="Empresa" [(ngModel)]="local_data.idEmpresa" id="idEmpresa" name="Empresa">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let emp of local_data.cat.Empresas" [value]="emp.id">
+                                    {{emp.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>      
+
+            </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxFlex.gt-md="40">
+                    <div fxLayout="row wrap">
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="doAction()" color="primary">Buscar</button>
+                        </div>
+                        <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex.gt-md="10" fxFlex="10"
+                            class="align-self-center"> </div>
+
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="closeDialog()" color="primary">Cerrar</button>
+                        </div>
+                        <div fxFlex.gt-sm="23" fxFlex.gt-xs="23" fxFlex.gt-md="10" fxFlex="23"
+                            class="align-self-center"> </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <!-- tesoreria FIN-->
+    <div *ngIf="this.local_data.titulo === '/pagoscolaborador/layoutpago' ">
+        <form>
+            <div class="d-flex align-items-center m-b-15"> </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>No. Layout</mat-label>
+                            <input type="number" matInput id="idBKL" name="idBKL" [(ngModel)]="local_data.id"
+                                placeholder="ID BKL">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha creación rango inicial</mat-label>
+                            <input type="date" placeholder="Fecha Inicio" matInput id="fechaIni" name="fechaIni"
+                                [(ngModel)]="local_data.fechaIni">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha creación rango final</mat-label>
+                            <input type="date" placeholder="Fecha Fin" matInput id="fechaFin" name="fechaFin"
+                                [(ngModel)]="local_data.fechaFin">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Cuenta Emisora</mat-label>
+                            <input type="number" matInput id="cuentaEmisor" name="cuentaEmisor" [(ngModel)]="local_data.cuentaEmisor"
+                                placeholder="Cuenta Emisora">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Banco Emisor</mat-label>
+                            <input matInput [matAutocomplete]="auto" name="bancoEmisor" #jokeField="ngModel"
+                                [(ngModel)]="local_data.bancoEmisor" (ngModelChange)="doFilter(Bancos)">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let ban of local_data.cat.NomBancos" [value]="ban.siglas">
+                                    {{ban.siglas}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Empresa</mat-label>
+                            <mat-select placeholder="Empresa" [(ngModel)]="local_data.idEmpresa" id="idEmpresa" name="Empresa">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let emp of local_data.cat.Empresas" [value]="emp.id">
+                                    {{emp.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxFlex.gt-md="40">
+                    <div fxLayout="row wrap">
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="doAction()" color="primary">Buscar</button>
+                        </div>
+                        <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex.gt-md="10" fxFlex="10"
+                            class="align-self-center"> </div>
+
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="closeDialog()" color="primary">Cerrar</button>
+                        </div>
+                        <div fxFlex.gt-sm="23" fxFlex.gt-xs="23" fxFlex.gt-md="10" fxFlex="23"
+                            class="align-self-center"> </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <!-- layoutpago FIN-->
+    <div *ngIf="this.local_data.titulo === '/pagoscolaborador/ListaPagos' ">
+        <form>
+            <div class="d-flex align-items-center m-b-15"> </div>
+            <div fxLayout="row wrap" class="align-items-center">
+
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Nombre Completo</mat-label>
+                            <input type="text" matInput id="nombre" name="nombre" [(ngModel)]="local_data.nombre"
+                                placeholder="Nombre Completo">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Id Pago</mat-label>
+                            <input type="number" matInput id="idPago" name="idPago" [(ngModel)]="local_data.id"
+                                placeholder="Id Pago">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Estatus</mat-label>
+                            <mat-select placeholder="Estatus" [(ngModel)]="local_data.estatusTrans" id="estatusTrans"
+                                name="estatus">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let work of local_data.cat.workflow" [value]="work.estatus">
+                                    {{work.estatus}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha aplicación rango inicial</mat-label>
+                            <input type="date" placeholder="Fecha Inicio" matInput id="fechaIni" name="fechaIni"
+                                [(ngModel)]="local_data.fechaIni">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha aplicación rango final</mat-label>
+                            <input type="date" placeholder="Fecha Fin" matInput id="fechaFin" name="fechaFin"
+                                [(ngModel)]="local_data.fechaFin">
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Forma de Pago</mat-label>
+                            <mat-select placeholder="Forma de Pago" [(ngModel)]="local_data.idFormasPago"
+                                id="idFormasPago" name="idFormasPago">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let tipos of local_data.cat.formaPagos" [value]="tipos.id">
+                                    {{tipos.descripcion}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Tipo Transacción</mat-label>
+                            <mat-select placeholder="Tipo Transacción" [(ngModel)]="local_data.tipoTransaccion"
+                                id="tipoTransaccion" name="tipoTransaccion">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let tipos of local_data.cat.Tipotrans" [value]="tipos.tipo">
+                                    {{tipos.tipo}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Empresa</mat-label>
+                            <mat-select placeholder="Empresa" [(ngModel)]="local_data.idEmpresa" id="idEmpresa" name="Empresa">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let emp of local_data.cat.Empresas" [value]="emp.id">
+                                    {{emp.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxFlex.gt-md="40">
+                    <div fxLayout="row wrap">
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="doAction()" color="primary">Buscar</button>
+                        </div>
+                        <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex.gt-md="10" fxFlex="10"
+                            class="align-self-center"> </div>
+
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="closeDialog()" color="primary">Cerrar</button>
+                        </div>
+                        <div fxFlex.gt-sm="23" fxFlex.gt-xs="23" fxFlex.gt-md="10" fxFlex="23"
+                            class="align-self-center"> </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <!-- ListaPagos FIN-->
+    <div *ngIf="this.local_data.titulo === '/pagoscolaborador/ListaConciliacion' ">
+        <form>
+            <div class="d-flex align-items-center m-b-15"> </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Nombre Completo</mat-label>
+                            <input type="text" matInput id="nombre" name="nombre" [(ngModel)]="local_data.nombre"
+                                placeholder="Nombre Completo">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Id Pago</mat-label>
+                            <input type="number" matInput id="C-ID" name="C-ID" [(ngModel)]="local_data.idPago"
+                                placeholder="Id Pago">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Tipo Transacción</mat-label>
+                            <mat-select placeholder="Tipo Transacción" [(ngModel)]="local_data.tipoTransaccion"
+                                id="tipoTransaccion" name="tipoTransaccion">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let tipos of local_data.cat.Tipotrans" [value]="tipos.tipo">
+                                    {{tipos.tipo}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha aplicación registro inicial</mat-label>
+                            <input type="date" placeholder="Fecha Inicio" matInput id="fechaIni" name="fechaIni"
+                                [(ngModel)]="local_data.fechaIni">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha aplicación registro final</mat-label>
+                            <input type="date" placeholder="Fecha Fin" matInput id="fechaFin" name="fechaFin"
+                                [(ngModel)]="local_data.fechaFin">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Forma de Pago</mat-label>
+                            <mat-select placeholder="Forma de Pago" [(ngModel)]="local_data.idFormasPago"
+                                id="idFormasPago" name="idFormasPago">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let tipos of local_data.cat.formaPagos" [value]="tipos.id">
+                                    {{tipos.descripcion}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Tipo Transacción</mat-label>
+                            <mat-select placeholder="Tipo Transacción" [(ngModel)]="local_data.tipoTransaccion"
+                                id="tipoTransaccion" name="tipoTransaccion">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let tipos of local_data.cat.Tipotrans" [value]="tipos.tipo">
+                                    {{tipos.tipo}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Empresa</mat-label>
+                            <mat-select placeholder="Empresa" [(ngModel)]="local_data.idEmpresa" id="idEmpresa" name="Empresa">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let emp of local_data.cat.Empresas" [value]="emp.id">
+                                    {{emp.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxFlex.gt-md="40">
+                    <div fxLayout="row wrap">
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="doAction()" color="primary">Buscar</button>
+                        </div>
+                        <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex.gt-md="10" fxFlex="10"
+                            class="align-self-center"> </div>
+
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="closeDialog()" color="primary">Cerrar</button>
+                        </div>
+                        <div fxFlex.gt-sm="23" fxFlex.gt-xs="23" fxFlex.gt-md="10" fxFlex="23"
+                            class="align-self-center"> </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <!-- ListaConciliacion FIN-->
+    <div *ngIf="this.local_data.titulo === '/pagoscolaborador/ListaArchivo' ">
+        <form>
+            <div class="d-flex align-items-center m-b-15"> </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>No. Layout</mat-label>
+                            <input type="number" matInput id="idLayoutBancarioEnvio" name="idLayoutBancarioEnvio" [(ngModel)]="local_data.idLayoutBancarioEnvio"
+                                placeholder="No. Layout">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha pago rango inicial</mat-label>
+                            <input type="date" placeholder="Fecha Inicio" matInput id="fechaIni" name="fechaIni"
+                                [(ngModel)]="local_data.fechaIni">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Fecha pago rango final</mat-label>
+                            <input type="date" placeholder="Fecha Fin" matInput id="fechaFin" name="fechaFin"
+                                [(ngModel)]="local_data.fechaFin">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Estatus</mat-label>
+                            <mat-select placeholder="Estatus" [(ngModel)]="local_data.estatusTrans" id="estatusTrans"
+                                name="estatus">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let work of local_data.cat.workflow" [value]="work.estatus">
+                                    {{work.estatus}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Id Pago</mat-label>
+                            <input type="number" matInput id="idPago" name="idPago" [(ngModel)]="local_data.id"
+                                placeholder="Id Pago">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Forma de Pago</mat-label>
+                            <mat-select placeholder="Forma de Pago" [(ngModel)]="local_data.idFormasPago"
+                                id="idFormasPago" name="idFormasPago">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let tipos of local_data.cat.formaPagos" [value]="tipos.id">
+                                    {{tipos.descripcion}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Empresa</mat-label>
+                            <mat-select placeholder="Empresa" [(ngModel)]="local_data.idEmpresa" id="idEmpresa" name="Empresa">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let emp of local_data.cat.Empresas" [value]="emp.id">
+                                    {{emp.clave}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>               
+
+            </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100" fxFlex.gt-md="60">
+
+                    <div fxLayout="row wrap">
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="doAction()" color="primary">Buscar</button>
+                        </div>
+                        <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex.gt-md="10" fxFlex="10"
+                            class="align-self-center"> </div>
+
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="closeDialog()" color="primary">Cerrar</button>
+                        </div>
+                        <div fxFlex.gt-sm="23" fxFlex.gt-xs="23" fxFlex.gt-md="10" fxFlex="23"
+                            class="align-self-center"> </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <!-- polizacontable FIN-->
+    <div *ngIf="this.local_data.titulo === '/polizacontable' ">
+        <form>
+            <div class="d-flex align-items-center m-b-15"> </div>
+            <div fxLayout="row wrap" class="align-items-center">
+
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field>
+                            <input type="text" matInput required id="G-ID" name="G-ID" [(ngModel)]="local_data.GID"
+                                placeholder="G-ID">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!--<div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <input type="text" matInput required id="position" name="position" [(ngModel)]="local_data.solicitud"  placeholder="Solicitud de Anticipo">
+                            </mat-form-field>
+                        </div>
+                    </div>-->
+                <!-- <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <mat-select placeholder="Tipo Solicitud"  [(ngModel)]="local_data.pago"  name="pago">
+                                    <mat-option *ngFor="let pago of Pagos"   [value]="pago.value">
+                                        {{pago.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>-->
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field>
+                            <input type="text" matInput id="notas" name="notas" [(ngModel)]="local_data.notas"
+                                placeholder="Notas">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field>
+                            <input type="date" placeholder="Fecha Emisión" matInput id="fechaEmision"
+                                name="fechaEmision" value="02/04/2021" [(ngModel)]="local_data.fechaEmision">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-md="33" fxFlex.gt-sm="33">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field>
+                            <mat-select placeholder="Estatus" [(ngModel)]="local_data.estatusGastos" name="estatus">
+                                <mat-option *ngFor="let estat of Estatuss" [value]="estat.value">
+                                    {{estat.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxFlex.gt-md="40">
+                    <div fxLayout="row wrap">
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="doAction()" color="primary">Buscar</button>
+                        </div>
+                        <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex.gt-md="10" fxFlex="10"
+                            class="align-self-center"> </div>
+
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33"
+                            class="align-self-center">
+                            <button mat-raised-button (click)="closeDialog()" color="primary">Cerrar</button>
+                        </div>
+                        <div fxFlex.gt-sm="23" fxFlex.gt-xs="23" fxFlex.gt-md="10" fxFlex="23"
+                            class="align-self-center"> </div>
+                    </div>
+ <!-- 
+                        <div fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex.gt-md="20" fxFlex="33" class="align-self-center"> 
+                            <button mat-raised-button (click)="doAction()" mat-flat-button color="warn">Borrar Filtros</button>
+                        </div>
+                        -->
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</mat-dialog-content>

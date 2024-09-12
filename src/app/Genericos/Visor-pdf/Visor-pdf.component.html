@@ -1,0 +1,136 @@
+<span>COMPONENTE</span>
+
+<input
+  (change)="onFileSelected()"
+  type="file"
+  id="file"
+  class="d-none"
+  accept=".pdf"
+/>
+<div class="toolbar d-flex">
+  <span
+    class="my-icon"
+    (click)="openLocalFile()"
+    title="Open File"
+  ></span>
+  <span
+    class="my-icon"
+    [ngClass]="{ active: isOutlineShown }"
+    (click)="toggleOutline()"
+    title="Toggle Outline"
+  ></span>
+  <span
+    class="my-icon"
+    (click)="rotate(-90)"
+    title="Rotate Left"
+  ></span>
+  <span
+    class="my-icon"
+    (click)="rotate(90)"
+    title="Rotate Right"
+  ></span>
+  <span
+    class="my-icon"
+    (click)="incrementZoom(0.1)"
+    title="Zoom In"
+  ></span>
+  <span
+    class="my-icon"
+    (click)="incrementZoom(-0.1)"
+    title="Zoom Out"
+  ></span>
+  <span
+    class="my-icon"
+    [ngClass]="{ active: fitToPage }"
+    (click)="fitToPage = !fitToPage"
+    title="Toggle Fit Page"
+  ></span>
+  <span
+    class="my-icon"
+    [ngClass]="{ active: showAll }"
+    (click)="showAll = !showAll"
+    title="Toggle Show All"
+  ></span>
+
+  <ng-container *ngIf="!showAll">
+    <span
+      class="my-icon ml-auto"
+      (click)="incrementPage(-1)"
+      title="Previous Page"
+    ></span>
+    <div>
+      <input
+        type="number"
+        class="page-num"
+        placeholder="Page"
+        [(ngModel)]="page"
+        pattern="-?[0-9]*(\.[0-9]+)?"
+      />
+      <span *ngIf="pdf">of {{ pdf.numPages }}</span>
+    </div>
+    <span
+      class="my-icon"
+      (click)="incrementPage(1)"
+      title="Next Page"
+    ></span>
+  </ng-container>
+
+  <label
+    class="my-icon ml-auto"
+    for="searchbox"
+    title="Search.."
+  ></label>
+  <input
+    #queryInp
+    type="text"
+    id="searchbox"
+    name="searchbox"
+    class="searchbox mr-5"
+    placeholder="Search..."
+    [value]="pdfQuery"
+    (input)="searchQueryChanged($event.target.value)"
+    (keyup.enter)="searchQueryChanged(queryInp.value)"
+  />
+</div>
+<div class="pdf-body">
+  <div *ngIf="isOutlineShown" class="outline">
+    <ul *ngFor="let item of outline" class="outline-list">
+      <li>
+        <a (click)="navigateTo(item.dest)"> {{ item.title }} </a>
+
+        <ul *ngFor="let child of item.items">
+          <li>
+            <a (click)="navigateTo(child.dest)"> {{ child.title }} </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="!isLoaded && !error && progressData" id="progress">
+    <div class="bg">
+      <div
+        class="bar"
+        [style.width]="(progressData.loaded / progressData.total) * 100 + '%'"
+      ></div>
+    </div>
+    <span>{{ getInt((progressData.loaded / progressData.total) * 100) }}%</span>
+  </div>
+
+  <pdf-viewer
+    [src]="pdfSrc"
+    [(page)]="page"
+    [rotation]="rotation"
+    [original-size]="originalSize"
+    [fit-to-page]="fitToPage"
+    (after-load-complete)="afterLoadComplete($event)"
+    [zoom]="zoom"
+    [show-all]="showAll"
+    [stick-to-page]="stickToPage"
+    [render-text]="renderText"
+    [external-link-target]="'blank'"
+    [autoresize]="autoresize"
+    (error)="onError($event)"
+    (on-progress)="onProgress($event)"
+    (page-rendered)="pageRendered($event)"
+  ></pdf-viewer>
+</div>

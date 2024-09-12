@@ -1,0 +1,378 @@
+
+<div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+	<div fxLayout="row wrap">
+        <div fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100" class="align-self-center">
+            <h3 class="page-title text-themecolor m-0"><b>{{pageInfo?.title}}</b></h3>
+		</div>
+		<div fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100" class="align-self-center">
+            <div class="breadcrumb d-flex align-items-center float-right float-sm-left">
+             
+                <ul class="list-style-none d-flex align-items-center">
+                    <ng-template ngFor let-url [ngForOf]="pageInfo?.urls" let-last="last">
+                        <!-- 
+                           <button (click)="pasoFiltros()">New Message</button>
+                           {{message[0].tipo}}
+                        <li class="breadcrumb-item" *ngIf="!last" [routerLink]="url.url">
+                            <a href='javascript:void(0)'>{{url.title}}</a>
+                        </li>
+                        <li class="breadcrumb-item active" *ngIf="last">{{url.title}}</li> 
+                      <li class="breadcrumb-item " *ngIf="last">
+                            <a (click)="ConfiguraCta()" >
+                                <button mat-raised-button color="primary"><mat-icon>payments </mat-icon> Configurar Cuenta</button>
+                            </a>
+                        </li> 
+                      -->
+                        <li class="breadcrumb-item " *ngIf="last">
+                            <a (click)="exportar()" >
+                                <button mat-raised-button color="primary"><mat-icon> download</mat-icon> Exportar</button>
+                            </a>
+                        </li>
+                                                
+                        <li class="breadcrumb-item " *ngIf="last">
+                          <div fxFlex.gt-md="75" class="text-right">                            
+                                <button mat-raised-button color="primary"  [disabled]="layout=='0'" (click)="GeneraLayout()"><img src="assets/images/iconos/Icono_agrega_registro_BLANCO.png" class="png-icon" width="20"> <mat-icon>fiber_smart_record </mat-icon> Generar Layout</button>
+                          </div>
+                        </li>
+                        <li class="breadcrumb-item " *ngIf="last"><img [src]='url.icono'class="img-icono" /> </li>
+                    </ng-template>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row">
+  <div fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row wrap" class="align-items-center">
+          <div fxFlex.gt-md="25" fxFlex.gt-lg="25" class="text-left">
+            <a (click)="limpiarfiltros()">
+                <button mat-raised-button color="primary">
+                    <mat-icon> delete_sweep</mat-icon> Limpiar filtros
+                </button>
+            </a>
+        </div>
+        <div fxFlex.gt-md="50" class="text-right"> </div>
+            <div fxFlex.gt-xs="25" fxFlex.gt-md="25" fxFlex.gt-lg="25" fxFlex="100">
+              <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar en Tesorería ...">
+              </mat-form-field>
+            </div>          
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+<div fxLayout="row wrap">
+    <div fxFlex="100">
+      <mat-card>
+        <mat-card-content>
+          <div class="table-responsive">
+            
+            <mat-accordion class="example-headers-align">
+              <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b><span> Filtros y configuración de cuenta</span></b>
+                  </mat-panel-title>                
+              </mat-expansion-panel-header>
+              <table class="mat-table table employee-list no-wrap" >
+                <tr class="mat-header-row">
+                    <th class="mat-header-cell">FILTROS</th>
+                    <th class="mat-header-cell">DATOS DE PAGO LAYOUT</th>
+                </tr>
+                <tr class="mat-row">
+                    <td class="mat-cell">
+                      <div fxLayout="row wrap" class="align-items-center">
+                        
+                        <div fxFlex="100" fxFlex.gt-xs="100">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                    <mat-label>Empresa</mat-label>
+                                    <mat-select required placeholder="Empresa" [(ngModel)]="ConfigurarPago.idEmpresa" id="idEmpresa" name="idEmpresa"  >
+                                        <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                        <mat-option *ngFor="let emp of Empresas" [value]="emp.id">
+                                            {{emp.clave}}
+                                        </mat-option>
+                                    </mat-select>                      
+                                </mat-form-field> 
+                            </div>
+                        </div> 
+
+                        <div fxFlex="100" fxFlex.gt-xs="100">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                    <mat-label>Proyecto</mat-label>
+                                    <mat-select required placeholder="Proyecto" [(ngModel)]="ConfigurarPago.idProyecto" id="idProyecto" name="idProyecto"  >
+                                        <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                        <mat-option *ngFor="let proy of Proyectos" [value]="proy.idProyecto">
+                                            {{proy.descripcionProyecto}}
+                                        </mat-option>
+                                    </mat-select>                      
+                                </mat-form-field> 
+                            </div>
+                        </div> 
+                        <div fxFlex="100" fxFlex.gt-xs="100">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                    <mat-label>Centro de Costos</mat-label>
+                                    <mat-select required placeholder="Centro de Costos" [(ngModel)]="ConfigurarPago.idCentrosCostos" id="idCentrosCostos" name="idCentrosCostos" >
+                                        <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                        <mat-option *ngFor="let centro of CentroCosto" [value]="centro.idCentrosCostos">
+                                            {{centro.descripcionCentrosCostos}}
+                                        </mat-option>
+                                    </mat-select>                      
+                                </mat-form-field> 
+                            </div>
+                        </div>  
+                        <div fxFlex="100" fxFlex.gt-xs="100">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                    <mat-label>Tipo Transacción</mat-label>
+                                    <mat-select required placeholder="idTipoTransaccion" [(ngModel)]="ConfigurarPago.idTipoTransaccion" id="idTipoTransaccion" name="idTipoTransaccion"  (selectionChange)="cambiaTransaccion($event,ConfigurarPago)">
+                                        <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                        <mat-option *ngFor="let tipo of catransaccion" [value]="tipo.idTipoTransaccion">
+                                            {{tipo.transaccion}}
+                                        </mat-option>
+                                    </mat-select>                      
+                                </mat-form-field> 
+                            </div>
+                        </div>  
+                        <div fxFlex="100" fxFlex.gt-xs="100">
+                            <div class="m-r-15 m-l-15">
+                              <button mat-raised-button color="primary" (click)="LimpiarFiltro()"><mat-icon>clear_all </mat-icon> Limpiar Filtros</button>
+                            </div>
+                        </div>                      
+                      </div>
+                    </td>
+                    <td class="mat-cell">                      
+                      <div fxLayout="row wrap" class="align-items-center">
+                        <!-- 
+                        <div fxFlex="100" fxFlex.gt-xs="100">
+                          <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                <mat-label> Tipo de Cambio </mat-label>
+                                <input type="number" matInput id="TipoCambio" name="TipoCambio" [(ngModel)]="ConfigurarPago.TipoCambio" (keyup)="cambiaTipoCambio($event,ConfigurarPago)" [disabled]="bloqTC" placeholder="TipoCambio">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        -->
+                        
+                        <div fxFlex="100" fxFlex.gt-xs="100">
+                          <div class="m-r-15 m-l-15">
+                              <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                  <mat-label>Moneda</mat-label>
+                                  <mat-select required placeholder="Moneda" [(ngModel)]="ConfigurarPago.idMoneda" id="idMoneda" name="idMoneda"  (selectionChange)="cambiaMoneda($event,ConfigurarPago)" disabled >
+                                      <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                      <mat-option *ngFor="let moned of MonedaL" [value]="moned.id">
+                                          {{moned.clave}}
+                                      </mat-option>
+                                  </mat-select>                      
+                              </mat-form-field> 
+                          </div>
+                        </div>                        
+                        
+                        <div fxFlex="100" fxFlex.gt-xs="100">
+                            <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                <mat-label>Banco Emisor</mat-label>
+                                <mat-select required placeholder="Banco Emisor" [(ngModel)]="ConfigurarPago.BancoEmisor" (selectionChange)="cambiaEmp($event,ConfigurarPago)" id="BancoEmisor" name="BancoEmisor"  [disabled]="bloqueoBanco">
+                                    <mat-option *ngFor="let nbanco of Bancos" [value]="nbanco.id">
+                                        {{nbanco.siglas}}
+                                    </mat-option>
+                                </mat-select>    
+                            </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="100">
+                            <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                <mat-label>Cuenta Emisora</mat-label>
+                                <mat-select required placeholder="Cuenta Emisora" [(ngModel)]="ConfigurarPago.idCuenta" id="idCuenta" name="idCuenta" (selectionChange)="cambiaCta($event,ConfigurarPago)" [disabled]="bloqueoCuenta">
+                                    <mat-option *ngFor="let cuent of Cuenta" [value]="cuent.cuenta">
+                                        {{cuent.cuenta}}
+                                    </mat-option>
+                                </mat-select>    
+                            </mat-form-field>
+                            </div>
+                        </div>
+        
+                        <div fxFlex="100" fxFlex.gt-xs="100">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">         
+                                    <mat-label>Fecha Generación Layout</mat-label>
+                                    <input matInput [(ngModel)]="ConfigurarPago.fechaGenLayout" [matDatepicker]="fechaIni"  name="fechaIni" disabled>                      
+                                    <mat-datepicker-toggle matSuffix [for]="fechaIni"></mat-datepicker-toggle>
+                                    <mat-datepicker #fechaIni></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>    
+                        <div fxFlex="100" fxFlex.gt-xs="100">
+                          <div class="m-r-15 m-l-15">
+                              <span><br><br></span>
+                          </div>
+                      </div>                     
+                      </div>                      
+                    </td>
+                </tr>
+            </table>
+
+          <!--
+              <mat-action-row>
+                  <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                  <button mat-button color="primary" (click)="nextStep()">Final</button>
+              </mat-action-row>-->
+              </mat-expansion-panel>
+          
+          </mat-accordion>
+
+
+
+                <table mat-table [dataSource]="tesoreriaList" matSort class="table employee-list no-wrap">
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef>
+                          <mat-checkbox (change)="$event ? masterToggle() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()"
+                              [aria-label]="checkboxLabel()"
+                              (change)="showOptions($event,row)" >
+                          </mat-checkbox>
+                      </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row)" 
+                                [aria-label]="checkboxLabel(row)"
+                                (change)="showOptions($event,row)" >
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="PagoManual">
+                        <th mat-header-cell *matHeaderCellDef>Pagar</th>
+                        <td mat-cell *matCellDef="let element" class="action-link">
+                          <a [routerLink]="['../tesoreria/transaccionTesoreria/',element.idPaso]">
+                            <button mat-raised-button color="primary" *ngIf="!btnPagos" [disabled]="btnPago=='1'" (click)="abrePago($event,element)" ><mat-icon>payment</mat-icon></button>   
+                          </a>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="idUser">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> C-ID </th>
+                      <td mat-cell *matCellDef="let element"> {{element.idUser}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre  </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="siglasBanco">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Banco Receptor  </th>
+                      <td mat-cell *matCellDef="let element"> {{element.siglasBanco}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cuenta">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Cta Receptor  </th>
+                      <td mat-cell *matCellDef="let element"> {{element.cuenta}} </td>
+                    </ng-container>
+          
+                    <ng-container matColumnDef="FechaAprobacion">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Aprob.</th>
+                      <td mat-cell *matCellDef="let element"> {{element.FechaAprobacion | date :'dd/MMM/yyyy'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="id">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID-Transacción</th>
+                      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                    </ng-container>
+          
+                    <ng-container matColumnDef="tipoTransaccion">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Transacción</th>
+                      <td mat-cell *matCellDef="let element">  {{element.tipoTransaccion}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="monto">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Monto Transacción</th>
+                      <td mat-cell *matCellDef="let element">
+                        <span *ngIf='element.idMoneda==="1" || element.moneda==="MXN"'> {{ getMonto(element.monto) }} 
+                        </span>
+                        <span *ngIf='element.idMoneda==="2" || element.moneda==="USD"'> {{element.monto | currency:"USD":"symbol"}}
+                        </span>
+                        <span *ngIf='element.idMoneda==="3" || element.moneda==="EUR"'> {{element.monto | currency:"EUR":"symbol"}}
+                        </span>
+                        <span *ngIf='element.idMoneda==="4" || element.moneda==="JPY"'> {{element.monto | currency:"JPY":"symbol"}}
+                        </span>
+                       </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="montoPendiente">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> X Pagar</th>
+                      <td mat-cell *matCellDef="let element"> 
+                        <span *ngIf='element.idMoneda==="1" || element.moneda==="MXN"'> {{ getMonto(element.montoPendiente) }} 
+                        </span>
+                        <span *ngIf='element.idMoneda==="2" || element.moneda==="USD"'> {{element.montoPendiente | currency:"USD":"symbol"}}
+                        </span>
+                        <span *ngIf='element.idMoneda==="3" || element.moneda==="EUR"'> {{element.montoPendiente | currency:"EUR":"symbol"}}
+                        </span>
+                        <span *ngIf='element.idMoneda==="4" || element.moneda==="JPY"'> {{element.montoPendiente | currency:"JPY":"symbol"}}
+                        </span>
+                      </td>
+                    </ng-container>  
+
+                    <ng-container matColumnDef="MontoPago">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>  Monto Pago</th>
+                      <td mat-cell *matCellDef="let element"> 
+                        <input type="number" matInput  id="MontoPago" name="MontoPago" [value]="element.MontoPago" (blur)="guardaEstatus($event,element)"  [disabled]="cantidad=='0'"><!--(keyup)="Cambio($event,element,'MontoPago')" -->
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="montoPagado">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Pagado</th>
+                      <td mat-cell *matCellDef="let element">
+                        <span *ngIf='element.idMoneda==="1" || element.moneda==="MXN"'> {{ getMonto(element.montoPagado) }} 
+                        </span>
+                        <span *ngIf='element.idMoneda==="2" || element.moneda==="USD"'> {{element.montoPagado | currency:"USD":"symbol"}}
+                        </span>
+                        <span *ngIf='element.idMoneda==="3" || element.moneda==="EUR"'> {{element.montoPagado | currency:"EUR":"symbol"}}
+                        </span>
+                        <span *ngIf='element.idMoneda==="4" || element.moneda==="JPY"'> {{element.montoPagado | currency:"JPY":"symbol"}}
+                        </span>
+                      </td>
+                    </ng-container>                    
+
+                    <ng-container matColumnDef="estatusPago">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                      <td mat-cell *matCellDef="let element"> 
+                        <div *ngIf='element.estatusPago==="Pagado"'>
+                          <span class="verde"> {{element.estatusPago}} </span>
+                        </div>
+                        <div *ngIf='element.estatusPago==="Pagado Parcial"'>
+                            <span class="azul"> {{element.estatusPago}} </span>
+                        </div>
+                        <div *ngIf='element.estatusPago!== "Pagado Parcial" && element.estatusPago !== "Pagado" '>
+                            <span> {{element.estatusPago}} </span>
+                        </div>
+                      </td>
+                    </ng-container>
+                    
+                    <!-- 
+                    <ng-container matColumnDef="estatus">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>  Estatus</th>
+                      <td mat-cell *matCellDef="let element"> {{element.estatus}} </td>
+                    </ng-container>
+                    -->    
+                         
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 50]" showFirstLastButtons></mat-paginator>
+            </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

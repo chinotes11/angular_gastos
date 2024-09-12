@@ -1,0 +1,336 @@
+<div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+    <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="align-self-center">
+            <h3 class="page-title text-themecolor m-0"><b>Detalle de Layout</b></h3>
+        </div>
+        <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100" class="align-self-center">
+            <div class="breadcrumb d-flex align-items-center float-right float-sm-left">             
+                <ul class="list-style-none d-flex align-items-center">
+                    <li class="breadcrumb-item ">
+                        <h5 class="m-0"><b></b> </h5> 
+                    </li>
+                    <!-- 
+                    <li class="breadcrumb-item abajo" >
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15 abajo">                         
+                            <mat-label>Siguiente Tarea</mat-label>
+                            <mat-select placeholder="" name="SelEstatus" placeholder="Workflow" [disabled]="bloqueoWf=='0'" >
+                                <mat-option *ngFor="let work of workInicial" [value]="work.siguienteEstatus">
+                                    {{work.opcion}}
+                                </mat-option>
+                            </mat-select>
+                    </mat-form-field>
+                    </li>
+                   
+                    <li class="breadcrumb-item" >
+                        <button mat-raised-button class="arriba2" color="primary" (click)=guardarGastosZ() [disabled]="btnGda !== '1'"> <mat-icon>save</mat-icon> </button>
+                    </li> -->
+                    <li class="breadcrumb-item" >
+                        <button mat-raised-button (click)=cerrarGastosZ() color="warn"> <mat-icon>highlight_off</mat-icon> </button>                         
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row wrap"> <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">  <h4><b>&nbsp;<br></b> </h4></div></div>
+
+<div fxLayout="row wrap">
+<div fxFlex="100">       
+    <form #userForm="ngForm">
+    <mat-tab-group>
+        <mat-tab label="Datos"> 
+            <div fxLayout="row wrap"> <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">  <h4><b>&nbsp;<br></b> </h4></div></div>
+
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="100" fxFlex.gt-md="50">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Empresa</mat-label>
+                            <input type="text" matInput id="Empresa" name="Empresa" [(ngModel)]="detalleLayout.Empresa" placeholder="Empresa"  [disabled]="bloqueo">
+                        </mat-form-field>
+                    </div>
+                </div>	
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>No.Layout</mat-label>
+                        <input type="text" matInput id="id" name="id" [(ngModel)]="detalleLayout.id" placeholder="BKL_ID"  [disabled]="bloqueo">
+                    </mat-form-field>
+                    </div>
+                </div>
+               <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Banco Emisor</mat-label>
+                        <input type="text" matInput id="bancoEmisor" name="bancoEmisor" [(ngModel)]="detalleLayout.bancoEmisor" placeholder="Banco Emisor"  [disabled]="bloqueo">
+                    </mat-form-field>
+                    </div>
+                </div>
+                <!-- 
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Banco Emisor</mat-label>
+                        <mat-select required placeholder="Banco Emisor" [(ngModel)]="detalleLayout.BancoEmisor"  id="BancoEmisor" name="BancoEmisor"   [disabled]="bloqueo">
+                            <mat-option *ngFor="let nbanco of Bancos" [value]="nbanco.BancoEmisor">
+                                {{nbanco.Banco}}
+                            </mat-option>
+                        </mat-select>    
+                    </mat-form-field>
+                    </div>
+                </div>-->
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Cuenta Emisora</mat-label>
+                        <input type="text" matInput id="cuentaEmisor" name="cuentaEmisor" [(ngModel)]="detalleLayout.cuentaEmisor" placeholder="Cuenta Emisora"  [disabled]="bloqueo">
+                    </mat-form-field>
+                    </div>
+                </div>
+                <!--
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Cuenta Emisora</mat-label>
+                        <mat-select required placeholder="Cuenta Emisora" [(ngModel)]="detalleLayout.idCuenta" id="idCuenta" name="idCuenta"   [disabled]="bloqueo">
+                            <mat-option *ngFor="let cuent of Cuentas" [value]="detalleLayout.idCuenta">
+                                {{cuent.nuCuenta}}
+                            </mat-option>
+                        </mat-select>    
+                    </mat-form-field>
+                    </div>
+                </div>-->
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Fecha de Creación</mat-label>
+                        <input type="text" matInput id="fechaRegistroTrans" name="fechaRegistroTrans" [(ngModel)]="detalleLayout.fechaRegistroTrans" placeholder="Fecha de Creación"  [disabled]="bloqueo">
+                    </mat-form-field>
+                    </div>
+                </div> 
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Monto Layout</mat-label>
+                        <input type="text" matInput id="monto" name="monto" [(ngModel)]="detalleLayout.monto" placeholder="Monto"  [disabled]="bloqueo"  [disabled]="bloqueo">
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label> Moneda </mat-label>
+                        <input type="text" matInput id="monedaEmisor" name="monedaEmisor" [(ngModel)]="detalleLayout.monedaEmisor" placeholder="Moneda"  [disabled]="bloqueo">
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label> Número de Registros </mat-label>
+                            <input type="text" matInput id="NoRegistros" name="NoRegistros" [(ngModel)]="detalleLayout.NoRegistros" placeholder="Número Registros"  [disabled]="bloqueo">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            
+            <div fxLayout="row wrap">
+                <div fxFlex="100">
+                  <mat-card>
+                    <mat-card-content>
+                      <div class="table-responsive">
+                            <table mat-table [dataSource]="pagoList" matSort class="table employee-list no-wrap">
+                                <!-- Checkbox Column -->
+                                <ng-container matColumnDef="descEmpresa">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Empresa</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.descEmpresa}}  </td>
+                                </ng-container>            
+            
+                                <ng-container matColumnDef="nombre">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Nombre</th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            <a (click)="abrePago($event,element)" [routerLink]="['/pagoscolaborador//tesoreria/transaccionTesoreria/',element.idTrans]">
+                                                <p class="font-bold m-b-0 m-t-0"> {{element.nombre}}</p>
+                                            </a>
+                                        </td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="estatusTrans">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </th>
+                                    <td mat-cell *matCellDef="let element">
+                                      <div *ngIf='element.estatusTrans==="Pagado"' >
+                                        <span class="verde" > {{element.estatusTrans}}  </span>
+                                      </div>
+                                      <div *ngIf='element.estatusTrans==="Nuevo"' >
+                                        <span class="rojo" > {{element.estatusTrans}}  </span>
+                                      </div>  
+                                      <div *ngIf='element.estatusTrans==="Enviado"' >
+                                        <span class="azul" > {{element.estatusTrans}}  </span>
+                                      </div>  
+                                      <div *ngIf='element.estatusTrans!== "Nuevo" && element.estatusTrans !== "Pagado" && element.estatusTrans !== "Enviado"' >
+                                        <span > {{element.estatusTrans}}  </span>
+                                      </div>
+                                    </td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="id">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        ID Pago</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="tipoTransaccion">
+                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                       Tipo Transacción</th>
+                                      <td mat-cell *matCellDef="let element"> {{element.tipoTransaccion}} </td>
+                              </ng-container>                    
+            
+                                <ng-container matColumnDef="montoTransaccion">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Monto Transacción</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.montoTransaccion}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="NomMonedaTrans">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Moneda</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.NomMonedaTrans}} </td>
+                                </ng-container>
+                            
+                                <ng-container matColumnDef="fechaAplicacionTrans">
+                                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Registro</th>
+                                  <td mat-cell *matCellDef="let element"> {{element.fechaRegistroTrans | date :'dd/MMM/yyyy'}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="FormaPago">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Forma Pago</th>
+                                <td mat-cell *matCellDef="let element"> {{element.FormaPago}}</td>
+                            </ng-container>
+            
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                            <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+
+
+        </mat-tab>
+        <!-- 
+        <mat-tab label="Comprobante"> 
+            <div class="table-responsive">
+                <mat-card-content>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>   <th scope="col">Documento PDF</th>  </tr>
+                        </thead>
+                        <tbody>
+                        <tr> <td> <div class="d-flex align-items-center m-b-15"> {{detalleLayout.rutaLayout}} </div></td> </tr>
+                        </tbody>
+                    </table> 
+                    <div class="d-flex align-items-center m-b-15">
+                        <form (ngSubmit)="enviar()">
+                            <div fxLayout="row wrap" class="align-items-center">
+                                <div fxFlex.gt-xs="100" fxFlex="100" fxFlex.gt-md="100"  class="d-flex align-items-center m-b-15"> 
+                                    <button mat-raised-button color="primary" class="m-l-15 input-file-button" [disabled]="!bloqueo" [disabled]="siPDF" >
+                                        <input 
+                                            #inputPdf
+                                            id="file" 
+                                            type="file" 
+                                            class="form-control"                                                
+                                            accept="application/pdf"
+                                            (change)="cargaArchivoPDF($event)" #fileUpload 
+                                            [disabled]="!bloqueo">
+                                    </button>  
+                                </div>
+                            </div>                                
+                        </form>                              
+                    </div> 
+                    <mat-card>
+                        <ng-container *ngIf="detalleLayout.rutaLayout===null;  then sinArch; else conArch">
+                        </ng-container>                
+                        <ng-template #sinArch>
+                            <h4>No se cuenta con vista previa debido a que no se ha cargado ningín rutaLayout PDF.</h4>
+                        </ng-template>                                
+                        <ng-template #conArch>
+                            <div fxLayout="row wrap" class="align-items-center">
+                                <div fxFlex="33" fxFlex.gt-xs="33">
+                                     <button mat-raised-button color="primary" (click)="pdf()">
+                                        <mat-icon>download_for_offline</mat-icon> Descargar
+                                    </button>  
+                                </div>
+                                <div fxFlex="33" fxFlex.gt-xs="33">
+                                    <button mat-raised-button color="primary" (click)="delPdf()">
+                                        <mat-icon>delete</mat-icon> Eliminar
+                                    </button>
+                                </div>
+                                <div fxFlex="33" fxFlex.gt-xs="33">
+                                    <button mat-mini-fab color="primary" (click)="incrementZoom(-0.1)">
+                                        <mat-icon>zoom_out</mat-icon>
+                                    </button>
+                                    <button mat-mini-fab color="primary" (click)="incrementZoom(0.05)">
+                                        <mat-icon>zoom_in</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <pdf-viewer 
+                                [src]="FileUrlPDF" 
+                                [original-size]="false"
+                                [render-text]="true"
+                                [show-all]="false"
+                                [zoom]="zoom_to" 
+                                [external-link-target]="'blank'"
+                                [autoresize]="true"
+                                [show-borders]="false"
+                                class="pdf-viewer"
+                                >
+                            </pdf-viewer>
+                        </ng-template>
+                    </mat-card>
+                </mat-card-content>
+            </div>
+        </mat-tab>
+-->
+        <mat-tab label="Historial"> 
+            <div class="table-responsive">
+                <table mat-table [dataSource]="Historial" matSort class="table employee-list no-wrap">
+                    <ng-container matColumnDef="fechaRegistro">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha/Hora de Registro </th>
+                            <td mat-cell *matCellDef="let element"> {{element.fechaRegistro | date :'dd/MMM/yyyy'}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="idUser">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario</th>
+                            <td mat-cell *matCellDef="let element"> {{element.idUser}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="evento">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Evento</th>
+                            <td mat-cell *matCellDef="let element"> {{element.evento}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="estatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element"> {{element.estatus}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="comentarios">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Comentarios</th>
+                            <td mat-cell *matCellDef="let element"> {{element.comentarios}} </td>
+                    </ng-container>
+    
+                    <tr mat-header-row *matHeaderRowDef="histColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: histColumns;"></tr>
+                </table>
+                <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+    
+    </form>
+</div>
+</div>

@@ -1,0 +1,16 @@
+<h2 class="font-medium" mat-dialog-title><strong>Exportar</strong></h2>
+<mat-dialog-content >
+    <br>
+    <mat-radio-group aria-label="Selecciona tipo de archivo.">
+        <mat-radio-button value="1">CSV</mat-radio-button><br><br>
+        <mat-radio-button value="2">XLS</mat-radio-button><br><br>
+        <mat-radio-button value="3">XSLX</mat-radio-button><br><br>
+    </mat-radio-group>
+
+    <ul class="list-style-none d-flex align-items-center">               
+        <li class="breadcrumb-item " ><button mat-raised-button (click)="closeDialog()"color="primary"> Exportar</button></li>
+        <li class="breadcrumb-item " ><button mat-raised-button (click)="closeDialog()" color="warn"> Cancelar</button></li>
+    </ul>
+
+
+</mat-dialog-content>

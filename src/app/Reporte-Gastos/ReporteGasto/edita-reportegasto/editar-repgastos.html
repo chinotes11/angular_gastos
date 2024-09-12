@@ -1,0 +1,281 @@
+<div class="sideL">
+    <div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="align-self-center">
+                <h4 class="page-title text-themecolor m-0"><b>Editar Montos Autorizados</b></h4>
+            </div>
+            <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100" class="align-self-center">
+                <div class="breadcrumb d-flex align-items-center float-right float-sm-left">             
+                    <ul class="list-style-none d-flex align-items-center">
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button class="arriba2" color="primary" (click)="aceptarDialog()" ><mat-icon>check_circle</mat-icon> Guardar </button> 
+                        </li>
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button  color="warn" (click)="cerrarDialog()"><mat-icon>highlight_off</mat-icon> Cancelar</button>    
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row wrap"> <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">  <h4><b>&nbsp;<br></b> </h4></div></div>
+<div fxLayout="row wrap">
+    <form #userForm="ngForm">
+        <div fxFlex="100">
+            <mat-card>
+            <mat-card-content>    
+
+            <div fxLayout="row wrap">
+                <div fxFlex="100">
+                    <mat-card>
+                    <mat-card-content>
+                        <div fxLayout="row wrap" class="align-items-center">
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                    <mat-label>Producto/Servicio Válido</mat-label>
+                                    <input type="text" matInput required id="PrSrvVal" name="PrSrvVal" [(ngModel)]="EditaMonto.PrSrvVal" disabled >
+                                </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                    <mat-label>Clave Producto/Servicio</mat-label>
+                                    <input type="text" matInput required id="idProductoServicio" name="idProductoServicio" [(ngModel)]="EditaMonto.idProductoServicio" disabled >
+                                </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                    <mat-label>Detalles</mat-label>
+                                    <input type="text" matInput id="detalleProductoServicio" name="detalleProductoServicio" [(ngModel)]="EditaMonto.detalleProductoServicio" disabled>
+                                </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                    <mat-label>Clave Fiscal</mat-label>
+                                    <input type="text" matInput id="claveFiscal" name="claveFiscal" [(ngModel)]="EditaMonto.claveFiscal" disabled>
+                                </mat-form-field>
+                                </div>
+                            </div>                        
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Cantidad</mat-label>
+                                        <input type="text" matInput id="cantidad" name="cantidad" [(ngModel)]="EditaMonto.cantidad" disabled>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                    <mat-label>Unidad de Medida</mat-label>
+                                    <input type="text" matInput id="unidadMedida" name="unidadMedida" [(ngModel)]="EditaMonto.unidadMedida" placeholder="Unidad Medida" disabled>
+                                </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                    <mat-label>Descripción</mat-label>
+                                    <input type="text" matInput id="descripcion" name="descripcion" [(ngModel)]="EditaMonto.descripcion" disabled>
+                                </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                    <mat-label>Precio Unitario</mat-label>
+                                    <input type="text" matInput required id="precioUnitario" name="precioUnitario" [(ngModel)]="EditaMonto.precioUnitario" disabled>
+                                </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                </mat-card-content>
+            </mat-card>
+            </div>
+            </div>
+                    <!-- ////////////////////////////////////////////*****/*/*/*/*/ /*/*/*/*/*/*-->
+
+            <div fxLayout="row wrap"> 
+                <div fxFlex="100">   
+                    <div fxFlex="100" fxFlex.gt-xs="100">  
+                        <table class="mat-table table employee-list no-wrap" >
+                            <tr class="mat-header-row">
+                                <th class="mat-header-cell"></th>
+                                <th class="mat-header-cell">Comprobante</th>
+                                <th class="mat-header-cell">Autorizado</th>
+                            </tr>
+                            <tr class="mat-row">
+                                <td class="mat-cell">Montos</td>                                   
+                                <td class="mat-cell">
+                                     <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Importe</mat-label>
+                                        <input type="text" matInput  id="importe" name="importe" [(ngModel)]="EditaMonto.importe" disabled>
+                                    </mat-form-field>
+                                </td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Monto Aprobado</mat-label>
+                                            <input type="number" matInput required id="montopreAprobado" name="montopreAprobado" [(ngModel)]="EditaMonto.montopreAprobado">
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr class="mat-row">
+                                <td class="mat-cell">Descuentos</td>                                   
+                                <td class="mat-cell">
+                                     <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Descuento</mat-label>
+                                        <input type="text" matInput  id="descuento" name="descuento" [(ngModel)]="EditaMonto.descuento" disabled>
+                                    </mat-form-field>
+                                </td>
+                                <td class="mat-cell">
+                                </td>
+                            </tr>
+                            <tr class="mat-row">
+                                <td class="mat-cell">I.V.A.</td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Tasa I.V.A</mat-label>
+                                        <input type="text" matInput  id="tasaIva" name="tasaIva" [(ngModel)]="EditaMonto.tasaIva" disabled>
+                                </mat-form-field>
+                            </td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Monto I.V.A.</mat-label>
+                                        <input type="text" matInput  id="montoIva" name="montoIva" [(ngModel)]="EditaMonto.montoIva" disabled>
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr class="mat-row">
+                                <td class="mat-cell">I.E.P.S.</td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Tasa I.E.P.S.</mat-label>
+                                        <input type="text" matInput  id="tasaIeps" name="tasaIeps" [(ngModel)]="EditaMonto.tasaIeps" disabled>
+                                </mat-form-field>
+                            </td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Monto I.E.P.S.</mat-label>
+                                        <input type="text" matInput  id="montoIeps" name="montoIeps" [(ngModel)]="EditaMonto.montoIeps" disabled>
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr class="mat-row">
+                                <td class="mat-cell">I.S.R.</td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Tasa I.S.R.</mat-label>
+                                        <input type="text" matInput  id="tasaRetencionIsr" name="tasaRetencionIsr" [(ngModel)]="EditaMonto.tasaRetencionIsr" disabled>
+                                </mat-form-field>
+                            </td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Monto I.S.R.</mat-label>
+                                        <input type="text" matInput  id="montoRetencionIsr" name="montoRetencionIsr" [(ngModel)]="EditaMonto.montoRetencionIsr" disabled>
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr class="mat-row">
+                                <td class="mat-cell">Retención IVA</td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Tasa Retención I.V.A.</mat-label>
+                                        <input type="text" matInput  id="tasaRetencionIva" name="tasaRetencionIva" [(ngModel)]="EditaMonto.tasaRetencionIva" disabled>
+                                </mat-form-field>
+                            </td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Monto Retención I.V.A.</mat-label>
+                                        <input type="text" matInput  id="montoRetencionIva" name="montoRetencionIva" [(ngModel)]="EditaMonto.montoRetencionIva" disabled>
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr class="mat-row">
+                                <td class="mat-cell">Total</td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Importe Total</mat-label>
+                                        <input type="text" matInput  id="ImporteTotal" name="ImporteTotal" [(ngModel)]="EditaMonto.ImporteTotal" disabled>
+                                </mat-form-field>
+                            </td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Aprobado Total</mat-label>
+                                        <input type="text" matInput  id="montoAprobado" name="montoAprobado" [(ngModel)]="EditaMonto.montoAprobado" disabled>
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr class="mat-row">
+                                <td class="mat-cell"></td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Tipo de Gasto</mat-label>
+                                        <mat-select required placeholder="Tipo de Gasto" [(ngModel)]="EditaMonto.idTipoGasto" id="idTipoGasto" name="idTipoGasto" (selectionChange)="cambiaTipoG($event,EditaMonto)">
+                                            <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                            <mat-option *ngFor="let tipo of Tipogasto" [value]="tipo.id">
+                                                {{tipo.nombreGasto}}
+                                            </mat-option>
+                                        </mat-select>                      
+                                    </mat-form-field>
+                                </td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Forma Pago</mat-label>
+                                        <mat-select required placeholder="Forma Pago" [(ngModel)]="EditaMonto.formaPago" id="formapagos" name="formapagos" disabled >
+                                            <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                            <mat-option *ngFor="let pago of formasPagos" [value]="pago.id">
+                                                {{pago.descripcion}}
+                                            </mat-option>
+                                        </mat-select>                      
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr class="mat-row">
+                                <td class="mat-cell"></td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Cuenta Pago</mat-label>
+                                        <mat-select required placeholder="Cuenta Pago" [(ngModel)]="EditaMonto.ctaPago" id="ctaPago" name="ctaPago" (selectionChange)="cambiaCuenta($event,EditaMonto)">
+                                            <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                            <mat-option *ngFor="let cta of cuenta" [value]="cta.id">
+                                                {{cta.alaisCta}}
+                                            </mat-option>
+                                        </mat-select>                      
+                                    </mat-form-field>
+                                </td>
+                                <td class="mat-cell">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Cuenta Contable</mat-label>
+                                        <input type="text" matInput  id="ctaContable" name="ctaContable" [(ngModel)]="EditaMonto.ctaContable" disabled>
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+            </div>
+            </div>
+
+            <div fxLayout="row wrap"> 
+                <div fxFlex="100">   
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Observaciones</mat-label>
+                            <textarea matInput rows="5" id="Observaciones" name="Observaciones" [(ngModel)]="EditaMonto.Observaciones" ></textarea>
+                    </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        
+
+            </mat-card-content>
+            </mat-card>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,1305 @@
+<div class="sideL">
+    <div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="align-self-center">
+                <h3 class="page-title text-themecolor m-0"><b>Gastos</b></h3>
+            </div>
+            <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100" class="align-self-center">
+                <div class="breadcrumb d-flex align-items-center float-right float-sm-left">
+                    <ul class="list-style-none d-flex align-items-center">
+                        <li class="breadcrumb-item ">
+                            <h5 class="m-0">
+                                <div *ngIf='gasto.estatus === "Aprobado"'>
+                                    <b class="verde"> {{gasto.estatus}} </b>
+                                </div>
+
+                                <div *ngIf="gasto.automatico === 2">
+                                    <b class="rojo"> {{gasto.estatus}} </b>
+                                </div>
+                                
+                                <div *ngIf='gasto.estatus !== "Aprobado" && gasto.automatico != 2'>
+                                    <b> {{gasto.estatus}} </b>
+                                </div>
+                                
+                            </h5>
+                        </li>
+                        <li class="breadcrumb-item abajo">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15 abajo">
+                                <mat-label>Siguiente Tarea</mat-label>
+                                <mat-select placeholder="" [(ngModel)]="gasto.estatus"
+                                    (selectionChange)="cambiaWork($event,gasto)" name="SelEstatus"
+                                    placeholder="Workflow" [disabled]="bloqueoWf=='0'" (change)="valida($event)">
+                                    <mat-option *ngFor="let work of workInicial" [value]="work.siguienteEstatus">
+                                        {{work.opcion}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <button mat-raised-button class="arriba2" color="primary" (click)=guardarGastosZ()
+                                [disabled]="btnGda !== '1'">
+                                <mat-icon>save</mat-icon>
+                            </button>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <button mat-raised-button (click)=cerrarGastosZ() color="warn">
+                                <mat-icon>highlight_off</mat-icon>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">
+        <h4><b>&nbsp;<br></b> </h4>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex="100">
+        <mat-slide-toggle [(ngModel)]="gasto.siFiscal" (change)="comprobante($event)" [disabled]="siXml"><b>Comprobante Fiscal</b></mat-slide-toggle>
+
+        <form #userForm="ngForm">
+            <mat-tab-group>
+                <mat-tab label="Datos">
+                    <mat-accordion class="example-headers-align">
+                        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <b>Sección Datos Generales</b>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <div fxLayout="row wrap" class="align-items-center">
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>C-ID</mat-label>
+                                            <input type="text" matInput id="idUser" name="idUser"
+                                                [(ngModel)]="gasto.idUser" disabled placeholder="C-ID">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Nombre</mat-label>
+                                            <input type="text" matInput id="NombreCompleto" name="NombreCompleto"
+                                                [(ngModel)]="gasto.NombreCompleto" disabled placeholder="Nombre">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Fecha Registro</mat-label>
+                                            <input type="text" matInput id="fechaReg" name="fechaReg"
+                                                [(ngModel)]="gasto.fechaReg" disabled placeholder="Fecha Registro">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always" >
+                                            <mat-label>Notas</mat-label>
+                                            <input type="text" matInput id="notas" name="notas"
+                                                [(ngModel)]="gasto.notas" [disabled]="!bloqueo" >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Empresa</mat-label>
+                                            <mat-select required  [(ngModel)]="gasto.idEmpresa"
+                                                id="idEmpresa" name="idEmpresa"
+                                                (selectionChange)="cambiaEmp($event,gasto)" [disabled]="!bloqueo">
+                                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                                <mat-option *ngFor="let emp of Empresas" [value]="emp.id">
+                                                    {{emp.clave}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Proyecto</mat-label>
+                                            <mat-select required  [(ngModel)]="gasto.idProyecto" id="idProyecto" name="idProyecto" 
+                                                (selectionChange)="cambiaProy($event,gasto)" [disabled]="!bloqueo">
+                                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                                <mat-option *ngFor="let proy of Proyectos" [value]="proy.idProyecto">
+                                                    {{proy.descripcionProyecto}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Centro de Costos</mat-label>
+                                            <mat-select required placeholder="Centro de Costos"
+                                                [(ngModel)]="gasto.idCentrosCostos" id="idCentrosCostos"
+                                                name="idCentrosCostos" (selectionChange)="cambiaCC($event,gasto)"
+                                                [disabled]="!bloqueo">
+                                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                                <mat-option *ngFor="let centro of CentroCosto"
+                                                    [value]="centro.idCentrosCostos">
+                                                    {{centro.descripcionCentrosCostos}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Tipo de Gasto</mat-label>
+                                            <mat-select required placeholder="Tipo de Gasto"
+                                                [(ngModel)]="gasto.idTipoGasto" id="idTipoGasto" name="idTipoGasto" floatLabel="always"
+                                                (selectionChange)="cambiaTipoG($event,gasto)" [disabled]="!bloqueo" >
+                                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                                <mat-option *ngFor="let tipo of Tipogasto" [value]="tipo.idTipoGastos">
+                                                    {{tipo.nombreGasto}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>ID Gasto</mat-label>
+                                            <input type="text" matInput id="id" name="id" floatLabel="always"
+                                                [(ngModel)]="gasto.id" [disabled]="true">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Cuenta Contable</mat-label>
+                                            <input type="text" matInput id="ctaCont" name="ctaCont" floatLabel="always"
+                                                [(ngModel)]="gastos.ctaContable" [disabled]="true">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                               
+                                
+                                <div *ngIf='tipodeCambio === true' fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Moneda de Tipo de Cambio</mat-label>
+                                            <mat-select required 
+                                                [(ngModel)]="gasto.idMonedaTipoCambio" id="Monedatc" name="Monedatc" (selectionChange)="cambiaMonedaTC($event,gastos)" disabled>
+                                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                                <mat-option *ngFor="let mon of MonedaL" [value]="mon.id">
+                                                    {{mon.clave}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div *ngIf='tipodeCambio === true' fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Tipo de Cambio</mat-label>
+                                            <input type="number" matInput id="tipoCambio" name="tipoCambio" floatLabel="always"  (input)="CambioTCN($event,'C','F')"
+                                                [(ngModel)]="gasto.tipoCambio"  [disabled]="!bloqueo" [disabled]="bloqTC">
+                                        </mat-form-field>
+                                    </div>
+                                </div>                                                               
+                            </div>
+
+                            <!--
+                    <mat-action-row>
+                        <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                    </mat-action-row>-->
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <b>Documentos</b>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <mat-tab-group [selectedIndex]="tabNoFiscal">
+
+                                <mat-tab label="XML" [disabled]="modFiscal">
+                                    <mat-card-content>
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Documento XML</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center m-b-15"> {{gasto.rutaXml}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="d-flex align-items-center m-b-15">
+                                            <form (ngSubmit)="enviar()">
+                                                <div fxLayout="row wrap" class="align-items-center">
+                                                    <div fxFlex.gt-xs="100" fxFlex="100" fxFlex.gt-md="100"
+                                                        class="d-flex align-items-center m-b-15">
+                                                            <label for="file" class="m-l-15 mat-raised-button mat-button-base mat-primary p-5 p-l-15 p-r-15">{{archivoXmlName || 'Seleccione archivo'}}</label>
+                                                            <input #inputXml id="file" type="file" class="form-control"
+                                                                accept="text/xml" (change)="cargaArchivoXML($event)"
+                                                                style="visibility:hidden; display: none;"
+                                                                #fileUpload [disabled]="!bloqueo"
+                                                                [disabled]="siXml">
+                                                       
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <mat-card>
+                                            <ng-container *ngIf="gasto.rutaXml===null;  then sinArchX; else conArchX">
+                                            </ng-container>
+                                            <ng-template #sinArchX>
+                                                <h4>No se cuenta con vista previa debido a que no se ha cargado ningún
+                                                    archivo XML.</h4>
+                                            </ng-template>
+                                            <ng-template #conArchX>
+                                                <div fxLayout="row wrap" class="align-items-center">
+                                                    <div fxFlex="33" fxFlex.gt-xs="33">
+                                                        <button mat-raised-button color="primary" (click)="xml()">
+                                                            <mat-icon>download_for_offline</mat-icon> Descargar
+                                                        </button>
+                                                    </div>
+                                                    <div fxFlex="33" fxFlex.gt-xs="33">
+                                                        <button mat-raised-button color="primary" (click)="delXml()" [disabled]="!bloqueo">
+                                                            <mat-icon>delete</mat-icon> Eliminar
+                                                        </button>
+                                                    </div>
+                                                    <div fxFlex="33" fxFlex.gt-xs="33"> </div>
+                                                </div>
+                                            </ng-template>
+                                        </mat-card>
+                                    </mat-card-content>
+                                </mat-tab>
+
+                                <mat-tab label="PDF">
+                                    <mat-card-content>
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Documento PDF</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center m-b-15">
+                                                            {{gasto.rutaArchivo}} </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="d-flex align-items-center m-b-15">
+                                            <form (ngSubmit)="enviar()">
+                                                <div fxLayout="row wrap" class="align-items-center">
+                                                    <div fxFlex.gt-xs="100" fxFlex="100" fxFlex.gt-md="100"
+                                                        class="d-flex align-items-center m-b-15">
+                                                            <label for="file" class="m-l-15 mat-raised-button mat-button-base mat-primary p-5 p-l-15 p-r-15">{{archivoPdfName || 'Seleccione archivo'}}</label>
+                                                            <input #inputPdf id="file" type="file" class="form-control"
+                                                                accept="application/pdf"
+                                                                (change)="cargaArchivoPDF($event)" #fileUpload
+                                                                [disabled]="!bloqueo"
+                                                                [disabled]="siPDF"
+                                                                style="visibility:hidden; display: none;" >       
+
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <mat-card>
+                                            <ng-container *ngIf="gasto.rutaArchivo===null;  then sinArch; else conArch">
+                                            </ng-container>
+                                            <ng-template #sinArch>
+                                                <h4>No se cuenta con vista previa debido a que no se ha cargado ningún 
+                                                    archivo PDF.</h4>
+                                            </ng-template>
+                                            <ng-template #conArch>
+                                                <div fxLayout="row wrap" class="align-items-center">
+                                                    <div fxFlex="33" fxFlex.gt-xs="33">
+                                                        <button mat-raised-button color="primary" (click)="pdf()">
+                                                            <mat-icon>download_for_offline</mat-icon> Descargar
+                                                        </button>
+                                                    </div>
+                                                    <div fxFlex="33" fxFlex.gt-xs="33">
+                                                        <button mat-raised-button color="primary" (click)="delPdf()"
+                                                            [disabled]="!bloqueo">
+                                                            <mat-icon>delete</mat-icon> Eliminar
+                                                        </button>
+                                                    </div>
+                                                    <div fxFlex="33" fxFlex.gt-xs="33">
+                                                        <button mat-mini-fab color="primary"
+                                                            (click)="incrementZoom(-0.1)" >
+                                                            <mat-icon>zoom_out</mat-icon>
+                                                        </button>
+                                                        <button mat-mini-fab color="primary"
+                                                            (click)="incrementZoom(0.05)" >
+                                                            <mat-icon>zoom_in</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="pdf-viewer">
+                                                    <pdf-viewer 
+                                                        [src]="FileUrlPDF" 
+                                                        [original-size]="false"
+                                                        [render-text]="true"
+                                                        [rotation]="0"
+                                                        [show-all]="false"
+                                                        [fit-to-page]="false"
+                                                        [external-link-target]="'blank'"
+                                                        [autoresize]="true"
+                                                        [show-borders]="false"
+                                                        class="pdf-viewer"
+                                                        >
+                                                    </pdf-viewer>
+                                                </div>
+                                            </ng-template>
+                                        </mat-card>
+                                    </mat-card-content>
+                                </mat-tab>
+                                
+                            </mat-tab-group>
+                            <!--
+                    <mat-action-row>
+                        <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                        <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                    </mat-action-row>
+                    -->
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle
+                            [disabled]="modFiscal">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <b>Datos del comprobante Fiscal</b>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div fxLayout="row wrap" class="align-items-center">&nbsp; &nbsp; &nbsp; </div>
+
+                            <div fxLayout="row wrap" class="align-items-center">                                
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>ID Gasto</mat-label>
+                                            <input type="text" matInput disabled id="idgasto" name="idgasto"
+                                                [(ngModel)]="gasto.id" >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Tipo Gasto</mat-label>
+                                            <input type="text" matInput disabled id="tipodegasto" name="tipodegasto"
+                                                [(ngModel)]="gastos.tipodegasto" >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Razón Social Receptora</mat-label>
+                                            <input type="text" matInput disabled id="razonSocialReceptor"
+                                                name="razonSocialReceptor" [(ngModel)]="gastos.razonSocialReceptor">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>RFC/TAX Id Receptor</mat-label>
+                                            <input type="text" matInput disabled id="rfcReceptor" name="rfcReceptor"
+                                                [(ngModel)]="gastos.rfcReceptor">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Regimen Fiscal Receptor</mat-label>
+                                            <input type="text" matInput disabled id="regimenFiscalReceptor"
+                                                name="regimenFiscalReceptor" [(ngModel)]="gastos.regimenFiscalReceptor">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Domicilio Fiscal Receptor</mat-label>
+                                            <input type="text" matInput disabled id="domicilioFiscalReceptor" name="domicilioFiscalReceptor"
+                                                [(ngModel)]="gastos.domicilioFiscalReceptor">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Razón Social Emisora</mat-label>
+                                            <input type="text" matInput disabled id="razonSocialEmisor"
+                                                name="razonSocialEmisor" [(ngModel)]="gastos.razonSocialEmisor">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>RFC/TAX Id Emisor</mat-label>
+                                            <input type="text" matInput disabled id="rfcEmisor" name="rfcEmisor"
+                                                [(ngModel)]="gastos.rfcEmisor" >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Fecha Emisión</mat-label>
+                                            <input type="text" matInput disabled id="fechaEmision" name="fechaEmision"
+                                                [(ngModel)]="gastos.fechaEmision" >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Fecha Timbrado</mat-label>
+                                            <input type="text" matInput disabled id="fechaTimbrado" name="fechaTimbrado"
+                                                [(ngModel)]="gastos.fechaTimbrado" >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Serie</mat-label>
+                                            <input type="text" matInput disabled id="serie" name="serie"
+                                                [(ngModel)]="gastos.serie" >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Folio</mat-label>
+                                            <input type="text" matInput disabled id="folio" name="folio"
+                                                [(ngModel)]="gastos.folio" >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div fxFlex="100" fxFlex.gt-xs="100">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Folio Fiscal</mat-label>
+                                            <input type="text" matInput disabled id="folioFactura" name="folioFactura"
+                                                [(ngModel)]="gastos.folioFactura">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Régimen Fiscal</mat-label>
+                                            <input type="text" matInput disabled id="regimenFiscal" name="regimenFiscal"
+                                                [(ngModel)]="gastos.regimenFiscal">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Método de Pago</mat-label>
+                                            <input type="text" matInput disabled id="metodoPago" name="metodoPago"
+                                                [(ngModel)]="gastos.metodoPago">
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Forma de Pago</mat-label>
+                                            <input type="text" matInput disabled id="formaPagos" name="formaPagos"
+                                                [(ngModel)]="gastos.formaPagos">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Uso de CFDI</mat-label>
+                                            <input type="text" matInput disabled id="usoCfdi" name="usoCfdi"
+                                                [(ngModel)]="gastos.usoCfdi" >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- ///////////////////////////////////Tabla Productos y Servicios////////////////////////////////////////////////-->
+
+                            <div fxLayout="row wrap">
+                                <div fxFlex="100">
+                                    <div class="example-container mat-elevation-z3">
+                                        <mat-card>
+                                            <mat-card-content>
+                                                <div class="table-responsive">
+                                                    <table mat-table [dataSource]="prodservTabla" #sort="matSort" matSort class="table">
+                                                        <!--                
+                                        <ng-container matColumnDef="select">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <mat-checkbox (change)="$event ? masterToggle() : null"
+                                                    [checked]="selection.hasValue() && isAllSelected()"
+                                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                                    [aria-label]="checkboxLabel()"
+                                                    (change)="showOptions($event)" >
+                                                </mat-checkbox>
+                                            </th>
+                                            <td mat-cell *matCellDef="let row">
+                                                <mat-checkbox (click)="$event.stopPropagation()"
+                                                    (change)="$event ? selection.toggle(row) : null"
+                                                    [checked]="selection.isSelected(row)" 
+                                                    [aria-label]="checkboxLabel(row)"
+                                                    (change)="showOptions($event)" >
+                                                </mat-checkbox>  
+                                            </td>
+                                        </ng-container>
+                                        -->
+                                                        <ng-container matColumnDef="id">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Id</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element.id}}</td>
+                                                        </ng-container>
+
+                                                        <!-- <ng-container matColumnDef="detalleProductoServicio">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Detalle</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element.detalleProductoServicio}}</td>
+                                                        </ng-container> -->
+
+                                                        <ng-container matColumnDef="claveFiscal">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Clave</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element.claveFiscal}}</td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="cantidad">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Cantidad</th>
+                                                            <td mat-cell class="centroTd" *matCellDef="let element"> {{element.cantidad}}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="unidadMedida">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Unidad</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element.unidadMedida}}</td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="descripcion">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Descripción</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element.descripcion}}</td>
+                                                        </ng-container>
+
+                                                        
+
+                                                        <ng-container *ngIf="gastos.idMoneda==='USD'" matColumnDef="precioUnitario">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Precio U.</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{numerico(element.importeME)}}
+                                                        </ng-container>
+
+                                                        <ng-container *ngIf="gastos.idMoneda!='USD'" matColumnDef="precioUnitario">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Precio U.</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{numerico(element.precioUnitario)}}
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="cuentacontable">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Cta Contable</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{gastos.ctaContable}}</td>
+                                                        </ng-container>
+
+                                                        <ng-container *ngIf="gastos.idMoneda==='USD'" matColumnDef="descuento">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Descuento</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element.descuentoME}}</td>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="gastos.idMoneda!='USD'" matColumnDef="descuento">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Descuento</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element.descuento}}</td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="tasaIva">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Tasa IVA</th>
+                                                            <td mat-cell *matCellDef="let element"> {{element.tasaIva}}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <ng-container *ngIf="gastos.idMoneda==='USD'" matColumnDef="montoIva">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Monto IVA</th>
+                                                            <td mat-cell *matCellDef="let element"> {{numerico(element.montoIvaME)}}
+                                                            </td>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="gastos.idMoneda!='USD'" matColumnDef="montoIva">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Monto IVA</th>
+                                                            <td mat-cell *matCellDef="let element"> {{numerico(element.montoIva)}}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="tasaIeps">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Tasa IEPS</th>
+                                                            <td mat-cell *matCellDef="let element"> {{element.tasaIeps}}
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <ng-container *ngIf="gastos.idMoneda==='USD'" matColumnDef="montoIeps">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Monto IEPS</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{numerico(element.montoIepsME)}}</td>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="gastos.idMoneda!='USD'" matColumnDef="montoIeps">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Monto IEPS</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{numerico(element.montoIeps)}}</td>
+                                                        </ng-container>
+
+                                                        <ng-container  matColumnDef="tasaRetencionIsr">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> T. Ret. ISR</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element.tasaRetencionIsr}}</td>
+                                                        </ng-container>
+
+                                                        <ng-container *ngIf="gastos.idMoneda==='USD'" matColumnDef="montoRetencionIsr">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Monto Ret ISR</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{numerico(element.montoRetencionIsrME)}}</td>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="gastos.idMoneda!='USD'" matColumnDef="montoRetencionIsr">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Monto Ret ISR</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{numerico(element.montoRetencionIsr)}}</td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="tasaRetencionIva">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> T. Ret IVA</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element.tasaRetencionIva}}</td>
+                                                        </ng-container>
+
+                                                        <ng-container *ngIf="gastos.idMoneda==='USD'" matColumnDef="montoRetencionIva">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Monto Ret IVA</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{numerico(element.montoRetencionIvaME)}}</td>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="gastos.idMoneda!='USD'" matColumnDef="montoRetencionIva">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Monto Ret IVA</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{numerico(element.montoRetencionIva)}}</td>
+                                                        </ng-container>
+                                                        
+                                                        <ng-container *ngIf="gastos.idMoneda==='USD'" matColumnDef="importeTotal">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Importe</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{numerico(element.importeTotalME)}} 
+                                                            </td>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="gastos.idMoneda!='USD'" matColumnDef="importeTotal">
+                                                            <th mat-header-cell *matHeaderCellDef width="5%"
+                                                                mat-sort-header> Importe</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{numerico(element.importeTotal)}} 
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                                        </tr>
+                                                    </table>
+                                                    <mat-paginator #paginator="matPaginator" [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"
+                                                        showFirstLastButtons></mat-paginator>
+                                                </div>
+                                            </mat-card-content>
+                                        </mat-card>
+                                    </div>
+                                </div>
+                            </div>
+                            <div fxLayout="row wrap" class="align-items-center">&nbsp; &nbsp; &nbsp; </div>
+
+                            <div fxLayout="row wrap" class="align-items-center">
+                                <div fxFlex="100" fxFlex.gt-xs="45">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Moneda</mat-label>
+                                            <input type="text" matInput disabled id="idMoneda" name="idMoneda"
+                                                [(ngModel)]="gastos.idMoneda">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="55">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field *ngIf="gastos.idMoneda!='USD'" appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Subtotal</mat-label>
+                                            <input type="text" matInput disabled id="subtotal" name="subtotal"
+                                                [(ngModel)]="gastos.subtotal">
+                                        </mat-form-field>
+                                        <mat-form-field *ngIf="gastos.idMoneda==='USD'" appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Subtotal</mat-label>
+                                            <input type="text" matInput disabled id="subtotal" name="subtotal"
+                                                [(ngModel)]="gastos.subtotalMES">
+                                        </mat-form-field>
+                                    </div>
+                                </div>                               
+
+                                <div fxFlex="100" fxFlex.gt-xs="45">
+                                    <div fxLayout="row wrap" *ngIf="gastos.idMoneda==='USD'"  class="align-self-center">                                        
+                                        <div fxFlex="100" fxFlex.gt-xs="100">  
+                                            <div class="m-r-15 m-l-15">
+                                                <mat-form-field  appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                    <mat-label>Subtotal MXN</mat-label>
+                                                    <input type="text" matInput disabled id="subtotalmxn" name="subtotalmxn"
+                                                        [(ngModel)]="gastos.subtotal">
+                                                </mat-form-field>
+                                            </div> 
+                                        </div>
+                                        <div fxLayout="row wrap" fxFlex="100" fxFlex.gt-xs="100">
+                                            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">
+                                                <div class="table-responsive">                                               
+                                                    <table class="mat-table table employee-list no-wrap" id="TotalTablamxn">
+                                                        <tr class="mat-header-row">
+                                                            <th class="mat-header-cell"> <b>Impuestos</b></th>
+                                                            <th class="mat-header-cell"><b>Tasa</b></th>
+                                                            <th class="mat-header-cell"><b>Monto MXN</b></th>
+                                                        </tr>
+                                                        <tr class="mat-row">
+                                                            <td class="mat-cell">IVA MXN</td>
+                                                            <td class="mat-cell">                                                         
+                                                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                            <mat-label>Tasa IVA</mat-label>
+                                                                            <input type="text" matInput disabled id="tasaIvamxn" name="tasaIvamxn"
+                                                                                [(ngModel)]="gastos.tasaIva" >
+                                                                        </mat-form-field>                                                      
+                                                            </td>
+                                                            <td class="mat-cell">                                                       
+                                                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Monto IVA MXN</mat-label>
+                                                                    <input type="text" matInput disabled id="montoIvamxn" name="montoIvamxn"
+                                                                        [(ngModel)]="gastos.montoIva">
+                                                                </mat-form-field>                                                             
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="mat-row">
+                                                            <td class="mat-cell">IEPS</td>
+                                                            <td class="mat-cell">
+                                                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Tasa IEPS</mat-label>
+                                                                    <input type="text" matInput disabled id="tasaIepsmxn" name="tasaIepsmxn"
+                                                                        [(ngModel)]="gastos.tasaIeps" >
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td class="mat-cell">                                                               
+                                                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Monto IEPS MXN</mat-label>
+                                                                    <input type="text" matInput disabled id="montoIepsmxn" name="montoIepsmxn"
+                                                                        [(ngModel)]="gastos.montoIeps" >
+                                                                </mat-form-field>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="mat-row">
+                                                            <td class="mat-cell">ISR Retenido</td>
+                                                            <td class="mat-cell">
+                                                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Tasa Retención ISR</mat-label>
+                                                                    <input type="text" matInput disabled id="tasaRetencionIsr"
+                                                                        name="tasaRetencionIsrmxn" [(ngModel)]="gastos.tasaRetencionIsrmxn">
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td class="mat-cell">                                                           
+                                                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Monto Retención ISR MXN</mat-label>
+                                                                    <input type="text" matInput disabled id="montoRetencionIsrmxn"
+                                                                        name="montoRetencionIsrmxn" [(ngModel)]="gastos.montoRetencionIsr">
+                                                                </mat-form-field>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="mat-row">
+                                                            <td class="mat-cell">IVA Retenido MXN</td>
+                                                            <td class="mat-cell">                                                        
+                                                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Tasa Retención IVA</mat-label>
+                                                                    <input type="text" matInput disabled id="tasaRetencionIvamxn"
+                                                                        name="tasaRetencionIvamxn" [(ngModel)]="gastos.tasaRetencionIva">
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td class="mat-cell">                                                           
+                                                                <mat-form-field  appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Monto Retención IVA MXN</mat-label>
+                                                                    <input type="text" matInput disabled id="montoRetencionIvamxn"
+                                                                        name="montoRetencionIvamxn" [(ngModel)]="gastos.montoRetencionIva">
+                                                                </mat-form-field>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="mat-row">
+                                                            <td class="mat-cell">Total MXN</td>                                                        
+                                                            <td class="mat-cell" colspan="2">                                                            
+                                                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Importe Total MXN</mat-label>
+                                                                    <input type="text" matInput disabled id="importeTotalmxn" name="importeTotalmxn"
+                                                                        [(ngModel)]="gastos.importeTotal" >
+                                                                </mat-form-field>
+                                                            </td>
+                                                        </tr>
+                                                        <!-- 
+                                                        <tr *ngIf='bloqTC === false' class="mat-row">
+                                                            <td class="mat-cell">Total Convertido</td>                                                        
+                                                            <td class="mat-cell" colspan="2">                                                            
+                                                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Importe Total Convertido</mat-label>
+                                                                    <input type="text" matInput disabled id="importeTotalConv" name="importeTotalConv"
+                                                                        [(ngModel)]="gastos.importeTotalConv" >
+                                                                </mat-form-field>
+                                                            </td>
+                                                        </tr>
+                                                        -->
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                </div>
+
+                                <div fxFlex="100" fxFlex.gt-xs="55">
+                                    <div fxLayout="row wrap" class="align-items-center">                                        
+                                        <div fxFlex="100" fxFlex.gt-xs="100">
+                                            <div class="m-r-15 m-l-15">
+                                                <mat-form-field *ngIf="gastos.idMoneda!='USD'"  appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                    <mat-label>Descuento</mat-label>
+                                                    <input type="text" matInput disabled id="descuento" name="descuento"
+                                                        [(ngModel)]="gastos.descuento" >
+                                                </mat-form-field>
+                                                <mat-form-field *ngIf="gastos.idMoneda==='USD'"  appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                    <mat-label>Descuento</mat-label>
+                                                    <input type="text" matInput disabled id="descuento" name="descuento"
+                                                        [(ngModel)]="gastos.descuentoMES" >
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div fxLayout="row wrap" fxFlex="100" fxFlex.gt-xs="100">
+                                            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">
+                                                <div class="table-responsive">
+                                                    <table class="mat-table table employee-list no-wrap" id="TotalTabla">
+                                                        <tr class="mat-header-row">
+                                                            <th class="mat-header-cell"> <b>Impuestos</b></th>
+                                                            <th class="mat-header-cell"><b>Tasa</b></th>
+                                                            <th class="mat-header-cell"><b>Monto</b></th>
+                                                        </tr>
+                                                        <tr class="mat-row">
+                                                            <td class="mat-cell">IVA</td>
+                                                            <td class="mat-cell">                                                         
+                                                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                            <mat-label>Tasa IVA</mat-label>
+                                                                            <input type="text" matInput disabled id="tasaIva" name="tasaIva"
+                                                                                [(ngModel)]="gastos.tasaIva" >
+                                                                        </mat-form-field>                                                      
+                                                            </td>
+                                                            <td class="mat-cell">     
+                                                                <mat-form-field *ngIf="gastos.idMoneda==='USD'"  appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Monto IVA</mat-label>
+                                                                    <input type="text" matInput disabled id="montoIva" name="montoIva"
+                                                                        [(ngModel)]="gastos.montoIvaMES">
+                                                                </mat-form-field>                                                      
+                                                                        <mat-form-field *ngIf="gastos.idMoneda!='USD'"  appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                            <mat-label>Monto IVA</mat-label>
+                                                                            <input type="text" matInput disabled id="montoIva" name="montoIva"
+                                                                                [(ngModel)]="gastos.montoIva">
+                                                                        </mat-form-field>                                                             
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="mat-row">
+                                                            <td class="mat-cell">IEPS</td>
+                                                            <td class="mat-cell">
+                                                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                            <mat-label>Tasa IEPS</mat-label>
+                                                                            <input type="text" matInput disabled id="tasaIeps" name="tasaIeps"
+                                                                                [(ngModel)]="gastos.tasaIeps" >
+                                                                        </mat-form-field>
+                                                            </td>
+                                                            <td class="mat-cell">
+                                                                <mat-form-field *ngIf="gastos.idMoneda==='USD'"  appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Monto IEPS</mat-label>
+                                                                    <input type="text" matInput disabled id="montoIeps" name="montoIeps"
+                                                                        [(ngModel)]="gastos.montoIepsMES" >
+                                                                </mat-form-field>                                                                
+                                                                        <mat-form-field *ngIf="gastos.idMoneda!='USD'"  appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                            <mat-label>Monto IEPS</mat-label>
+                                                                            <input type="text" matInput disabled id="montoIeps" name="montoIeps"
+                                                                                [(ngModel)]="gastos.montoIeps" >
+                                                                        </mat-form-field>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="mat-row">
+                                                            <td class="mat-cell">ISR Retenido</td>
+                                                            <td class="mat-cell">
+                                                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                            <mat-label>Tasa Retención ISR</mat-label>
+                                                                            <input type="text" matInput disabled id="tasaRetencionIsr"
+                                                                                name="tasaRetencionIsr" [(ngModel)]="gastos.tasaRetencionIsr">
+                                                                        </mat-form-field>
+                                                            </td>
+                                                            <td class="mat-cell">
+                                                                <mat-form-field *ngIf="gastos.idMoneda==='USD'" appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Monto Retención ISR</mat-label>
+                                                                    <input type="text" matInput disabled id="montoRetencionIsr"
+                                                                        name="montoRetencionIsrMES" [(ngModel)]="gastos.montoRetencionIsr">
+                                                                </mat-form-field>                                                            
+                                                                        <mat-form-field *ngIf="gastos.idMoneda!='USD'" appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                            <mat-label>Monto Retención ISR</mat-label>
+                                                                            <input type="text" matInput disabled id="montoRetencionIsr"
+                                                                                name="montoRetencionIsr" [(ngModel)]="gastos.montoRetencionIsr">
+                                                                        </mat-form-field>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="mat-row">
+                                                            <td class="mat-cell">IVA Retenido</td>
+                                                            <td class="mat-cell">
+                                                            
+                                                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                            <mat-label>Tasa Retención IVA</mat-label>
+                                                                            <input type="text" matInput disabled id="tasaRetencionIva"
+                                                                                name="tasaRetencionIva" [(ngModel)]="gastos.tasaRetencionIva">
+                                                                        </mat-form-field>
+                                                            </td>
+                                                            <td class="mat-cell">
+                                                                <mat-form-field *ngIf="gastos.idMoneda==='USD'" appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Monto Retención IVA</mat-label>
+                                                                    <input type="text" matInput disabled id="montoRetencionIva"
+                                                                        name="montoRetencionIvaMES" [(ngModel)]="gastos.montoRetencionIva">
+                                                                </mat-form-field>                                                            
+                                                                        <mat-form-field *ngIf="gastos.idMoneda!='USD'" appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                            <mat-label>Monto Retención IVA</mat-label>
+                                                                            <input type="text" matInput disabled id="montoRetencionIva"
+                                                                                name="montoRetencionIva" [(ngModel)]="gastos.montoRetencionIva">
+                                                                        </mat-form-field>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="mat-row">
+                                                            <td class="mat-cell">Total</td>                                                        
+                                                            <td class="mat-cell" colspan="2">
+                                                                <mat-form-field *ngIf="gastos.idMoneda==='USD'" appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Importe Total</mat-label>
+                                                                    <input type="text" matInput disabled id="importeTotal" name="importeTotal"
+                                                                        [(ngModel)]="gastos.importeTotalMES" >
+                                                                </mat-form-field>                                                            
+                                                                        <mat-form-field *ngIf="gastos.idMoneda!='USD'" appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                            <mat-label>Importe Total</mat-label>
+                                                                            <input type="text" matInput disabled id="importeTotal" name="importeTotal"
+                                                                                [(ngModel)]="gastos.importeTotal" >
+                                                                        </mat-form-field>
+                                                            </td>
+                                                        </tr>
+                                                        <!-- 
+                                                        <tr *ngIf='bloqTC === false' class="mat-row">
+                                                            <td class="mat-cell">Total Convertido</td>                                                        
+                                                            <td class="mat-cell" colspan="2">                                                            
+                                                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                                    <mat-label>Importe Total Convertido</mat-label>
+                                                                    <input type="text" matInput disabled id="importeTotalConv" name="importeTotalConv"
+                                                                        [(ngModel)]="gastos.importeTotalConv" >
+                                                                </mat-form-field>
+                                                            </td>
+                                                        </tr>
+                                                        -->
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+
+                                        <!--
+                                        <div fxFlex="100" fxFlex.gt-xs="100">
+                                            <div class="m-r-15 m-l-15">
+                                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                                    <mat-label>Importe Aprobado</mat-label>
+                                                    <input type="text" matInput disabled id="importeAprobado"
+                                                        name="importeAprobado"
+                                                        [(ngModel)]="gastos.importeAprobado" placeholder="Importe Aprobado">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        -->
+
+                                    </div>                                    
+                                </div>   
+                                <div fxFlex="100" fxFlex.gt-xs="100">
+                                    <div fxLayout="row wrap">
+                                        <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50" class="align-self-center">
+                                            <mat-card-content>
+                                                    <table mat-table [dataSource]="cfdiRelTabla" matSort
+                                                        class="table employee-list no-wrap">
+                                                        <ng-container matColumnDef="uuid">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                                Fólio Fiscal</th>
+                                                            <td mat-cell *matCellDef="let element"> {{element.uuid}} </td>
+                                                        </ng-container>
+        
+                                                        <ng-container matColumnDef="idTipoCfdiRelacionado">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id Típo CFDI Relacionado</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                {{element.idTipoCfdiRelacionado}} </td>
+                                                        </ng-container>
+        
+                                                        <ng-container matColumnDef="uuidRelacionado">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Relacionado</th>
+                                                            <td mat-cell *matCellDef="let element"> {{element.uuidRelacionado}}
+                                                            </td>
+                                                        </ng-container>
+        
+                                                        <tr mat-header-row *matHeaderRowDef="columCFDIRel"></tr>
+                                                        <tr mat-row *matRowDef="let row; columns: columCFDIRel;"></tr>
+                                                    </table>
+                                                    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"
+                                                        showFirstLastButtons></mat-paginator>
+                                                
+                                            </mat-card-content>
+        
+                                        </div>
+                                        <div fxFlex.gt-sm="40" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center"> </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <!--
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                            <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                        </mat-action-row>-->
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle
+                            [disabled]="modNofiscal">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <b>Datos del comprobante No Fiscal</b>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <div fxLayout="row wrap" class="align-items-center">
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15 primary" floatLabel="always">
+                                            <mat-label>Razón Social Emisor</mat-label>
+                                            <input type="text" matInput required id="razonSocialEmisorN"
+                                                name="razonSocialEmisorN" [(ngModel)]="gastosNofiscal.razonSocialEmisor"
+                                                [disabled]="!bloqueo" >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">         
+                                            <mat-label>Fecha Emisión</mat-label>
+                                            <input required matInput [(ngModel)]="gastosNofiscal.fechaEmision" [max]="fechaHoy" [matDatepicker]="fechaEmisionN"  name="fechaEmisionN" [disabled]="!bloqueo" >                      
+                                            <mat-datepicker-toggle matSuffix [for]="fechaEmisionN"></mat-datepicker-toggle>
+                                            <mat-datepicker #fechaEmisionN></mat-datepicker>
+                                          </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15 primary" floatLabel="always">
+                                            <mat-label>Folio Comprobante</mat-label>
+                                            <input type="text" matInput required id="folioComprobanteN"
+                                                name="folioComprobanteN" [(ngModel)]="gastosNofiscal.folioComprobante" [disabled]="!bloqueo">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15 primary"  floatLabel="always">
+                                            <mat-label>Concepto</mat-label>
+                                            <input type="text" matInput required id="conceptoN" name="conceptoN"
+                                                [(ngModel)]="gastosNofiscal.concepto" [disabled]="!bloqueo">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div *ngIf='gastosNofiscal.idMoneda!="MXN" || !gastosNofiscal.idMoneda' fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15 primary"  floatLabel="always">
+                                            <mat-label>Importe Total</mat-label>
+                                            <input type="number" matInput required id="importeTotalME"
+                                                name="importeTotalME" [value]="gastosNofiscal.importeTotalME"
+                                                [(ngModel)]="gastosNofiscal.importeTotalME" [disabled]="!bloqueo" (input)="CambioTCN($event,'I','N')">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15 primary"  floatLabel="always">
+                                            <mat-label>{{importeTClbl}}</mat-label>
+                                            <input type="number" matInput required id="importeTotalN"
+                                                name="importeTotalN" [value]="gastosNofiscal.importeTotal"
+                                                [(ngModel)]="gastosNofiscal.importeTotal" [disabled]="!bloqueo" [disabled]="bloqTotTC"  >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Moneda</mat-label>
+                                            <mat-select required 
+                                                [(ngModel)]="gastosNofiscal.idMoneda" id="Moneda" name="Moneda"
+                                                (selectionChange)="cambiaMoneda($event,gastosNofiscal)"
+                                                [disabled]="!bloqueo">
+                                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                                <mat-option *ngFor="let mon of MonedaL" [value]="mon.clave">
+                                                    {{mon.clave}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Forma de Pago</mat-label>
+                                            <mat-select required 
+                                                [(ngModel)]="gastosNofiscal.metodoPago" id="metodoPagoN"
+                                                name="metodoPagoN"
+                                                (selectionChange)="cambiaFormaP($event,gastosNofiscal)"
+                                                [disabled]="!bloqueo">
+                                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                                <mat-option *ngFor="let pago of formapago" [value]="pago.descripcion">
+                                                    {{pago.descripcion}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15 primary" floatLabel="always">
+                                            <mat-label>Importe Aprobado</mat-label>
+                                            <input type="text" matInput disabled id="importeAprobadoN"
+                                                name="importeAprobadoN" [(ngModel)]="gastosNofiscal.importeAprobado" disabled>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div  *ngIf='gastosNofiscal.idMoneda!="MXN"'  fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Moneda de Tipo de Cambio</mat-label>
+                                            <mat-select required 
+                                                [(ngModel)]="gasto.idMonedaTipoCambio" id="Monedatcn" name="Monedatcn" (selectionChange)="cambiaMonedaTC($event,gasto)" disabled>
+                                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                                <mat-option *ngFor="let mon of MonedaL" [value]="mon.id">
+                                                    {{mon.clave}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div  *ngIf='gastosNofiscal.idMoneda!="MXN" '  fxFlex="100" fxFlex.gt-xs="50">
+                                    <div class="m-r-15 m-l-15">
+                                        <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                            <mat-label>Tipo de Cambio</mat-label>
+                                            <input type="number" matInput id="tipoCambion" name="tipoCambion" floatLabel="always" (input)="CambioTCN($event,'C','N')"
+                                                [(ngModel)]="gasto.tipoCambio"  [disabled]="!bloqueo" >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <!--
+                    <mat-action-row>
+                        <button mat-button color="warn" (click)="prevStep()">Previo</button>
+                        <button mat-button color="primary" (click)="nextStep()">Final</button>
+                    </mat-action-row>-->
+                        </mat-expansion-panel>
+
+                    </mat-accordion>
+                </mat-tab>
+                <mat-tab label="Historial">
+                    <div class="table-responsive">
+                        <table mat-table [dataSource]="Historial" #sorth="matSort" matSort class="table employee-list no-wrap">
+                            <ng-container matColumnDef="fechaRegistro">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha/Hora de Registro </th>
+                                <td mat-cell *matCellDef="let element"> {{element.fechaRegistro | date :'dd/MMM/yyyy'}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="idUser">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario</th>
+                                <td mat-cell *matCellDef="let element"> {{element.idUser}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="evento">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Evento</th>
+                                <td mat-cell *matCellDef="let element"> {{element.evento}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="estatus">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                                <td mat-cell *matCellDef="let element"> {{element.estatus}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="comentarios">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Comentarios</th>
+                                <td mat-cell *matCellDef="let element"> {{element.comentarios}} </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="histColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: histColumns;"></tr>
+                        </table>
+                        <mat-paginator #paginatorh="matPaginator" [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                        </mat-paginator>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+
+        </form>
+    </div>
+</div>

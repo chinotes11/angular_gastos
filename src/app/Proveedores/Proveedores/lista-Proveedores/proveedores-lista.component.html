@@ -1,0 +1,121 @@
+
+<div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+	<div fxLayout="row wrap">
+        <div fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100" class="align-self-center">
+            <h3 class="page-title text-themecolor m-0"><b>{{pageInfo?.title}}</b></h3>
+		</div>
+		<div fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100" class="align-self-center">
+            <div class="breadcrumb d-flex align-items-center float-right float-sm-left">
+             
+                <ul class="list-style-none d-flex align-items-center">
+                    <ng-template ngFor let-url [ngForOf]="pageInfo?.urls" let-last="last">
+                        <!-- 
+                           <button (click)="pasoFiltros()">New Message</button>
+                           {{message[0].tipo}}
+                        <li class="breadcrumb-item" *ngIf="!last" [routerLink]="url.url">
+                            <a href='javascript:void(0)'>{{url.title}}</a>
+                        </li>
+                        <li class="breadcrumb-item active" *ngIf="last">{{url.title}}</li> -->
+                        <li class="breadcrumb-item " *ngIf="last">
+                          <a  [routerLink]="['../proveedores/AgregarProveedores/',1]">
+                                <button mat-raised-button color="primary"><mat-icon> add_circle_outline</mat-icon> Nuevo</button>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item " *ngIf="last"><img [src]='url.icono'class="img-icono" /> </li>
+                    </ng-template>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row">
+  <div fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row wrap" class="align-items-center">
+            <div fxFlex.gt-md="75" class="text-right">
+                
+              </div>
+          <div fxFlex.gt-md="25" fxFlex.gt-lg="25" fxFlex="100">
+            <mat-form-field>
+              <input matInput (keyup)="filter($event.target.value)" placeholder="Buscar Proveedores ...">
+            </mat-form-field>
+          </div>
+          
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+<div fxLayout="row wrap">
+    <div fxFlex="100">
+      <mat-card>
+        <mat-card-content>
+          <div class="table-responsive">
+                <table mat-table [dataSource]="tesoreriaList" matSort class="table employee-list no-wrap">
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row)" 
+                                [aria-label]="checkboxLabel(row)"
+                                (change)="showOptions($event)" >
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="NombreComercial">
+                      <th mat-header-cell *matHeaderCellDef> Nombre Comercial </th>
+                      <td mat-cell *matCellDef="let element"> {{element.NombreComercial}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="RazonSocial">
+                        <th mat-header-cell *matHeaderCellDef>Razón Social  </th>
+                        <td mat-cell *matCellDef="let element"> {{element.RazonSocial}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="RFCTAXID">
+                      <th mat-header-cell *matHeaderCellDef>RFC/TAX ID</th>
+                      <td mat-cell *matCellDef="let element"> {{element.RFCTAXID}} </td>
+                    </ng-container>
+          
+                      <ng-container matColumnDef="TipoProveedor">
+                        <th mat-header-cell *matHeaderCellDef> Tipo Proveedor</th>
+                        <td mat-cell *matCellDef="let element"> 
+                          <!--<a> <p class="font-bold m-b-0 m-t-0" (click)="IrTrans(element)" > {{element.TipoTransaccion}}</p> </a>-->
+                          {{element.TipoProveedor}}
+                         </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="Estatus">
+                        <th mat-header-cell *matHeaderCellDef>Estatus</th>
+                        <td mat-cell *matCellDef="let element"> {{element.Estatus}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="FechaRegistro">
+                        <th mat-header-cell *matHeaderCellDef>  Fecha Registro</th>
+                        <td mat-cell *matCellDef="let element"> {{element.FechaRegistro | date :'dd/MMM/yyyy'}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="Enviar">
+                        <th mat-header-cell *matHeaderCellDef>Enviar Invitación</th>
+                        <td mat-cell *matCellDef="let element" class="action-link">
+                          <a  [routerLink]="['../tesoreria/transaccionTesoreria/',element.id]">
+                          <button mat-raised-button color="primary"><mat-icon>mail_outline</mat-icon></button>   
+                        </a>
+                        </td>
+                      </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

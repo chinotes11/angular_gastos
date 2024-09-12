@@ -1,0 +1,81 @@
+
+<h2 class="font-medium" mat-dialog-title><strong>Conciliación Automatica</strong></h2>
+<mat-dialog-content >
+    
+
+
+        <mat-tab label="Conciliación CSV">                
+                <mat-tab-group>
+                   <strong>Conciliación</strong>
+                       
+                        <!--
+                        <mat-card>                            
+                            <ng-container *ngIf="gasto.rutaXml===null;  then sinArchX; else conArchX">
+                            </ng-container>                
+                            <ng-template #sinArchX>
+                                <h4>No se cuenta con vista previa debido a que no se ha cargado ningín archivo XML.</h4>
+                            </ng-template>                                
+                            <ng-template #conArchX>
+                                <div fxLayout="row wrap" class="align-items-center">
+                                    <div fxFlex="33" fxFlex.gt-xs="33">
+                                        <button mat-raised-button color="primary" (click)="xml()">
+                                            <mat-icon>download_for_offline</mat-icon> Descargar
+                                        </button>         
+                                    </div>
+                                    <div fxFlex="33" fxFlex.gt-xs="33">
+                                        <button mat-raised-button color="primary" (click)="delXml()">
+                                            <mat-icon>delete</mat-icon> Eliminar
+                                        </button>
+                                    </div>
+                                    <div fxFlex="33" fxFlex.gt-xs="33"> </div>
+                                </div>                                            
+                            </ng-template>
+                        </mat-card> 
+                        -->
+                   
+                </mat-tab-group>
+            </mat-tab>  
+<div class="table-responsive">
+    <div fxLayout="row wrap"> 
+        <div  fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">
+            <table class="table table-striped">
+                <thead>
+                <tr>   <th scope="col"><h5 class="font-medium"><strong>Subir archivo tipo CSV para conciliar. </strong></h5></th>  </tr>
+                </thead>
+                <tbody>
+                <tr> <td> <div class="d-flex align-items-center m-b-15">  </div></td> </tr>
+                </tbody>
+            </table> 
+            <div class="d-flex align-items-center m-b-15">
+                <form (ngSubmit)="enviar()">
+                    <div fxLayout="row wrap" class="align-items-center">
+                        <div fxFlex.gt-xs="100" fxFlex="100" fxFlex.gt-md="100"  class="d-flex align-items-center m-b-15"> 
+                            <button mat-raised-button color="primary" class="m-l-15 input-file-button" >
+                                <input 
+                                #inputXml
+                                id="file" 
+                                type="file" 
+                                class="form-control"                                                
+                                accept=".csv"
+                                (change)="cargaArchivoCSV($event)" #fileUpload  >
+                            </button>  
+                        </div>
+                    </div>                                
+                </form>                              
+            </div>
+            <br><br>
+        </div>
+    </div>
+
+    <div fxLayout="row wrap">
+        <!--
+        <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="30" fxFlex="50" class="align-self-center">                 
+            <button  mat-raised-button color="primary" (click)="doAction()" >Agregar</button>            
+        </div>
+        -->
+        <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="30" fxFlex="50" class="align-self-center"> 
+            <button mat-raised-button color="warn"  (click)="closeDialog()" color="primary">Cerrar</button>      
+        </div>
+    </div> 
+</div>
+</mat-dialog-content>

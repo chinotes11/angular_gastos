@@ -1,0 +1,23 @@
+<div fxLayout="row wrap" class="align-items-center">
+  <div layout-align="center center" class="align-self-center" >
+     <mat-icon id="close-icon" (click)="closeDialog()">close</mat-icon>
+
+    <div class="align-items-center m-t-15 m-b-15">
+      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxFlex.gt-md="100">   
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex.gt-md="100" fxFlex="100" class="align-self-center text-center"> 
+            <h4 class="content-span full-width">{{data.message}}</h4> 
+          </div>  
+      </div>
+    </div> 
+     <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxFlex.gt-md="100">  
+          <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="50" fxFlex="50" class="align-self-center"> 
+            <button mat-raised-button id="yes-button" [mat-dialog-close]="true" color="primary"><mat-icon>check_circle</mat-icon> Aceptar</button>    
+          </div>              
+          <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="50" fxFlex="50" class="align-self-center"> 
+            <button mat-raised-button id="no-button" [mat-dialog-close]="false" color="warn"><mat-icon>highlight_off</mat-icon> Cancelar</button> 
+          </div>              
+        </div>
+      </div>  
+  </div>
+</div>

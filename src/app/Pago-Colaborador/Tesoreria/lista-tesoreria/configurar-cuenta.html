@@ -1,0 +1,149 @@
+
+<div class="sideL">
+    <div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="align-self-center">
+                <h3 class="page-title text-themecolor m-0"><b>Configurar Cuenta de Pago</b></h3>
+            </div>
+            <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100" class="align-self-center">
+                <div class="breadcrumb d-flex align-items-center float-right float-sm-left">             
+                    <ul class="list-style-none d-flex align-items-center"> 
+                    <li class="breadcrumb-item" >
+                        <button mat-raised-button class="arriba2" color="primary" (click)=aceptarDialog() > <mat-icon>save</mat-icon> </button>
+                    </li>
+                    <li class="breadcrumb-item" >
+                        <button mat-raised-button (click)=cerrarDialog() color="warn"> <mat-icon>highlight_off</mat-icon> </button>
+                    </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div fxLayout="row wrap"> <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">  <h4><b>&nbsp;<br></b> </h4></div></div>
+<form #userForm="ngForm">
+    <div fxLayout="row wrap">
+        <div fxFlex="100">
+            <mat-tab-group>
+                <mat-tab label="Datos de Pago"> 
+                    <br>
+                        <div fxLayout="row wrap" class="align-items-center">
+
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Empresa</mat-label>
+                                        <mat-select required placeholder="Empresa" [(ngModel)]="ConfigurarPago.idEmpresa" id="idEmpresa" name="idEmpresa" disabled >
+                                            <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                            <mat-option *ngFor="let emp of Empresas" [value]="emp.idEmpresa">
+                                                {{emp.Empresa}}
+                                            </mat-option>
+                                        </mat-select>                      
+                                    </mat-form-field> 
+                                </div>
+                            </div> 
+
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Proyecto</mat-label>
+                                        <mat-select required placeholder="Proyecto" [(ngModel)]="ConfigurarPago.idProyecto" id="idProyecto" name="idProyecto" disabled >
+                                            <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                            <mat-option *ngFor="let proy of Proyectos" [value]="proy.idProyecto">
+                                                {{proy.Proyecto}}
+                                            </mat-option>
+                                        </mat-select>                      
+                                    </mat-form-field> 
+                                </div>
+                            </div> 
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Centro de Costos</mat-label>
+                                        <mat-select required placeholder="Centro de Costos" [(ngModel)]="ConfigurarPago.idCentrosCostos" id="idCentrosCostos" name="idCentrosCostos" disabled >
+                                            <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                            <mat-option *ngFor="let centro of CentroCosto" [value]="centro.idCentrosCostos">
+                                                {{centro.CentroCostos}}
+                                            </mat-option>
+                                        </mat-select>                      
+                                    </mat-form-field> 
+                                </div>
+                            </div>  
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Tipo Transacción</mat-label>
+                                        <mat-select required placeholder="idTipoTransaccion" [(ngModel)]="ConfigurarPago.idTipoTransaccion" id="idTipoTransaccion" name="idTipoTransaccion"  (selectionChange)="cambiaTransaccion($event,ConfigurarPago)">
+                                            <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                            <mat-option *ngFor="let tipo of catransaccion" [value]="tipo.idTipoTransaccion">
+                                                {{tipo.transaccion}}
+                                            </mat-option>
+                                        </mat-select>                      
+                                    </mat-form-field> 
+                                </div>
+                            </div>
+
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Moneda</mat-label>
+                                        <mat-select required placeholder="Moneda" [(ngModel)]="ConfigurarPago.idMoneda" id="idMoneda" name="idMoneda"  (selectionChange)="cambiaMoneda($event,ConfigurarPago)" >
+                                            <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                            <mat-option *ngFor="let moned of MonedaL" [value]="moned.idMoneda">
+                                                {{moned.tipo}}
+                                            </mat-option>
+                                        </mat-select>                      
+                                    </mat-form-field> 
+                                </div>
+                            </div>
+                            
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                    <mat-label> Tipo de Cambio </mat-label>
+                                    <input type="number" matInput id="TipoCambio" name="TipoCambio" [(ngModel)]="ConfigurarPago.TipoCambio" (keyup)="cambiaTipoCambio($event,ConfigurarPago)" placeholder="TipoCambio">
+                                </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                    <mat-label>Banco Emisor</mat-label>
+                                    <mat-select required placeholder="Banco Emisor" [(ngModel)]="ConfigurarPago.BancoEmisor" (selectionChange)="cambiaEmp($event,ConfigurarPago)" id="BancoEmisor" name="BancoEmisor"  [disabled]="bloqueoBanco">
+                                        <mat-option *ngFor="let nbanco of Bancos" [value]="nbanco.BancoEmisor">
+                                            {{nbanco.Banco}}
+                                        </mat-option>
+                                    </mat-select>    
+                                </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                    <mat-label>Cuenta Emisora</mat-label>
+                                    <mat-select required placeholder="Cuenta Emisora" [(ngModel)]="ConfigurarPago.idCuenta" id="idCuenta" name="idCuenta" (selectionChange)="cambiaCta($event,ConfigurarPago)" [disabled]="bloqueoCuenta">
+                                        <mat-option *ngFor="let cuent of Cuenta" [value]="cuent.idCuenta">
+                                            {{cuent.nuCuenta}}
+                                        </mat-option>
+                                    </mat-select>    
+                                </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">         
+                                        <mat-label>Fecha Generación Layout</mat-label>
+                                        <input matInput [(ngModel)]="ConfigurarPago.fechaGenLayout" [matDatepicker]="fechaIni"  name="fechaIni" disabled>                      
+                                        <mat-datepicker-toggle matSuffix [for]="fechaIni"></mat-datepicker-toggle>
+                                        <mat-datepicker #fechaIni></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</form>

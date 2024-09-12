@@ -1,0 +1,155 @@
+<h2 class="font-medium" mat-dialog-title><strong>Editar Montos Autorizados</strong></h2>
+<form #userForm="ngForm">
+<div fxLayout="row wrap">
+    <div fxFlex="100">
+        <mat-card>
+        <mat-card-content>
+            <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Cantidad</mat-label>
+                        <input type="text" matInput required id="Cantidad" name="Cantidad" [(ngModel)]="EditaMonto.Cantidad">
+                    </mat-form-field>
+                </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Unidad de Medida</mat-label>
+                        <input type="text" matInput required id="UnidadMedida" name="UnidadMedida" [(ngModel)]="EditaMonto.UnidadMedida" placeholder="Unidad Medida">
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Descripción</mat-label>
+                        <input type="text" matInput required id="Descripcion" name="Descripcion" [(ngModel)]="EditaMonto.Descripcion" >
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Clave Unidad</mat-label>
+                        <input type="text" matInput required id="ClaveFiscal" name="ClaveFiscal" [(ngModel)]="EditaMonto.ClaveFiscal" >
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Clave Prod/Serv</mat-label>
+                        <input type="text" matInput required id="IdProdServ" name="IdProdServ" [(ngModel)]="EditaMonto.IdProdServ" >
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Tipo Gasto</mat-label>
+                        <input type="text" matInput required id="TipoGasto" name="TipoGasto" [(ngModel)]="EditaMonto.Importe" >
+                    </mat-form-field>
+                    </div>
+                </div>
+            </div>
+    </mat-card-content>
+</mat-card>
+</div>
+</div>
+
+        <!-- ////////////////////////////////////////////*****/*/*/*/*/ /*/*/*/*/*/*-->
+
+<div fxLayout="row wrap"> 
+   <div fxFlex="100">   
+        <div fxFlex="100" fxFlex.gt-xs="100">  
+            <table class="mat-table table employee-list no-wrap" >
+                <tr class="mat-header-row">
+                    <th class="mat-header-cell"></th>
+                    <th class="mat-header-cell">Comprobante</th>
+                    <th class="mat-header-cell">Autorizado</th>
+                </tr>
+                <tr class="mat-row">
+                    <td class="mat-cell">Monto</td>
+                    <td class="mat-cell">
+                        <mat-form-field>
+                            $<input type="text" matInput required id="MontoAutorizado" name="MontoAutorizado" [(ngModel)]="EditaMonto.MontoAutorizado">
+                    </mat-form-field>
+                </td>
+                    <td class="mat-cell">
+                        <mat-form-field>
+                            $<input type="text" matInput required id="Importe" name="Importe" [(ngModel)]="EditaMonto.Importe">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr class="mat-row">
+                    <td class="mat-cell">Impuestos</td>
+                    <td class="mat-cell">
+                        <mat-form-field>
+                            $<input type="text" matInput required id="MontoRetencionIsr" name="MontoRetencionIsr" [(ngModel)]="EditaMonto.MontoRetencionIsr">
+                    </mat-form-field>
+                </td>
+                    <td class="mat-cell">
+                        <mat-form-field>
+                            $<input type="text" matInput required id="MontoRetencionIva" name="MontoRetencionIva" [(ngModel)]="EditaMonto.MontoRetencionIva">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr class="mat-row">
+                    <td class="mat-cell">Total</td>
+                    <td class="mat-cell">
+                        <mat-form-field>
+                            $<input type="text" matInput required id="ImporteTotal" name="ImporteTotal" [(ngModel)]="EditaMonto.ImporteTotal" >
+                    </mat-form-field>
+                </td>
+                    <td class="mat-cell">
+                        <mat-form-field>
+                            $<input type="text" matInput required id="MontoIeps" name="MontoIeps" [(ngModel)]="EditaMonto.MontoIeps">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr class="mat-row">
+                    <td class="mat-cell">Forma de Pago</td>
+                    <td class="mat-cell">
+                        <mat-form-field>
+                            <select class="mat-select" matNativeControl >
+                                <option class="mat-option" value="Efectivo">Efectivo</option>
+                                <option class="mat-option"  value="Tarjeta">Tarjeta</option>
+                            </select>
+                    </mat-form-field>
+                </td>
+                    <td class="mat-cell">
+                    </td>
+                </tr>
+            </table>
+        </div>
+   </div>
+</div>
+
+<div fxLayout="row wrap"> 
+    <div fxFlex="100">   
+        <div class="m-r-15 m-l-15">
+        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                <mat-label>Observaciones</mat-label>
+                <textarea matInput rows="5" id="Observaciones" name="Observaciones" [(ngModel)]="EditaMonto.Observaciones" ></textarea>
+        </mat-form-field>
+        </div>
+    </div>
+</div>
+</form>
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxFlex.gt-md="40"> 
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="30" fxFlex="50" class="align-self-center"> 
+                <button mat-raised-button (click)=cerrarDialog()  color="warn"><mat-icon>highlight_off</mat-icon> Cancelar</button>
+            </div>
+            <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="30" fxFlex="50" class="align-self-center"> 
+                  <button mat-raised-button color="primary" (click)=aceptarDialog() [disabled]="userForm.invalid"><mat-icon>add</mat-icon> Agregar</button>      
+            </div>
+        </div>     
+    </div>
+    <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="60" fxFlex="100" class="align-self-center"></div>
+</div>
+
+

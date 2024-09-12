@@ -1,0 +1,580 @@
+<div class="sideL">
+    <div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="align-self-center">
+                <h3 class="page-title text-themecolor m-0"><b>Reporte de Gastos</b></h3>
+            </div>
+            <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100" class="align-self-center">
+                <div class="breadcrumb d-flex align-items-center float-right float-sm-left">             
+                    <ul class="list-style-none d-flex align-items-center">
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button class="arriba2" color="primary" (click)=guardarReporteGasto(1) [disabled]="btnGda !== '1'"> <mat-icon>save</mat-icon> </button>
+                        </li>
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button (click)=cerrarReporteGasto() color="warn"> <mat-icon>highlight_off</mat-icon> </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row wrap"> <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">  <h4><b>&nbsp;<br></b> </h4></div></div>
+
+
+<div fxLayout="row wrap">
+    <div fxFlex="100">
+        <form #userForm="ngForm">
+            
+        <mat-tab-group>
+            <mat-tab label="Datos"> 
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <b> Datos Iniciales de Reporte de Gastos</b>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                
+                    <div fxLayout="row wrap" class="align-items-center">
+                       
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>C-ID</mat-label>
+                                    <input type="text" matInput id="idUser" name="idUser" [(ngModel)]="reporte.idUser" disabled >
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Nombre</mat-label>
+                                    <input type="text" matInput id="nombre" name="nombre" [(ngModel)]="reporte.nombre" disabled >
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Fecha Registro</mat-label>
+                                    <input type="text" matInput id="FechaReg" name="FechaReg" [(ngModel)]="FechaReg" disabled >
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Empresa</mat-label>
+                                    <mat-select required  [(ngModel)]="reporte.idEmpresa" id="idEmpresa" name="idEmpresa" (selectionChange)="cambiaEmp($event,reporte)">
+                                        <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                        <mat-option *ngFor="let emp of Empresas" [value]="emp.id">
+                                            {{emp.clave}}
+                                        </mat-option>
+                                    </mat-select>                      
+                                </mat-form-field> 
+                            </div>
+                        </div>  
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Proyecto</mat-label>
+                                    <mat-select  [(ngModel)]="reporte.idProyecto" id="idProyecto" name="idProyecto" (selectionChange)="cambiaProy($event,reporte)" >
+                                        <!--<mat-option value="option2" disabled>- Seleccione Opción -</mat-option>-->
+                                        <mat-option *ngFor="let proy of Proyectos" [value]="proy.idProyecto">
+                                            {{proy.descripcionProyecto}}
+                                        </mat-option>
+                                    </mat-select>                      
+                                </mat-form-field> 
+                            </div>
+                        </div> 
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                    <mat-label>Centro de Costos</mat-label>
+                                    <mat-select required [(ngModel)]="reporte.idCentrosCostos" id="idCentrosCostos" name="idCentrosCostos" (selectionChange)="cambiaCC($event,reporte)"  >
+                                        <!--<mat-option value="option2" disabled>- Seleccione Opción -</mat-option>-->
+                                        <mat-option *ngFor="let centro of CentroCosto" [value]="centro.idCentrosCostos">
+                                            {{centro.descripcionCentrosCostos}}
+                                        </mat-option>
+                                    </mat-select>                      
+                                </mat-form-field> 
+                            </div>
+                        </div>                         
+                        
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                <mat-label>Motivo del Reporte</mat-label>
+                                <input type="text" matInput id="notas" name="notas" [(ngModel)]="reporte.notas"  [disabled]="bloqAnt">
+                            </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                    <mat-label>Tipo Solicitud</mat-label>
+                                    <mat-select  [(ngModel)]="reporte.idUsoFondos"
+                                        id="idUsoFondos" name="idUsoFondos"
+                                        (selectionChange)="cambiaTipoSol($event,reporte)" [disabled]="bloqAnt">
+                                        <mat-option *ngFor="let tipo of TipoSol" [value]="tipo.id">
+                                            {{tipo.descripcion}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>                         
+                        
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">         
+                                    <mat-label>Fecha Inicial</mat-label>
+                                    <input matInput required [(ngModel)]="reporte.fechaIni" [max]="fechaHoy" [matDatepicker]="fechaIni" (dateChange)="CalcDias($event,reporte,1)" name="fechaIni" (input)="valida($event)">                      
+                                    <mat-datepicker-toggle matSuffix [for]="fechaIni"></mat-datepicker-toggle>
+                                    <mat-datepicker #fechaIni></mat-datepicker>
+                                  </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">         
+                                    <mat-label>Fecha Final</mat-label>
+                                    <input matInput required [(ngModel)]="reporte.fechaFin" [max]="fechaHoy" [matDatepicker]="fechaFin" (dateChange)="CalcDias($event,reporte,2)" name="fechaFin" (input)="valida($event)">                      
+                                    <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+                                    <mat-datepicker #fechaFin></mat-datepicker>
+                                  </mat-form-field>
+                            </div>
+                        </div>    
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                    <mat-label>Id Ancticipo</mat-label>
+                                    <input type="text" matInput id="idAnticipoFondos" name="idAnticipoFondos" [(ngModel)]="reporte.idAnticipoFondos" disabled>
+                                </mat-form-field>
+                                <!--
+                                <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                    <mat-label>Moneda</mat-label>
+                                    <mat-select placeholder="Moneda" [(ngModel)]="reporte.idMoneda"
+                                        id="Moneda" name="Moneda" (selectionChange)="cambiaMoneda($event,reporte)"
+                                        [disabled]="bloqAnt">
+                                        <mat-option *ngFor="let moned of MonedaL" [value]="moned.id">
+                                            {{moned.clave}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                 -->
+                            </div>
+                        </div>  
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                <mat-label>Dias de Duración</mat-label>
+                                <input type="text" matInput id="diasDura" name="diasDura" [(ngModel)]="reporte.diasDura"  disabled>
+                            </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                                <a (click)="AnticipoDialog('Agrega',reporte)">
+                                    <button mat-raised-button color="primary"><img src="assets/images/iconos/Icono_agrega_registro_BLANCO.png" class="png-icon" width="20"> Asociar Anticipo</button>
+                                </a>
+                            </div>
+                        </div> 
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                <mat-label>Monto Anticipo</mat-label>
+                                <input type="text" matInput id="monto" name="monto" [value]="numerico(reporte.monto)" disabled>
+                            </mat-form-field>
+                            </div>
+                        </div>
+                        
+                        <div fxFlex="100" fxFlex.gt-xs="50">
+                            <div class="m-r-15 m-l-15"> </div>
+                        </div> 
+                    </div>
+
+                    <mat-action-row>
+                        <button mat-raised-button  color="primary" (click)=guardarReporteGasto(2) [disabled]="btnGda !== '1'">Siguiente</button>
+                    </mat-action-row>
+
+
+                    </mat-expansion-panel>
+                
+                    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle [disabled]="!bloqueo">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <b>Lista de Comprobantes de Gastos</b>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <div fxLayout="row wrap">
+                        <div fxFlex="100" fxFlex.gt-xs="100">
+                            <div class="m-r-15 m-l-15">
+                                <!--
+                                <a (click)="GastoDialog('Agrega',reporte)">
+                                    <button mat-raised-button color="primary" [disabled]="!bloqueo"><img src="assets/images/iconos/Icono_agrega_registro_BLANCO.png" class="png-icon" width="20"> Asociar Gastos</button>
+                                </a>
+                                 -->
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div fxLayout="row wrap">
+                        <div fxFlex="100">
+                            <div class="example-container mat-elevation-z3">
+                            <mat-card>
+                                <mat-card-content>
+                                    <div class="table-responsive">
+                                        <table mat-table [dataSource]="GastosList" matSort class="table employee-list no-wrap" multiTemplateDataRows>
+                                            <!-- Checkbox Column -->
+                                           
+                        
+                                            <ng-container matColumnDef="id">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Id Gasto</th>
+                                                <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="vista">
+                                                <th mat-header-cell *matHeaderCellDef> Ver </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                  <a mat-button  (click)="element.isExpanded = !element.isExpanded"><mat-icon>unfold_more</mat-icon>  Vista </a>
+                                                </td>
+                                              </ng-container>
+                                            
+                                            <ng-container matColumnDef="tipodegasto">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Gasto</th>
+                                                <td mat-cell *matCellDef="let element"> {{element.tipodegasto}}</td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="fechaEmision">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Gasto</th>
+                                                <td mat-cell *matCellDef="let element"> {{element.fechaEmision}}</td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="TipoComprobante">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Comprobante</th>
+                                                <td mat-cell *matCellDef="let element"> {{element.TipoComprobante}}</td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="FormaPago">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Forma Pago</th>
+                                                <td mat-cell *matCellDef="let element"> {{element.FormaPago}}</td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="CuentaPago">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta Pago</th>
+                                                <td mat-cell *matCellDef="let element"> {{element.CuentaPago}}</td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="subtotal">
+                                                <th mat-header-cell *matHeaderCellDef  width ="5%" mat-sort-header>Monto Aprobado</th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        <span *ngIf='element.moneda==="MXN"' > {{element.subtotal | currency:"MXN":"symbol"}} </span>
+                                                        <span *ngIf='element.moneda==="USD"' > {{element.subtotal | currency:"USD":"symbol"}} </span>
+                                                        <span *ngIf='element.moneda==="EUR"' > {{element.subtotal | currency:"EUR":"symbol"}} </span>
+                                                        <span *ngIf='element.moneda==="GBP"' > {{element.subtotal | currency:"GBP":"symbol"}} </span>                                
+                                                    </td>
+                                            </ng-container>a 
+
+                                            <ng-container matColumnDef="total">
+                                                <th mat-header-cell *matHeaderCellDef  width ="5%" mat-sort-header>Monto Aprobado</th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        <span *ngIf='element.moneda==="MXN"' > {{element.total | currency:"MXN":"symbol"}} </span>
+                                                        <span *ngIf='element.moneda==="USD"' > {{element.total | currency:"USD":"symbol"}} </span>
+                                                        <span *ngIf='element.moneda==="EUR"' > {{element.total | currency:"EUR":"symbol"}} </span>
+                                                        <span *ngIf='element.moneda==="GBP"' > {{element.total | currency:"GBP":"symbol"}} </span>                                
+                                                    </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="montoAprobado">
+                                                <th mat-header-cell *matHeaderCellDef  width ="5%" mat-sort-header>Monto Aprobado</th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        <span *ngIf='element.moneda==="MXN"' > {{element.montoAprobado | currency:"MXN":"symbol"}} </span>
+                                                        <span *ngIf='element.moneda==="USD"' > {{element.montoAprobado | currency:"USD":"symbol"}} </span>
+                                                        <span *ngIf='element.moneda==="EUR"' > {{element.montoAprobado | currency:"EUR":"symbol"}} </span>
+                                                        <span *ngIf='element.moneda==="GBP"' > {{element.montoAprobado | currency:"GBP":"symbol"}} </span>                                
+                                                    </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="estatus">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                  <div *ngIf='element.estatus==="Activo"' >
+                                                    <span class="verde" > {{element.estatus}}  </span>
+                                                  </div>
+                                                  <div *ngIf='element.estatus==="Inactivo"' >
+                                                    <span class="rojo" > {{element.estatus}}  </span>
+                                                  </div>  
+                                                  <div *ngIf='element.estatus!== "Activo" && element.estatus !== "Inactivo"' >
+                                                    <span > {{element.estatus}}  </span>
+                                                  </div>
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="Acciones">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    <a (click)=aprobarComprobante(element)><mat-icon class="verde">task_alt</mat-icon></a>
+                                                    <a (click)=cancelarComprobante(element)><mat-icon class="rojo"> highlight_off</mat-icon></a>
+                                                    <a (click)=editarComprobante(element)><mat-icon class="primario">edit</mat-icon></a>
+                                                    <a (click)=eliminarComprobante(element)><mat-icon>delete</mat-icon></a>
+                                                </td>
+                                            </ng-container>
+                        
+                                            
+                                          
+                                          
+                                              <!-- Template for details row -->
+                                              <ng-container matColumnDef="expandedDetail">
+                                                <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                                          
+                                                  <div class="row student-element-detail" [@detailExpand]="element.isExpanded ? 'expanded' : 'collapsed'">
+                                                    <div class="table-responsive">
+                        
+                                                        <table mat-table [dataSource]="element.detalle"  matSort class="table">
+                                                            <ng-container matColumnDef="descripcion">
+                                                                <th mat-header-cell *matHeaderCellDef  width ="10%" mat-sort-header> Descripción</th>
+                                                                <td mat-cell *matCellDef="let detalle"> {{detalle.descripcion}}</td>
+                                                            </ng-container>
+                        
+                                                            <ng-container matColumnDef="cantidad">
+                                                                <th mat-header-cell *matHeaderCellDef width ="5%" mat-sort-header> Cantidad</th>
+                                                                <td mat-cell *matCellDef="let detalle"> {{detalle.cantidad}}</td>
+                                                            </ng-container>
+                        
+                                                            <ng-container matColumnDef="unidadMedida">
+                                                                <th mat-header-cell *matHeaderCellDef width ="5%" mat-sort-header> Unidad</th>
+                                                                <td mat-cell *matCellDef="let detalle"> {{detalle.unidadMedida}}</td>
+                                                            </ng-container>
+                        
+                                                            <ng-container matColumnDef="tasaIva">
+                                                                <th mat-header-cell *matHeaderCellDef width ="5%" mat-sort-header> Tasa IVA</th>
+                                                                <td mat-cell *matCellDef="let detalle"> {{detalle.tasaIva}}</td>
+                                                            </ng-container>
+                        
+                                                            <ng-container matColumnDef="montoIva">
+                                                                <th mat-header-cell *matHeaderCellDef width ="5%" mat-sort-header> Monto IVA</th>
+                                                                <td mat-cell *matCellDef="let detalle"> {{detalle.montoIva}}</td>
+                                                            </ng-container>
+                        
+                                                            <ng-container matColumnDef="precioUnitario">
+                                                                <th mat-header-cell *matHeaderCellDef width ="5%" mat-sort-header>Precio U.</th>
+                                                                <td mat-cell *matCellDef="let detalle"> {{detalle.precioUnitario}}</td>
+                                                            </ng-container>
+                        
+                                                            <ng-container matColumnDef="descuento">
+                                                                <th mat-header-cell *matHeaderCellDef width ="5%" mat-sort-header> Descuento</th>
+                                                                <td mat-cell *matCellDef="let detalle"> {{detalle.descuento}}</td>
+                                                            </ng-container>
+                        
+                                                            <ng-container matColumnDef="importe">
+                                                                <th mat-header-cell *matHeaderCellDef  width ="5%" mat-sort-header>Importe</th>
+                                                                    <td mat-cell *matCellDef="let detalle">
+                                                                        <span *ngIf='detalle.moneda==="MXN"' > {{detalle.importe | currency:"MXN":"symbol"}} </span>
+                                                                        <span *ngIf='detalle.moneda==="USD"' > {{detalle.importe | currency:"USD":"symbol"}} </span>
+                                                                        <span *ngIf='detalle.moneda==="EUR"' > {{detalle.importe | currency:"EUR":"symbol"}} </span>
+                                                                        <span *ngIf='detalle.moneda==="GBP"' > {{detalle.importe | currency:"GBP":"symbol"}} </span>                                
+                                                                    </td>
+                                                            </ng-container>
+                        
+                                                            <ng-container matColumnDef="montoAprobado">
+                                                                <th mat-header-cell *matHeaderCellDef  width ="5%" mat-sort-header>Monto Aprob</th>
+                                                                    <td mat-cell *matCellDef="let detalle">
+                                                                        <span *ngIf='detalle.moneda==="MXN"' > {{detalle.montoAprobado | currency:"MXN":"symbol"}} </span>
+                                                                        <span *ngIf='detalle.moneda==="USD"' > {{detalle.montoAprobado | currency:"USD":"symbol"}} </span>
+                                                                        <span *ngIf='detalle.moneda==="EUR"' > {{detalle.montoAprobado | currency:"EUR":"symbol"}} </span>
+                                                                        <span *ngIf='detalle.moneda==="GBP"' > {{detalle.montoAprobado | currency:"GBP":"symbol"}} </span>                                
+                                                                    </td>
+                                                            </ng-container>
+
+                                                            <ng-container matColumnDef="Acciones">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                                                                <td mat-cell *matCellDef="let detalle">
+                                                                    <a (click)=aprobarComprobante(detalle)><mat-icon class="verde">task_alt</mat-icon></a>
+                                                                    <a (click)=cancelarComprobante(detalle)><mat-icon class="rojo"> highlight_off</mat-icon></a>
+                                                                    <a (click)=editarComprobante(detalle)><mat-icon class="primario">edit</mat-icon></a>
+                                                                </td>
+                                                            </ng-container>
+                                        
+                                                            
+                                                            <tr mat-header-row *matHeaderRowDef="detalleColumns"></tr>
+                                                            <tr mat-row *matRowDef="let row; columns: detalleColumns;"></tr>
+                                                        </table>
+                                                        <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                                    </div>
+                        
+                                                        <!-- <div mat-subheader>Subjects of {{element.name}}</div>
+                        
+                                                    <mat-list>                                                              
+                                                      <mat-list-item *ngFor="let subject of element.subjects">
+                                                        <div mat-line>{{subject.name}}</div>
+                                                        <div mat-line> {{subject.type}} | Grade: {{subject.grade}}</div>
+                                                      </mat-list-item>
+                                                    </mat-list>
+                        
+                                                        -->
+                        
+                                                  </div>
+                                          
+                                                </td>
+                                              </ng-container>
+                                          
+                                          
+                                              <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                                              <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="student-element-row"
+                                                [class.student-expanded-row]="element.isExpanded"></tr>
+                                          
+                                              <!-- Extra row to show detail content column -->
+                                              <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="student-detail-row"></tr>
+                                      
+                                        </table>
+                                        <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <mat-action-row>
+                        <button mat-raised-button  color="warn" (click)="prevStep()">&nbsp;&nbsp;&nbsp;Previo&nbsp;&nbsp;&nbsp;</button>
+                        <button mat-raised-button  color="primary" (click)="nextStep()">Siguiente</button>
+                    </mat-action-row>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle [disabled]="!bloqueo">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <b>Totales</b>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        
+                        <div fxLayout="row wrap">
+                            <div fxFlex="100">
+                                <div class="example-container mat-elevation-z3">
+                                <mat-card>
+                                    <mat-card-content>
+                                    <div class="table-responsive">
+                                            <table mat-table [dataSource]="totalesTabla"  matSort class="table">
+                                                
+                                                <ng-container matColumnDef="Tipogastos">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo Gasto</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.Tipogastos}}</td>
+                                                </ng-container>
+    
+                                                <ng-container matColumnDef="Montototal">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.Montototal}}</td>
+                                                </ng-container>
+    
+                                                <tr mat-header-row *matHeaderRowDef="totalColumns"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: totalColumns;"></tr>
+                                            </table>
+                                            <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div fxLayout="row wrap">
+                            <div fxFlex="100">
+                                <table class="mat-table table employee-list no-wrap" >
+                                    <tr class="mat-header-row">
+                                        <th class="mat-header-cell">Concepto</th>
+                                        <th class="mat-header-cell">Monto comprobado</th>
+                                        <th class="mat-header-cell">Monto autorizado</th>
+                                    </tr>
+                                    <tr class="mat-row">
+                                        <td class="mat-cell">Anticipos</td>
+                                        <td class="mat-cell">
+                                            $<input type="text" matInput id="antMontocomprobado" disabled name="antMontocomprobado" [(ngModel)]="concepDetalle.antMontocomprobado" placeholder="$0">
+                                        </td>
+                                        <td class="mat-cell">
+                                            $<input type="text" matInput id="antMontoAutorizado" disabled name="antMontoAutorizado" [(ngModel)]="concepDetalle.antMontoAutorizado" placeholder="$0">
+                                        </td>
+                                    </tr>
+                                    <tr class="mat-row">
+                                        <td class="mat-cell">Total de Gastos Comprobados</td>
+                                        <td class="mat-cell">
+                                            $<input type="text" matInput id="totGaMontocomprobado" disabled name="totGaMontocomprobado" [(ngModel)]="concepDetalle.totGaMontocomprobado" placeholder="$0">
+                                        </td>
+                                        <td class="mat-cell">
+                                            $<input type="text" matInput id="totGaMontoAutorizado" disabled name="totGaMontoAutorizado" [(ngModel)]="concepDetalle.totGaMontoAutorizado" placeholder="$0">
+                                        </td>
+                                    </tr>
+                                    <tr class="mat-row">
+                                        <td class="mat-cell">Solicitud de Reembolso</td>
+                                        <td class="mat-cell">
+                                            $<input type="text" matInput id="reemMontocomprobado" disabled name="reemMontocomprobado" [(ngModel)]="concepDetalle.reemMontocomprobado" placeholder="$0">
+                                        </td>
+                                        <td class="mat-cell">
+                                            $<input type="text" matInput id="reemMontoAutorizado" disabled name="reemMontoAutorizado" [(ngModel)]="concepDetalle.reemMontoAutorizado" placeholder="$0">
+                                        </td>
+                                    </tr>
+                                    <tr class="mat-row">
+                                        <td class="mat-cell">RR-ID</td>
+                                        <td class="mat-cell">
+                                            $<input type="text" matInput id="rridMontocomprobado" disabled name="rridMontocomprobado" [(ngModel)]="concepDetalle.rridMontocomprobado" placeholder="$0">
+                                        </td>
+                                        <td class="mat-cell">
+                                            $<input type="text" matInput id="rridMontoAutorizado" disabled name="rridMontoAutorizado" [(ngModel)]="concepDetalle.rridMontoAutorizado" placeholder="$0">
+                                        </td>
+                                    </tr>
+                                    <tr class="mat-row">
+                                        <td class="mat-cell">Solicitud de Devolución</td>
+                                        <td class="mat-cell">
+                                            $<input type="text" matInput id="devoMontocomprobado" disabled name="devoMontocomprobado" [(ngModel)]="concepDetalle.devoMontocomprobado" placeholder="$0">
+                                        </td>
+                                        <td class="mat-cell">
+                                            $<input type="text" matInput id="devoMontoAutorizado" disabled name="devoMontoAutorizado" [(ngModel)]="concepDetalle.devoMontoAutorizado" placeholder="$0">
+                                        </td>
+                                    </tr>
+                                    <tr class="mat-row">
+                                        <td class="mat-cell">RF-ID</td>
+                                        <td class="mat-cell">
+                                            $<input type="text" matInput id="rfidMontocomprobado" disabled name="rfidMontocomprobado" [(ngModel)]="concepDetalle.rfidMontocomprobado" placeholder="$0">
+                                        </td>
+                                        <td class="mat-cell">
+                                            $<input type="text" matInput id="rfidMontoAutorizado" disabled name="rfidMontoAutorizado" [(ngModel)]="concepDetalle.rfidMontoAutorizado" placeholder="$0">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <mat-action-row>
+                            <button mat-raised-button color="warn" (click)="prevStep()">Previo</button>
+                            <button mat-raised-button color="primary" (click)="nextStep()">&nbsp;Final&nbsp;</button>
+                        </mat-action-row>
+                        </mat-expansion-panel>
+                
+            
+                </mat-accordion>
+            </mat-tab>
+            <mat-tab label="Historial"> 
+                <table class="mat-table table employee-list no-wrap" >
+                    <tr class="mat-header-row">
+                    <th class="mat-header-cell">Hora Registro</th>
+                    <th class="mat-header-cell">Usuario</th>
+                    <th class="mat-header-cell">Evento</th>
+                    <th class="mat-header-cell">Estatus del Registro</th>
+                    <th class="mat-header-cell">Comentarios</th>
+                    </tr>
+                    <tr class="mat-row">
+                    <td class="mat-cell"></td>
+                    <td class="mat-cell"></td>
+                    <td class="mat-cell"></td>
+                    <td class="mat-cell"></td>
+                    <td class="mat-cell"></td>
+                    </tr>
+                </table>
+        </mat-tab>
+        </mat-tab-group>
+        
+        </form>
+    </div>
+</div>
+

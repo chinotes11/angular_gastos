@@ -1,0 +1,155 @@
+
+<div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+	<div fxLayout="row wrap">
+        <div fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100" class="align-self-center">
+            <h3 class="page-title text-themecolor m-0"><b>{{pageInfo?.title}}</b></h3>
+		</div>
+		<div fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100" class="align-self-center">
+            <div class="breadcrumb d-flex align-items-center float-right float-sm-left">
+             
+                <ul class="list-style-none d-flex align-items-center">
+                    <ng-template ngFor let-url [ngForOf]="pageInfo?.urls" let-last="last">
+                        <!-- 
+                           <button (click)="pasoFiltros()">New Message</button>
+                           {{message[0].tipo}}
+                        <li class="breadcrumb-item" *ngIf="!last" [routerLink]="url.url">
+                            <a href='javascript:void(0)'>{{url.title}}</a>
+                        </li>
+                        <li class="breadcrumb-item active" *ngIf="last">{{url.title}}</li> -->
+                        <li class="breadcrumb-item " *ngIf="last">
+                            <a (click)="exportar()" >
+                                <button mat-raised-button color="primary"><mat-icon> download</mat-icon> Exportar</button>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item " *ngIf="last">
+                            <a (click)="importar('importar',ArrOrig)" >
+                                <button mat-raised-button color="primary"><mat-icon> file_upload</mat-icon> Importar / Conciliar Archivo</button>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item " *ngIf="last"><img [src]='url.icono'class="img-icono" /> </li>
+                    </ng-template>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row">
+  <div fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row wrap" class="align-items-center">
+            <div fxFlex.gt-md="25"  fxFlex.gt-lg="25" class="text-left">
+                <a (click)="limpiarfiltros()" >
+                    <button mat-raised-button color="primary"><mat-icon> delete_sweep</mat-icon> Limpiar filtros</button>
+                </a>
+            </div>
+            <div fxFlex.gt-md="50" class="text-right"> </div>
+          <div fxFlex.gt-md="25" fxFlex.gt-lg="25" fxFlex="100">
+            <mat-form-field>
+              <input matInput (keyup)="filter($event.target.value)" placeholder="Buscar Layout ...">
+            </mat-form-field>
+          </div>
+          
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+<div fxLayout="row wrap">
+    <div fxFlex="100">
+      <mat-card>
+        <mat-card-content>
+          <div class="table-responsive">
+                <table mat-table [dataSource]="pagoList" matSort class="table employee-list no-wrap">
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                [aria-label]="checkboxLabel()"
+                                (change)="showOptions($event)" >
+                            </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row)" 
+                                [aria-label]="checkboxLabel(row)"
+                                (change)="showOptions($event)" >
+                            </mat-checkbox>  
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="descarga">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Descarga </th>
+                            <td mat-cell *matCellDef="let element">  
+                                <a (click)="descargar($event,element)" >
+                                    <button mat-raised-button color="primary"  ><mat-icon>cloud_download</mat-icon></button>
+                                </a>
+                            </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="descEmpresa">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Empresa</th>
+                        <td mat-cell *matCellDef="let element"> 
+                                <p class="font-bold m-b-0 m-t-0"> {{element.descEmpresa}}</p>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="idLayoutBancarioEnvio">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            No.Layout</th>
+                            <td mat-cell *matCellDef="let element"> 
+                                <a  [routerLink]="['../ListaArchivo/DetalleArchivo/',element.id]">
+                                    <p class="font-bold m-b-0 m-t-0"> {{element.idLayoutBancarioEnvio}}</p>
+                                </a>
+                            </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="bancoParticipanteResp">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                           Banco Emisor</th>
+                          <td mat-cell *matCellDef="let element"> {{element.bancoParticipanteResp}} </td>
+                  </ng-container>
+
+                    <ng-container matColumnDef="cuentaEmisor">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Cuenta Emisora</th>
+                            <td mat-cell *matCellDef="let element"> {{element.cuentaEmisor}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fechaRegistroTrans">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Fecha de Creación</th>
+                            <td mat-cell *matCellDef="let element"> {{element.fechaRegistroTrans | date :'dd/MMM/yyyy'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="monto">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                         Monto Layout</th>
+                         <td mat-cell *matCellDef="let element">{{ getMonto(element.monto) }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="moneda">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Moneda</th>
+                        <td mat-cell *matCellDef="let element">{{element.moneda}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cta">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            No.de Registros </th>
+                            <td mat-cell *matCellDef="let element"> {{element.cta}} </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

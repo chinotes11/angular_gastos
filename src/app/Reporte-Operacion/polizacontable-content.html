@@ -1,0 +1,205 @@
+<div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+	<div fxLayout="row wrap">
+        <div fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100" class="align-self-center">
+            <h4 class="page-title text-themecolor m-0"><b>Transacción de Pago</b> </h4>
+		</div>
+		<div fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100" class="align-self-center">
+            <div class="breadcrumb d-flex align-items-center float-right float-sm-left">
+                <ul class="list-style-none d-flex align-items-center">
+                        <li class="breadcrumb-item active"><b>Estatus Actual</b></li> 
+                        <li class="breadcrumb-item " >
+                            <select class="mat-select" matNativeControl >
+                                <option class="mat-option" value="Efectivo">Siguiente Tarea</option>
+                            </select>
+                        </li>
+                        <li class="breadcrumb-item " ><button mat-raised-button  color="primary"><mat-icon>edit</mat-icon>Editar</button></li>
+                        <li class="breadcrumb-item " ><button mat-raised-button  color="primary"><mat-icon> save</mat-icon> Guardar</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<mat-tab-group>
+    <mat-tab label="Datos"> 
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">
+
+                <div fxLayout="row wrap" class="align-items-center">
+                    <div fxFlex="100" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <input type="text" matInput required id="nnm" name="nnm" value="1" placeholder="C-ID">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <input type="text" placeholder="Nombre" matInput required id="nn" name="nn" value="Andrea Maldonado Ruiz">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <select  placeholder="Moneda" class="mat-select" matNativeControl >
+                                    <option class="mat-option" value="Efectivo">MXN</option>
+                                    <option class="mat-option" value="Efectivo">USD</option>
+                                </select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <input type="text" matInput required id="vb" name="vb" value="Pago" placeholder="Tipo Transacción">
+                            </mat-form-field>
+                        </div>
+                    </div>    
+                    <div fxFlex="100" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <input type="text" matInput required id="vvb" name="vvb" value="Pago"  placeholder="Tipo Cambio">
+                            </mat-form-field>
+                        </div>
+                    </div> 
+
+                    <div fxFlex="100" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <input type="text" matInput required id="pou" name="pou" value="Citibanamex"  placeholder="Banco Receptor">
+                            </mat-form-field>
+                        </div>
+                    </div>    
+                    
+                    <div fxFlex="100" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <select placeholder="Banco Emisor" class="mat-select" matNativeControl >
+                                    <option class="mat-option" value="Efectivo">Bancomer</option>
+                                    <option class="mat-option" value="Efecztivo">Citibanamex</option>
+                                </select>
+                            </mat-form-field>
+                        </div>
+                    </div>  
+                    
+                    <div fxFlex="100" fxFlex.gt-md="20">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <input type="text" disabled matInput required id="cvv" name="cvv" value="35622654253624" placeholder="Cuenta Receptora">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+                    <div fxFlex="100" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                                <mat-form-field>
+                                    <select  placeholder="Cuenta Emisora" class="mat-select" matNativeControl >
+                                        <option class="mat-option" value="Efectivo">85172887232</option>
+                                        <option class="mat-option" value="Ef2ectivo">16462355123</option>
+                                    </select>
+                                </mat-form-field>
+                        </div>
+                    </div>  
+
+                    <div fxFlex="100" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                                <mat-form-field>
+                                    <select  placeholder="Forma de Pago" class="mat-select" matNativeControl >
+                                        <option class="mat-option" value="Efectivo">Transferencia</option>
+                                        <option class="mat-option" value="Ef3ectivo">Deposito</option>
+                                    </select>
+                                </mat-form-field>
+                        </div>
+                    </div>  
+
+                    <div fxFlex="100" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <input type="text" matInput required id="cc" name="cc" value="PTX-54456" placeholder="No-Transacción">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <input type="date" matInput required id="xs" name="xs" value="02/02/2021" placeholder="Fecha Registro de Pago">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <input type="text" matInput required id="xz" name="xz" value="930.00" placeholder="Monto">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <input type="date" matInput required id="dfr" name="dfr" value="02/02/2021" placeholder="Fecha de Aplicación de Pago">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxFlex="100" fxFlex.gt-md="33">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <input type="text" matInput required id="xc" name="xc" value="PTX-59" placeholder="Referencia de Pago">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxFlex="100" fxFlex.gt-md="33">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field>
+                                <input type="text" matInput required id="mnn" name="mnn" value="Observaciones" placeholder="Observaciones">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>                  
+            </div>
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">
+                <mat-tab-group>
+                    <mat-tab label="Vista Previa">
+                        <mat-card-content>
+                            <img src="assets/images/ejemplos/documento.png" class="png-icon" width="90%">
+                        </mat-card-content>
+                    </mat-tab>
+                </mat-tab-group>
+                
+            </div>
+        </div>
+        
+    </mat-tab>
+    <mat-tab label="Historial"> 
+        <table class="mat-table table employee-list no-wrap" >
+            <tr class="mat-header-row">
+                <th class="mat-header-cell">Hora Registro</th>
+                <th class="mat-header-cell">Usuario</th>
+                <th class="mat-header-cell">Evento</th>
+                <th class="mat-header-cell">Estatus del Registro</th>
+                <th class="mat-header-cell">Comentarios</th>
+            </tr>
+            <tr class="mat-row">
+                <td class="mat-cell">21/04/18 02:51:38 PM</td>
+                <td class="mat-cell">admin</td>
+                <td class="mat-cell">Se guarda el colaborador</td>
+                <td class="mat-cell">Nuevo</td>
+                <td class="mat-cell">Se envia correo a colaborador.</td>
+            </tr>
+            </table>
+</mat-tab>
+  </mat-tab-group>
+
+  <div fxLayout="row wrap">
+    <div fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100" class="align-self-center">       </div>
+    <div fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100" class="align-self-center">
+        <ul class="list-style-none d-flex align-items-center">               
+            <li class="breadcrumb-item " ><button mat-raised-button (click)="closeDialog()"color="primary"> Aceptar</button></li>
+            <li class="breadcrumb-item " ><button mat-raised-button (click)="closeDialog()" color="warn"> Cancelar</button></li>
+        </ul>
+    </div>
+</div>

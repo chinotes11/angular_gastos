@@ -1,0 +1,164 @@
+<div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+	<div fxLayout="row wrap">
+        <div fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100" class="align-self-center">
+            <h3 class="page-title text-themecolor m-0"><b>{{ pageInfo?.title }}</b></h3>
+            <!--<h3 class="page-title text-themecolor m-0"><b>{{ pageInfo?.title}}</b></h3>-->
+		</div>
+		<div fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100" class="align-self-center">
+            <div class="breadcrumb d-flex align-items-center float-right float-sm-left">
+             
+                <ul class="list-style-none d-flex align-items-center">
+                    <ng-template ngFor let-url [ngForOf]="pageInfo?.urls" let-last="last">
+                        <!-- 
+                           <button (click)="pasoFiltros()">New Message</button>
+                           {{message[0].tipo}}
+                        <li class="breadcrumb-item" *ngIf="!last" [routernk]="url.url">
+                            <a href='javascript:void(0)'>{{url.title}}</a>
+                        </li>-->
+                        <li class="breadcrumb-item " *ngIf="last">
+                            <div fxFlex.gt-md="75" class="text-right">
+                                <button mat-raised-button color="primary"><img src="assets/images/iconos/conciliación manual de pagos BLANCO.png" class="png-icon" width="20"> Conciliar</button>
+                            </div>
+                        </li>
+                        <li class="breadcrumb-item " *ngIf="last"><img [src]='url.icono'class="img-icono" /> </li>
+                    </ng-template>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row">
+  <div fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row wrap" class="align-items-center">
+            <div fxFlex.gt-md="75" class="text-right">
+                
+              </div>
+          <div fxFlex.gt-md="25" fxFlex.gt-lg="25" fxFlex="100">
+            <mat-form-field>
+              <input matInput (keyup)="filter($event.target.value)" placeholder="Buscar Conciliación ...">
+            </mat-form-field>
+          </div>
+          
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+<div fxLayout="row wrap">
+    <div fxFlex="100">
+      <mat-card>
+        <mat-card-content>
+          <div class="table-responsive">
+                <table mat-table [dataSource]="pagoList" matSort class="table employee-list no-wrap">
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                [aria-label]="checkboxLabel()"
+                                (change)="showOptions($event)" >
+                            </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row)" 
+                                [aria-label]="checkboxLabel(row)"
+                                (change)="showOptions($event)" >
+                            </mat-checkbox>  
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Empresa">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Empresa</th>
+                        <td mat-cell *matCellDef="let element"> 
+                                <p class="font-bold m-b-0 m-t-0"> {{element.Empresa}}</p>
+                        </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="IdColaborador">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            ID Colaborador</th>
+                            <td mat-cell *matCellDef="let element"> 
+                                    <p class="font-bold m-b-0 m-t-0"> {{element.IdColaborador}}</p>
+                            </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="NombreColaborador">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Nombre Colaborador</th>
+                          <td mat-cell *matCellDef="let element"> {{element.NombreColaborador}} </td>
+                  </ng-container>
+
+                    <ng-container matColumnDef="TipoTransaccion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Tipo de Transacción</th>
+                            <td mat-cell *matCellDef="let element"> {{element.TipoTransaccion}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="IdTipoTransaccion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            ID Tipo Transacción</th>
+                            <td mat-cell *matCellDef="let element"> {{element.IdTipoTransaccion}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="IdPago">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                         ID Pago</th>
+                         <td mat-cell *matCellDef="let element">{{element.IdPago}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="FechaRegistroPago">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de Registro del Pago</th>
+                        <td mat-cell *matCellDef="let element">{{element.FechaRegistroPago | date :'dd/MMM/yyyy'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="MontoPago">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Monto de Pago </th>
+                            <td mat-cell *matCellDef="let element"> {{element.MontoPago}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Moneda">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Moneda</th>
+                            <td mat-cell *matCellDef="let element"> {{element.Moneda}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="TipoCambio">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de Cambio</th>
+                        <td mat-cell *matCellDef="let element"> {{element.TipoCambio}}</td>
+                    </ng-container>
+                
+                    <ng-container matColumnDef="ReferenciaPago">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Referencia de Pago</th>
+                      <td mat-cell *matCellDef="let element"> {{element.ReferenciaPago}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="FormaPago">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Forma de Pago</th>
+                    <td mat-cell *matCellDef="let element"> {{element.FormaPago}}</td>
+                </ng-container>
+                <ng-container matColumnDef="BancoEmisor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Banco Emisor </th>
+                    <td mat-cell *matCellDef="let element"> {{element.BancoEmisor}}</td>
+                </ng-container>
+                <ng-container matColumnDef="CuentaEmisora">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cuenta Emisora</th>
+                    <td mat-cell *matCellDef="let element"> {{element.CuentaEmisora}}</td>
+                </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

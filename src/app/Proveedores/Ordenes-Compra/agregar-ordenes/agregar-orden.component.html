@@ -1,0 +1,781 @@
+<div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+    <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="align-self-center">
+            <h3 class="page-title text-themecolor m-0"><b>Orden de Compra</b></h3>
+        </div>
+        <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100" class="align-self-center">
+            <div class="breadcrumb d-flex align-items-center float-right float-sm-left">             
+                <ul class="list-style-none d-flex align-items-center">
+                    <li class="breadcrumb-item ">
+                        <h5 class="m-0"><b></b> </h5> 
+                    </li>
+                    <li class="breadcrumb-item abajo" >
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15 abajo">                         
+                            <mat-label>Siguiente Tarea</mat-label>
+                            <mat-select placeholder="" name="SelEstatus" placeholder="Workflow" [disabled]="bloqueoWf=='0'"  >
+                                <mat-option *ngFor="let work of workInicial" [value]="work.siguienteEstatus">
+                                    {{work.opcion}}
+                                </mat-option>
+                            </mat-select>
+                    </mat-form-field>
+                    </li>
+                    <li class="breadcrumb-item" >
+                        <button mat-raised-button class="" color="primary" [disabled]="btnGda !== '1'"> <mat-icon>edit</mat-icon> </button>
+                    </li>
+                    <li class="breadcrumb-item" >
+                        <button mat-raised-button class="arriba2" color="primary" (click)=guardarProveedores() [disabled]="btnGda !== '1'"> <mat-icon>save</mat-icon> </button>
+                    </li>
+                    <li class="breadcrumb-item" >
+                        <button mat-raised-button (click)=cerrarGastosZ() color="warn"> <mat-icon>highlight_off</mat-icon> </button>                         
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row">
+    <div fxFlex="100">
+      <mat-card>
+        <mat-card-content>
+          <div fxLayout="row wrap" class="align-items-center">
+              <div fxFlex.gt-md="75" class="text-left">
+                  
+                </div>
+            <div fxFlex.gt-md="25" fxFlex.gt-lg="25" fxFlex="100">
+                <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                    <mat-label>Buscar Proveedor</mat-label>
+                    <input type="text" matInput id="razonSocial" name="razonSocial" [(ngModel)]="tesoreriaListData.razonSocial"  placeholder="Buscar Proveedor" [disabled]="!bloqueo">
+                  </mat-form-field> 
+            </div>
+            
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+ <div fxLayout="row wrap">
+    <div fxFlex="100">  
+        <form #userForm="ngForm"> 
+    <mat-tab-group>
+        
+        <mat-tab label="Orden de Compra"> 
+        <mat-card>
+           <mat-card-content>
+
+                <div fxLayout="row wrap" class="align-items-center"> 
+                <div fxFlex="50" fxFlex.gt-md="50">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                          <mat-label>ID Proveedor</mat-label>
+                          <mat-select required placeholder="Tipo de Proveedor" [(ngModel)]="tesoreriaListData.idProveedor"  id="idProveedor" name="idProveedor"  [disabled]="!bloqueo" >
+                              <mat-option *ngFor="let tipop of TipoP" [value]="tipop.idProveedor" >
+                                  {{tipop.TipoProveedor}}
+                              </mat-option>
+                          </mat-select>                  
+                        </mat-form-field>
+                    </div>
+                </div>	
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>RFC / TAX-ID</mat-label>
+                        <input type="text" matInput id="rfc" name="rfc" [(ngModel)]="tesoreriaListData.RFC" placeholder="RFC" [disabled]="!bloqueo">
+                    </mat-form-field>   
+                </div>   
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Proveedor</mat-label>
+                        <input type="text" matInput id="Proveedor" name="Proveedor" [(ngModel)]="tesoreriaListData.Proveedor" placeholder="Proveedor" [disabled]="!bloqueo">
+                    </mat-form-field>   
+                </div>   
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                        <mat-label>Razón Social</mat-label>
+                        <input type="text" matInput id="RazonSocial" name="RazonSocial" [(ngModel)]="tesoreriaListData.RazonSocial" placeholder="Razon Social" [disabled]="!bloqueo">
+                    </mat-form-field>   
+                </div>   
+                </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>PO-ID</mat-label>
+                            <input type="text" matInput id="POID" name="POID" [(ngModel)]="tesoreriaListData.Observaciones" placeholder="Observaciones" [disabled]="!bloqueo">
+                        </mat-form-field>   
+                    </div>   
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                <mat-label>Requesición ID</mat-label>
+                                <input type="text" matInput id="idRequesicion" name="idRequesicion" [(ngModel)]="tesoreriaListData.idRequesicion" placeholder="Requesición ID" [disabled]="bloqueo">
+                            </mat-form-field>   
+                        </div>   
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                <mat-label>ID ERP</mat-label>
+                                <input type="text" matInput id="IDERP" name="IDERP" [(ngModel)]="tesoreriaListData.IDERP" placeholder="ID ERP" [disabled]="bloqueo">
+                            </mat-form-field>    
+                        </div>   
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                <mat-label>Empresa Solicitante</mat-label>
+                                <input type="text" matInput id="EmpresaSol" name="EmpresaSol" [(ngModel)]="tesoreriaListData.EmpresaSol" placeholder="Empresa Solicitante" [disabled]="bloqueo">
+                            </mat-form-field>   
+                        </div>   
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                <mat-label>Area Solicitante</mat-label>
+                                <input type="text" matInput id="AreaSol" name="AreaSol" [(ngModel)]="tesoreriaListData.AreaSol" placeholder="Area Solicitante" [disabled]="bloqueo">
+                            </mat-form-field>   
+                        </div>   
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                <mat-label>Proyecto</mat-label>
+                                <input type="text" matInput id="Proyecto" name="Proyecto" [(ngModel)]="tesoreriaListData.Proyecto" placeholder="Proyecto" [disabled]="bloqueo">
+                            </mat-form-field>   
+                        </div>   
+                    </div>
+                    <div fxFlex="50" fxFlex.gt-md="50">
+                        <div class="m-r-15 m-l-15">
+                          <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                              <mat-label>Centro de Costos</mat-label>
+                              <mat-select required placeholder="Centro de Costos"  [(ngModel)]="tesoreriaListData.idCentrosCostos" id="idCentrosCostos" name="idCentrosCostos"  disabled="!bloqueo">
+                                  <mat-option *ngFor="let centro of CentroCosto" [value]="tesoreriaListData.idCentrosCostos">
+                                      {{centro.CentroCostos}}
+                                  </mat-option>
+                              </mat-select>                  
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                <mat-label>Fecha de Registro</mat-label>
+                                <input type="text" matInput id="fecharegistro" name="fecharegistro" [(ngModel)]="tesoreriaListData.fecharegistro" placeholder="Fecha Registro" [disabled]="bloqueo">
+                            </mat-form-field>   
+                        </div>   
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                <mat-label>Fecha de Entrega Esperada</mat-label>
+                                <input type="text" matInput id="fechaesperada" name="fechaesperada" [(ngModel)]="tesoreriaListData.fecharegistro" placeholder="Fecha Esperada" [disabled]="bloqueo">
+                            </mat-form-field>   
+                        </div>   
+                    </div>
+                    <div fxFlex="50" fxFlex.gt-md="50">
+                    
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                              <mat-label>Términos de Pago</mat-label>
+                              <mat-select required placeholder="Término de Pago" [(ngModel)]="tesoreriaListData.idTerminoPago"  id="idTerminoPago" name="idTerminoPago"  [disabled]="!bloqueo" >
+                                  <mat-option *ngFor="let terminop of TerminoP" [value]="terminop.idTerminoPago"  >
+                                      {{terminop.TerminoPago}}
+                                  </mat-option>
+                              </mat-select>                  
+                            </mat-form-field>
+                        </div>
+                    </div>	
+                    <div fxFlex="100" fxFlex.gt-xs="50">
+                        <div class="m-r-15 m-l-15">
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                <mat-label>Presupuesto Aprobado</mat-label>
+                                <input type="text" matInput id="Aprobado" name="Aprobado" [(ngModel)]="tesoreriaListData.Aprobado" placeholder="Fecha Registro" [disabled]="bloqueo">
+                            </mat-form-field>   
+                        </div>   
+                    </div>
+                <!--
+                <mat-action-row>
+                    <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                </mat-action-row>-->
+            </div>
+        
+                          
+           </mat-card-content>
+        </mat-card>
+        <mat-card>
+           <mat-card-content>
+            <div fxLayout="row wrap">
+                <div fxFlex="100" fxFlex.gt-xs="100">
+                  <mat-card>
+                    <mat-card-content>
+                      <div fxLayout="row wrap" class="align-items-center">
+                        <div fxFlex.gt-md="100" class="text-left">
+                          <button mat-raised-button color="primary" (click)="openDialog('Agregar',{})"><img src="assets/images/iconos/Icono_agrega_registro_BLANCO.png" class="png-icon" width="20">Agregar Servicio</button>
+                        </div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>           
+            <div fxLayout="row wrap">
+                <div fxFlex="100" fxFlex.gt-xs="100">
+                  <mat-card>
+                    <mat-card-content>
+                        <div class="table-responsive">
+                            <table mat-table [dataSource]="dataSource" class="table employee-list no-wrap">
+
+                                <ng-container matColumnDef="Cantidad">
+                                    <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                                    <td mat-cell *matCellDef="let element">{{element.Cantidad}}  </td>
+                                  </ng-container>
+                      
+                                  <ng-container matColumnDef="Unidad">
+                                    <th mat-header-cell *matHeaderCellDef> Unidad </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.Unidad}} </td>
+                                  </ng-container>
+                      
+                                  <ng-container matColumnDef="IDProducto">
+                                    <th mat-header-cell *matHeaderCellDef> ID Producto/Servicio </th>
+                                    <td mat-cell *matCellDef="let element">{{element.IDProducto}}  </td>
+                                  </ng-container>
+                      
+                                  <ng-container matColumnDef="CuentaC">
+                                    <th mat-header-cell *matHeaderCellDef> Cuenta Contable </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.CuentaC}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="Tarifa">
+                                    <th mat-header-cell *matHeaderCellDef> Tarifa </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.Tarifa}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="Monto">
+                                    <th mat-header-cell *matHeaderCellDef>  Monto </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.Monto}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="Descuento">
+                                    <th mat-header-cell *matHeaderCellDef> Descuento </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.Descuento}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="ImpuestoAplicable">
+                                    <th mat-header-cell *matHeaderCellDef> Impuesto Aplicable </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.ImpuestoAplicable}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="MontoDescuento">
+                                    <th mat-header-cell *matHeaderCellDef> Monto Descuento </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.MontoDescuento}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="Importe">
+                                    <th mat-header-cell *matHeaderCellDef> Importe </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.Importe}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="Accion">
+                                    <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                    <td mat-cell *matCellDef="let element" class="action-link">
+                                      <a (click)="openDialog('Modificar',element)" class="m-r-10 cursor-pointer"><i class="fa fa-pencil"></i></a>
+                                      <a (click)="openDialog('Borrar',element)" class="m-r-10 cursor-pointer">
+                                        <i class="fa fa-trash text-danger"></i>
+                                      </a>
+                                    </td>
+                                  </ng-container>
+            
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                            <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+           </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-content>
+                <div fxLayout="row wrap" class="align-items-center">
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Subtotal</mat-label>
+                            <input type="text" matInput id="Subtotal" name="Subtotal" [(ngModel)]="tesoreriaListData.fecharegistro" placeholder="Fecha Esperada" [disabled]="bloqueo">
+                        </mat-form-field>   
+                    </div>   
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Descuento Total</mat-label>
+                            <input type="text" matInput id="Descuento" name="Descuento" [(ngModel)]="tesoreriaListData.fecharegistro" placeholder="Fecha Esperada" [disabled]="bloqueo">
+                        </mat-form-field>   
+                    </div>   
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Impuesto Total</mat-label>
+                            <input type="text" matInput id="Impuesto" name="Impuesto" [(ngModel)]="tesoreriaListData.fecharegistro" placeholder="Fecha Esperada" [disabled]="bloqueo">
+                        </mat-form-field>   
+                    </div>   
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Importe Total</mat-label>
+                            <input type="text" matInput id="Importe" name="Importe" [(ngModel)]="tesoreriaListData.fecharegistro" placeholder="Fecha Esperada" [disabled]="bloqueo">
+                        </mat-form-field>   
+                    </div>   
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="m-r-15 m-l-15">
+                        <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                            <mat-label>Moneda</mat-label>
+                            <input type="text" matInput id="Moneda" name="Moneda" [(ngModel)]="tesoreriaListData.fecharegistro" placeholder="Fecha Esperada" [disabled]="bloqueo">
+                        </mat-form-field>   
+                    </div>   
+                </div>
+                </div>
+
+
+
+
+            </mat-card-content>
+        </mat-card>
+        </mat-tab>
+        <mat-tab label="Recepciones">
+            <div fxLayout="row wrap">
+                <div fxFlex="100" fxFlex.gt-xs="100">
+                  <mat-card>
+                    <mat-card-content>
+                        <div class="table-responsive">
+                            <table mat-table [dataSource]="tablaList" class="table employee-list no-wrap">
+
+                                <ng-container matColumnDef="PO-ID">
+                                    <th mat-header-cell *matHeaderCellDef> PO-ID </th>
+                                    <td mat-cell *matCellDef="let element">{{element.POID}}  </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="RecepcionID">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                        RecepcionID</th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            <a  [routerLink]="['../../detalleRecepciones/',element.id]">
+                                                <p class="font-bold m-b-0 m-t-0"> {{element.RecepcionID}}</p>
+                                            </a>
+                                        </td>
+                                </ng-container>
+                                  <ng-container matColumnDef="FechaRecepcion">
+                                    <th mat-header-cell *matHeaderCellDef> Fecha Recepcion </th>
+                                    <td mat-cell *matCellDef="let element">{{element.fechaIni}}  </td>
+                                  </ng-container>
+                      
+                                  <ng-container matColumnDef="IDERP">
+                                    <th mat-header-cell *matHeaderCellDef> ID-ERP </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.IDERP}} </td>
+                                  </ng-container>
+            
+                                <tr mat-header-row *matHeaderRowDef="recepcionesColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: recepcionesColumns;"></tr>
+                            </table>
+                            <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+         
+
+
+
+        </mat-tab>
+        <mat-tab label="Factura Proveedor">
+            <div fxFlex="100" fxFlex.gt-xs="50">
+                <div class="m-r-15 m-l-15">
+                   <!-- [routerLink]="['../../detalleRecepciones/',element.id]"-->
+                    <a  [routerLink]="['../../Facturas/',22]">
+                        <button mat-raised-button color="primary"><img src="assets/images/iconos/Icono_agrega_registro_BLANCO.png" class="png-icon" width="20">Nueva Factura</button>
+                    </a>
+                </div>
+            </div> 
+            <div fxLayout="row wrap">
+                <div fxFlex="100" fxFlex.gt-xs="100">
+                  <mat-card>
+                    <mat-card-content>
+                        <div class="table-responsive">
+                            <table mat-table [dataSource]="facturaList" class="table employee-list no-wrap">
+                                <ng-container matColumnDef="select">
+                                    <th mat-header-cell *matHeaderCellDef> </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-checkbox (click)="$event.stopPropagation()"
+                                            (change)="$event ? selection.toggle(row) : null"
+                                            [checked]="selection.isSelected(row)" 
+                                            [aria-label]="checkboxLabel(row)">
+                                        </mat-checkbox>
+                                    </td>
+                                </ng-container>
+                                  <ng-container matColumnDef="facturaID">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                        Factura-ID</th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            <a  [routerLink]="['../../Facturas/',16]">
+                                                <p class="font-bold m-b-0 m-t-0"> {{element.facturaID}}</p>
+                                            </a>
+                                        </td>
+                                </ng-container>
+                                  <ng-container matColumnDef="folioF">
+                                    <th mat-header-cell *matHeaderCellDef> Folio Fiscal </th>
+                                    <td mat-cell *matCellDef="let element">{{element.folioF}}  </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="fechaRegistro">
+                                    <th mat-header-cell *matHeaderCellDef> Fecha Registro </th>
+                                    <td mat-cell *matCellDef="let element">{{element.fechaRegistro | date :'dd/MMM/yyyy'}}  </td>
+                                  </ng-container>
+                        
+                                  <ng-container matColumnDef="NombrePro">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                        Nombre Proveedor</th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            <a  [routerLink]="['../../../proveedores/AgregarProveedores/',id]">
+                                                <p class="font-bold m-b-0 m-t-0"> {{element.NombrePro}}</p>
+                                            </a>
+                                        </td>
+                                </ng-container>
+                      
+                                  <ng-container matColumnDef="razonSocialP">
+                                    <th mat-header-cell *matHeaderCellDef> Razón Social Emisora </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.razonSocialP}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="estatus">
+                                    <th mat-header-cell *matHeaderCellDef> Estatus </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.estatus}} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="moneda">
+                                    <th mat-header-cell *matHeaderCellDef> Moneda </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.moneda}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="importeT">
+                                    <th mat-header-cell *matHeaderCellDef> Importe Total </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.importeT}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="ordenCompraID">
+                                    <th mat-header-cell *matHeaderCellDef> Orden de Compra ID </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.ordenCompraID}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="montoOrden">
+                                    <th mat-header-cell *matHeaderCellDef> Monto Orden </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.montoOrden}} </td>
+                                  </ng-container>
+                
+                                  <ng-container matColumnDef="pagada">
+                                    <th mat-header-cell *matHeaderCellDef > Pagada </th>
+                                    <td mat-cell *matCellDef="let element">
+                                      <div *ngIf='element.pagada==="NO PAGADO"' >
+                                        <span class="material-icons" >panorama_fish_eye</span>
+                                      </div>
+                                      <div *ngIf='element.pagada==="PAGADO PARCIALMENTE"' >
+                                        <span class="material-icons" >adjust</span>
+                                      </div>  
+                                      <div *ngIf='element.pagada=== "PAGADO"' >
+                                        <span class="material-icons" >circle</span>
+                                      </div>
+                                    </td>
+                                </ng-container>
+
+            
+                                <tr mat-header-row *matHeaderRowDef="facturasColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: facturasColumns;"></tr>
+                            </table>
+                            <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Pago a Proveedor">
+            <div fxLayout="row wrap">
+                <div fxFlex="100" fxFlex.gt-xs="100">
+                  <mat-card>
+                    <mat-card-content>
+                        <div class="table-responsive">
+                            <table mat-table [dataSource]="pagoList" class="table employee-list no-wrap">
+                                <ng-container matColumnDef="select">
+                                    <th mat-header-cell *matHeaderCellDef> </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-checkbox (click)="$event.stopPropagation()">
+                                        </mat-checkbox>
+                                    </td>
+                                </ng-container>
+                                  <ng-container matColumnDef="empresaSol">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                        Empresa Solicitante</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.empresaSol }}</td>
+                                </ng-container>
+                                  <ng-container matColumnDef="facturaID">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                        Factura ID</th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            <a  [routerLink]="['../../Facturas/',16]">
+                                                <p class="font-bold m-b-0 m-t-0"> {{element.facturaID}}</p>
+                                            </a>
+                                        </td>
+                                </ng-container>
+                                  <ng-container matColumnDef="estatus">
+                                    <th mat-header-cell *matHeaderCellDef > Estatus </th>
+                                    <td mat-cell *matCellDef="let element">
+                                      <div *ngIf='element.Estatus==="PAGADO PARCIALMENTE"' >
+                                        <span class="material-icons" >adjust</span>
+                                      </div>  
+                                      <div *ngIf='element.Estatus=== "APROBADO"' >
+                                        <span class="material-icons" >circle</span>
+                                      </div>
+                                    </td>
+                                </ng-container>
+                                  <ng-container matColumnDef="areaSol">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                        Area Solicitante</th>
+                                        <td mat-cell *matCellDef="let element">{{element.areasol}}</td>
+                                </ng-container>
+                      
+                                  <ng-container matColumnDef="centroc">
+                                    <th mat-header-cell *matHeaderCellDef> Centro Costos </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.centroc}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="nombreProv">
+                                    <th mat-header-cell *matHeaderCellDef> Nombre Proveedor </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.NombrePro}} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="razonSocial">
+                                    <th mat-header-cell *matHeaderCellDef> Razón Social </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.razonSocialP}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="compraRec">
+                                    <th mat-header-cell *matHeaderCellDef> Compra Recurrente </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.importeT}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="moneda">
+                                    <th mat-header-cell *matHeaderCellDef> Moneda </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.moneda}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="importe">
+                                    <th mat-header-cell *matHeaderCellDef> Importe </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.importeT}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="saldoP">
+                                    <th mat-header-cell *matHeaderCellDef> Saldo Pendiente </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.saldoP}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="p2s">
+                                    <th mat-header-cell *matHeaderCellDef> Pago ID </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.p2s}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="montototal">
+                                    <th mat-header-cell *matHeaderCellDef>Monto Total del Pago  </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.montototal}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="monedap">
+                                    <th mat-header-cell *matHeaderCellDef> Moneda del Pago </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.monedap}} </td>
+                                  </ng-container>
+                                  
+
+            
+                                <tr mat-header-row *matHeaderRowDef="pagoColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: pagoColumns;"></tr>
+                            </table>
+                            <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Complementos de Pago">
+            <div fxLayout="row wrap">
+                <div fxFlex="100" fxFlex.gt-xs="100">
+                  <mat-card>
+                    <mat-card-content>
+                        <div class="table-responsive">
+                            <table mat-table [dataSource]="complementoList" class="table employee-list no-wrap">
+                                <ng-container matColumnDef="select">
+                                    <th mat-header-cell *matHeaderCellDef> </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-checkbox (click)="$event.stopPropagation()">
+                                        </mat-checkbox>
+                                    </td>
+                                </ng-container>
+                                  <ng-container matColumnDef="nombreProv">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                        Nombre Proveedor</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.NombrePro }}</td>
+                                </ng-container>
+                                  <ng-container matColumnDef="razonSocial">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                        Factura ID</th>
+                                        <td mat-cell *matCellDef="let element">{{element.razonSocialP}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="fechaAplicacion">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                        Factura ID</th>
+                                        <td mat-cell *matCellDef="let element">{{element.fechaAplicacion | date :'dd/MMM/yyyy'}}</td>
+                                </ng-container>
+                                  <ng-container matColumnDef="transaccionPID">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                        Transacción Proveedor
+                                        <td mat-cell *matCellDef="let element">{{element.transaccionPID}}</td>
+                                </ng-container>
+                      
+                                  <ng-container matColumnDef="montop">
+                                    <th mat-header-cell *matHeaderCellDef>Monto Pagado </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.monto}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="diasTransaccion">
+                                    <th mat-header-cell *matHeaderCellDef>Dias Transacción </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.monto}} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="fechaEmisionC">
+                                    <th mat-header-cell *matHeaderCellDef> Fecha Emisión </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.fechaEmision | date :'dd/MMM/yyyy'}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="complementoPagoID">
+                                    <th mat-header-cell *matHeaderCellDef>  complemento Pago ID </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.complementoPagoID}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="montoComple">
+                                    <th mat-header-cell *matHeaderCellDef> Monto Complemento </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.monto}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="moneda">
+                                    <th mat-header-cell *matHeaderCellDef>Moneda </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.moneda}} </td>
+                                  </ng-container>
+                                  
+
+            
+                                <tr mat-header-row *matHeaderRowDef="complementoColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: complementoColumns;"></tr>
+                            </table>
+                            <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+        </mat-tab>
+       <!--<mat-tab label="Comprobante">
+            <div class="table-responsive">
+                <mat-card-content>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>   <th scope="col">Documento PDF</th>  </tr>
+                        </thead>
+                        <tbody>
+                        <tr> <td> <div class="d-flex align-items-center m-b-15"> {{tesoreriaListData.comprobante}} </div></td> </tr>
+                        </tbody>
+                    </table> 
+                    <div class="d-flex align-items-center m-b-15">
+                        <form (ngSubmit)="enviar()">
+                            <div fxLayout="row wrap" class="align-items-center">
+                                <div fxFlex.gt-xs="100" fxFlex="100" fxFlex.gt-md="100"  class="d-flex align-items-center m-b-15"> 
+                                    <button mat-raised-button color="primary" class="m-l-15 input-file-button" [disabled]="!bloqueo" [disabled]="siPDF" >
+                                        <input 
+                                            #inputPdf
+                                            id="file" 
+                                            type="file" 
+                                            class="form-control"                                                
+                                            accept="application/pdf"
+                                            (change)="cargaArchivoPDF($event)" #fileUpload 
+                                            [disabled]="!bloqueo">
+                                    </button>  
+                                </div>
+                            </div>                                
+                        </form>                              
+                    </div> 
+                    <mat-card>
+                        <ng-container *ngIf="tesoreriaListData.comprobante===null;  then sinArch; else conArch">
+                        </ng-container>                
+                        <ng-template #sinArch>
+                            <h4>No se cuenta con vista previa debido a que no se ha cargado ningín comprobante PDF.</h4>
+                        </ng-template>                                
+                        <ng-template #conArch>
+                            <div fxLayout="row wrap" class="align-items-center">
+                                <div fxFlex="33" fxFlex.gt-xs="33">
+                                     <button mat-raised-button color="primary" (click)="pdf()">
+                                        <mat-icon>download_for_offline</mat-icon> Descargar
+                                    </button>  
+                                </div>
+                                <div fxFlex="33" fxFlex.gt-xs="33">
+                                    <button mat-raised-button color="primary" (click)="delPdf()">
+                                        <mat-icon>delete</mat-icon> Eliminar
+                                    </button>
+                                </div>
+                                <div fxFlex="33" fxFlex.gt-xs="33">
+                                    <button mat-mini-fab color="primary" (click)="incrementZoom(-0.1)">
+                                        <mat-icon>zoom_out</mat-icon>
+                                    </button>
+                                    <button mat-mini-fab color="primary" (click)="incrementZoom(0.05)">
+                                        <mat-icon>zoom_in</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="pdf-viewer">
+                                <pdf-viewer 
+                                    [src]="FileUrlPDF" 
+                                    [original-size]="false"
+                                    [render-text]="true"
+                                    [rotation]="0"
+                                    [show-all]="false"
+                                    [fit-to-page]="false"
+                                    [external-link-target]="'blank'"
+                                    [autoresize]="true"
+                                    [show-borders]="false"
+                                    class="pdf-viewer"
+                                    >
+                                </pdf-viewer>
+                            </div>
+                        </ng-template>
+                    </mat-card>
+                </mat-card-content>
+            </div>
+                            
+        </mat-tab>-->
+        <mat-tab label="Historial"> 
+            <div class="table-responsive">
+                <table mat-table [dataSource]="Historial" matSort class="table employee-list no-wrap">
+                    <ng-container matColumnDef="fechaRegistro">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha/Hora de Registro </th>
+                            <td mat-cell *matCellDef="let element"> {{element.fechaRegistro | date :'dd/MMM/yyyy'}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="idUser">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario</th>
+                            <td mat-cell *matCellDef="let element"> {{element.idUser}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="evento">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Evento</th>
+                            <td mat-cell *matCellDef="let element"> {{element.evento}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="estatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element"> {{element.estatus}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="comentarios">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Comentarios</th>
+                            <td mat-cell *matCellDef="let element"> {{element.comentarios}} </td>
+                    </ng-container>
+    
+                    <tr mat-header-row *matHeaderRowDef="histColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: histColumns;"></tr>
+                </table>
+                <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</form>
+</div>
+</div>

@@ -1,0 +1,159 @@
+
+// Variables
+body {
+    font-family: 'Gotham Rounded Light';
+}
+$bodyfont: 'Gotham Rounded Light', sans-serif;
+$headingfont: 'Gotham Rounded Light', sans-serif;
+
+@import '~@angular/material/theming';
+
+/*Material Theme Colors*/
+$mat-primario: (
+    50 : #f3e5f6,
+    100 : #e1bee9,
+    200 : #cd93db,
+    300 : #b967cc,
+    400 : #aa47c1,
+    500 : #9b26b6,
+    600 : #9b26b6,
+    700 : #891ca6,
+    800 : #7f179e,
+    900 : #6d0d8e,
+    A100 : #edbeff,
+    A200 : #de8bff,
+    A400 : #d058ff,
+    A700 : #c93fff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #ffffff,
+    )
+);
+$mat-verde: (
+    50 : #e2f7e2,
+    100 : #b7ebb6,
+    200 : #87dd85,
+    300 : #56cf54,
+    400 : #32c530,
+    500 : #0ebb0b,
+    600 : #0cb50a,
+    700 : #0aac08,
+    800 : #08a406,
+    900 : #049603,
+    A100 : #c1ffc1,
+    A200 : #8eff8e,
+    A400 : #5bff5b,
+    A700 : #41ff41,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+
+$primary: mat-palette($mat-primario, 600);
+$accent: mat-palette($mat-indigo, 500);
+$warn: mat-palette($mat-pink, 500);
+$verde: mat-palette($mat-verde, 600);
+$theme: mat-light-theme($primary, $accent, $warn);
+$background: map-get($theme, background);
+$foreground: map-get($theme, foreground);
+
+
+// Default Theme
+@include angular-material-theme($theme);
+
+// Dark Theme
+
+/*Theme Colors*/
+
+$topbar: #2196f3;
+$sidebar: #fff;
+$sidebar-white: #e5edef;
+$sidebar-alt: #f2f6f8;
+$bodycolor: #eef5f9;
+$headingtext: #455a64;
+$bodytext: #67757c;
+$sidebar-text: #e5edef;
+$sidebar-icons: #99abb4;
+
+$font-16: 16px;
+
+$light-text: #a6b7bf;
+$themecolor: #9b26b6;
+$themecolor-alt: #26c6da;
+$themecolor-dark: #028ee1;
+
+/*bootstrap Color*/
+$danger: #fc4b6c;
+$success: #0ebb0b;
+$warning: #ffb22b;
+$primary: #7460ee;
+$info: #9b26b6;
+$inverse: #ebf3f5;
+$muted: #99abb4;
+$dark: #263238;
+$light: #f2f4f8;
+$extra-light: #ebf3f5;
+$secondary: #727b84;
+
+/*Light colors*/
+$light-danger: #f9e7eb;
+$light-success: #e8fdf8;
+$light-warning: #fff8ec;
+$light-primary: #f1effd;
+$light-info: #e3f3fd;
+$light-inverse: #f6f6f6;
+$light-megna: #e0f2f4;
+
+$danger-dark: #e6294b;
+$success-dark: #0ebb0b;
+$warning-dark: #e9ab2e;
+$primary-dark: #6352ce;
+$info-dark: #028ee1;
+$red-dark: #d61f1f;
+$inverse-dark: #232a37;
+$dark-transparent: rgba(0, 0, 0, 0.05);
+
+/*Normal Color*/
+$white: #ffffff;
+$red: #fb3a3a;
+$yellow: #a0aec4;
+$purple: #7460ee;
+$blue: #02bec9;
+$megna: #00897b;
+
+/*Extra Variable*/
+$rgt: right;
+$lft: left;
+$border: rgba(120, 130, 140, 0.13);
+$table-border: #f3f1f1;
+$card-brd: #d7dfe3;
+$dark-text: #848a96;
+$radius: 4px;
+$form-brd: #d9d9d9;

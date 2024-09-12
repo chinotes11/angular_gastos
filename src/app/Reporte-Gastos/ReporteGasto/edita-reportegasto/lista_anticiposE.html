@@ -1,0 +1,136 @@
+<div class="sideL">
+    <div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="align-self-center">
+                <h4 class="page-title text-themecolor m-0"><b>Anticipo</b></h4>
+            </div>
+            <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100" class="align-self-center">
+                <div class="breadcrumb d-flex align-items-center float-right float-sm-left">             
+                    <ul class="list-style-none d-flex align-items-center">
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button class="arriba2" color="primary" (click)="doAction()" ><mat-icon>check_circle</mat-icon> Seleccionar</button> 
+                        </li>
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button  color="warn" (click)="closeDialog()"><mat-icon>highlight_off</mat-icon> Cancelar</button>    
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row wrap"> <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">  <h4><b>&nbsp;<br></b> </h4></div></div>
+
+
+<div fxLayout="row wrap">
+    <div fxFlex="100">
+        <mat-card>
+        <mat-card-content>
+            <div class="table-responsive">
+                <table mat-table [dataSource]="anticipoList" matSort class="table employee-list no-wrap">
+                    
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef>
+                            
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row)" 
+                                [aria-label]="checkboxLabel(row)"
+                                (change)="showOptions($event)" 
+                                [disabled]="row.excluded">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Id Anticipo </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="createdAt">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Fecha Registro </th>
+                            <td mat-cell *matCellDef="let element"> {{element.createdAt | date :'dd/MMM/yyyy'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="descripcion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Tipo de Solicitud</th>
+                            <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="motivo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Motivo</th>
+                            <td mat-cell *matCellDef="let element"> {{element.motivo}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fechaIni">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Fecha Inicio</th>
+                            <td mat-cell *matCellDef="let element"> {{element.fechaIni | date :'dd/MMM/yyyy'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fechaFin">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Fecha Fin</th>
+                            <td mat-cell *matCellDef="let element"> {{element.fechaFin | date :'dd/MMM/yyyy'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="diasDura">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Días Duración</th>
+                            <td mat-cell *matCellDef="let element"> {{element.diasDura}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="estatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf='element.estatus==="Aprobado"'>
+                                <span class="azul"> {{element.estatus}} </span>
+                            </div>
+                            <div *ngIf='element.estatus==="Nuevo"'>
+                                <span class="gris"> {{element.estatus}} </span>
+                            </div>
+                            <div *ngIf='element.estatus==="Por Aprobar"'>
+                                <span> {{element.estatus}} </span>
+                            </div>
+                            <div *ngIf='element.estatus==="Rechazado"'>
+                                <span class="rojo"> {{element.estatus}} </span>
+                            </div>
+                            <div *ngIf='element.estatus== "Pagado" || element.estatus == "Pagado Parcial"'>
+                                <span class="verde"> {{element.estatus}} </span>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="monto">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Monto</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span *ngIf='element.idMoneda===1' > {{element.montoP | currency:"MXN":"symbol"}} </span>
+                                <span *ngIf='element.idMoneda===2' > {{element.montoP | currency:"USD":"symbol"}} </span>
+                                <span *ngIf='element.idMoneda===3' > {{element.montoP | currency:"EUR":"symbol"}} </span>
+                                <span *ngIf='element.idMoneda===4' > {{element.montoP | currency:"GBP":"symbol"}} </span>                                
+                            </td>
+                    </ng-container>
+                    <ng-container matColumnDef="tipo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Moneda</th>
+                            <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="anticipoColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: anticipoColumns;"></tr>
+                </table>
+                <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+        </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+

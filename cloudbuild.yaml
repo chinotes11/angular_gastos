@@ -1,0 +1,18 @@
+steps:
+# Install nodejs
+- name: "gcr.io/cloud-builders/npm:node-14.10.1"
+  args: ["install"]
+# Install Angular
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['install','-g','@angular/cli@latest' ]
+# Install Dependencies
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['install']
+# build Project in mode Prod.
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['run', 'build','--prod']
+  # args: ['run','ng','--','build','--prod'] ## Cambio de sintaxis para la compilación 
+# deploy in App Engine
+- name: "gcr.io/cloud-builders/gcloud"
+  args: ["app", "deploy"]
+timeout: "3000s"

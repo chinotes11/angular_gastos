@@ -1,0 +1,26 @@
+
+<h2 class="font-medium" mat-dialog-title><strong>Gastos Autorizados</strong></h2>
+<mat-dialog-content >
+
+<div class="table-responsive">
+    <div fxLayout="row wrap"> 
+        <div  fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">
+            <mat-selection-list #gastosList (selectionChange)="agregaGasto(gastosList.selectedOptions.selected,$event)"  >
+                <mat-list-option *ngFor="let gastos of GastosL" [value]="gastos.idTipoGastos" [selected]="gastos.selected">
+                {{gastos.nombreGasto}}
+                </mat-list-option>
+            </mat-selection-list>
+            <!--<p> Seleccionados: {{gastos.selectedOptions.selected.length}} </p>  [(ngModel)]="ListaGastos.Selected"  --> 
+        </div>
+    </div>
+
+    <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="30" fxFlex="50" class="align-self-center">                 
+            <button  mat-raised-button color="primary" (click)="doAction()" >Aceptar</button>            
+        </div>
+        <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex.gt-md="30" fxFlex="50" class="align-self-center"> 
+            <button mat-raised-button color="warn"  (click)="closeDialog()" color="primary">Cancelar</button>      
+        </div>
+    </div> 
+</div>
+</mat-dialog-content>

@@ -1,0 +1,128 @@
+
+<div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+	<div fxLayout="row wrap">
+        <div fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100" class="align-self-center">
+            <h3 class="page-title text-themecolor m-0"><b>{{pageInfo?.title}}</b></h3>
+		</div>
+		<div fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100" class="align-self-center">
+            <div class="breadcrumb d-flex align-items-center float-right float-sm-left">
+             
+                <ul class="list-style-none d-flex align-items-center">
+                    <ng-template ngFor let-url [ngForOf]="pageInfo?.urls" let-last="last">
+                        <!-- 
+                           <button (click)="pasoFiltros()">New Message</button>
+                           {{message[0].tipo}}
+                        <li class="breadcrumb-item" *ngIf="!last" [routerLink]="url.url">
+                            <a href='javascript:void(0)'>{{url.title}}</a>
+                        </li>
+                        <li class="breadcrumb-item active" *ngIf="last">{{url.title}}</li> -->
+                        <li class="breadcrumb-item " *ngIf="last">
+                            
+                        </li>
+                        <li class="breadcrumb-item " *ngIf="last"><img [src]='url.icono'class="img-icono" /> </li>
+                    </ng-template>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex="100">
+      <mat-card>
+        <mat-card-content>
+        <div class="table-responsive">
+           
+          <table mat-table [dataSource]="wfList" matSort class="table employee-list no-wrap">    
+
+              <ng-container matColumnDef="nombreObjeto">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Sección</th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombreObjeto}}  </td>
+              </ng-container>
+
+              <ng-container matColumnDef="estatusActual">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus Actual</th>
+                <td mat-cell *matCellDef="let element"> {{element.estatusActual}}  </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nombreRol">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Rol</th>
+                  <td mat-cell *matCellDef="let element"> 
+                    <mat-form-field floatLabel="never" class="input-tam2">                                                                            
+                            <mat-label>Rol</mat-label>
+                            <mat-select required placeholder="Tipo de Gasto" [value]="element.nombreRol" id="nombreRol" name="nombreRol" (selectionChange)="CambioRol($event,element)" [disabled]="blockInput">
+                                <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                <mat-option *ngFor="let roles of catRoles" [value]="roles.id">
+                                    {{roles.rol}}
+                                </mat-option>
+                            </mat-select>   
+                    </mat-form-field>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="opcion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones Posibles</th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-selection-list  [multiple]="false">
+                        <mat-list-option *ngFor="let ev of element.opcion">
+                          {{ev.opcion}}
+                        </mat-list-option>
+                      </mat-selection-list>
+                </td>
+            </ng-container>     
+
+            <ng-container matColumnDef="siguienteEstatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus Siguiente</th>
+                <td mat-cell *matCellDef="let element">  
+                    <mat-selection-list  [multiple]="false">
+                        <mat-list-option *ngFor="let ev of element.siguienteEstatus">
+                          {{ev.siguienteEstatus}}
+                        </mat-list-option>
+                      </mat-selection-list>                    
+                </td>
+
+            </ng-container>                 
+
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table> 
+      
+ <!--
+        <table mat-table [dataSource]="wfList" class="mat-elevation-z8" multiTemplateDataRows>
+
+            <ng-container matColumnDef="nombreObjeto">
+                <th mat-header-cell *matHeaderCellDef> Seccion </th>
+                <td mat-cell *matCellDef="let element;let i = dataIndex" [attr.rowspan]="getRowSpan('Seccion',i)" [style.display]="getRowSpan('Seccion', i) ? '' : 'none'">
+                 {{ element.nombreObjeto }} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="estatusActual">
+                <th mat-header-cell *matHeaderCellDef> Estatus </th>
+                <td mat-cell *matCellDef="let element;let i = dataIndex" [attr.rowspan]="getRowSpan('Estatus',i)" [style.display]="getRowSpan('Estatus', i) ? '' : 'none'">
+                 {{ element.estatusActual }} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="nombreRol">
+                <th mat-header-cell *matHeaderCellDef> Rol </th>
+                <td mat-cell *matCellDef="let element;let i = dataIndex" [attr.rowspan]="getRowSpan('Rol',i)" [style.display]="getRowSpan('Rol', i) ? '' : 'none'">
+                 {{ element.nombreRol }} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="opcion">
+                <th mat-header-cell *matHeaderCellDef> Descriptions </th>
+                <td mat-cell *matCellDef="let element"> {{ element.opcion }} </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        
+        </table>
+
+  -->
+          <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

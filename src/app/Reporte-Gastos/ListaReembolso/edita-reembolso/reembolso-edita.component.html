@@ -1,0 +1,203 @@
+<div class="sideL">
+    <div class="page-breadcrumb p-t-5 p-b-5 p-l-5 p-r-5">
+        <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="align-self-center">
+                <h3 class="page-title text-themecolor m-0"><b>Reembolsos</b></h3>
+            </div>
+            <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100" class="align-self-center">
+                <div class="breadcrumb d-flex align-items-center float-right float-sm-left">             
+                    <ul class="list-style-none d-flex align-items-center">
+                        <li class="breadcrumb-item ">
+                            <h5 class="m-0"><b>{{reporte.estatus}}</b> </h5> 
+                        </li>
+                        <li class="breadcrumb-item abajo" >
+                            <mat-form-field appearance="outline" class="p-r-15 m-r-15 abajo">                         
+                                <mat-label>Siguiente Tarea</mat-label>
+                                <mat-select placeholder="" [(ngModel)]="reporte.estatus" (selectionChange)="cambiaWork($event,reporte)" name="SelEstatus" placeholder="Workflow"  [disabled]="bloqueo" >
+                                    <mat-option *ngFor="let work of workInicial" [value]="work.siguienteEstatus">
+                                        {{work.opcion}}
+                                    </mat-option>
+                                </mat-select>
+                        </mat-form-field>
+                        </li>
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button class="arriba2" color="primary" (click)=aceptarDialog() [disabled]="btnGda !== '1'"> <mat-icon>save</mat-icon> </button>
+                        </li>
+                        <li class="breadcrumb-item" >
+                            <button mat-raised-button (click)=cerrarDialog() color="warn"> <mat-icon>highlight_off</mat-icon> </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div fxLayout="row wrap"> <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="align-self-center">  <h4><b>&nbsp;<br></b> </h4></div></div>
+
+<div fxLayout="row wrap">
+    <div fxFlex="100">        
+
+        <form #userForm="ngForm">
+        <mat-tab-group>
+            <mat-tab label="Datos"> 
+                <br>
+                        <div fxLayout="row wrap" class="align-items-center">
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Empresa</mat-label>
+                                        <mat-select required placeholder="Empresa" [(ngModel)]="reporte.idEmpresa" id="idEmpresa" name="idEmpresa" [disabled]="bloqueo">
+                                            <mat-option value="option2" disabled>- Seleccione Opción -</mat-option>
+                                            <mat-option *ngFor="let emp of Empresas" [value]="emp.id">
+                                                {{emp.clave}}
+                                            </mat-option>
+                                        </mat-select>                      
+                                    </mat-form-field> 
+                                </div>
+                            </div>  
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Centro de Costos</mat-label>
+                                        <mat-select required placeholder="Centro de Costos"
+                                            [(ngModel)]="reporte.idCentrosCostos" id="idCentrosCostos" name="idCentrosCostos" disabled>
+                                            <mat-option *ngFor="let centro of CentroCosto"
+                                                [value]="centro.idCentrosCostos">
+                                                {{centro.descripcionCentrosCostos}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>C-ID</mat-label>
+                                        <input type="text" matInput required id="idUser" name="idUser"
+                                            [(ngModel)]="reporte.idUser" disabled placeholder="idUser">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">
+                                        <mat-label>Nombre</mat-label>
+                                        <input type="text" matInput required id="nombre" name="nombre" [(ngModel)]="reporte.NombreCompleto" disabled placeholder="Nombre">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Reporte Gastos EXR-ID</mat-label>
+                                        <input type="text" matInput id="id" name="id" [(ngModel)]="reporte.idReportesGastos" disabled placeholder="Reporte Gastos EXR-ID">
+                                    </mat-form-field> 
+                                </div>
+                            </div>
+                            
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15"> 
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">
+                                        <mat-label>Motivo</mat-label>
+                                        <!-- <input type="text" matInput  id="motivo" name="motivo" [(ngModel)]="reporte.motivo" disabled> -->
+                                        <input type="text" matInput id="observaciones" name="observaciones" [(ngModel)]="reporte.observaciones" disabled >
+                                </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>RR-ID Reembolso</mat-label>
+                                        <input type="text" matInput id="rrid" name="rrid" [(ngModel)]="reporte.id" disabled placeholder="RR-ID">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">         
+                                        <mat-label>Fecha Registro</mat-label>
+                                        <input type="text" matInput id="fechaReg" name="fechaReg" [(ngModel)]="reporte.fechaReg" disabled placeholder="fechaReg">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Monto del Reembolso</mat-label>
+                                        <input type="text" matInput id="monto" name="monto" [(ngModel)]="reporte.montoFormato" disabled placeholder="monto">
+                                    </mat-form-field>
+                                </div>
+                            </div>                                
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15">                         
+                                        <mat-label>Anticipo APR-ID</mat-label>
+                                        <input type="text" matInput id="idAnticiposFondos" name="idAnticiposFondos" [(ngModel)]="reporte.idAnticiposFondos" disabled placeholder="Anticipo APR-ID">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                           
+                            <div fxFlex="100" fxFlex.gt-xs="100">
+                                <div class="m-r-15 m-l-15">
+                                    <mat-form-field appearance="outline" class="p-r-15 m-r-15" floatLabel="always">                         
+                                        <mat-label>Observaciones</mat-label>
+                                        <input type="text" matInput id="observaciones" name="observaciones" [(ngModel)]="reporte.observaciones" >
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                             <!--
+                            
+                            <div fxFlex="100" fxFlex.gt-xs="100">
+                                <mat-tab-group>
+                                    <mat-tab label="Vista Previa">
+                                        <mat-card-content>
+                                            <div class="d-flex align-items-center m-b-15">
+                                                <img src="assets/images/ejemplos/documento.png" class="png-icon" width="100%">
+                                            </div>
+                                        </mat-card-content>
+                                    </mat-tab>
+                                </mat-tab-group>
+                            </div>    
+                            -->
+                        </div>
+            </mat-tab>
+            <mat-tab label="Historial"> 
+                <div class="table-responsive">
+                    <table mat-table [dataSource]="Historial" matSort class="table employee-list no-wrap">
+                        <ng-container matColumnDef="fechaRegistro">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha/Hora de Registro </th>
+                                <td mat-cell *matCellDef="let element"> {{element.fechaRegistro | date :'dd/MMM/yyyy'}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="idUser">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario</th>
+                                <td mat-cell *matCellDef="let element"> {{element.idUser}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="evento">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Evento</th>
+                                <td mat-cell *matCellDef="let element"> {{element.evento}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="estatus">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                                <td mat-cell *matCellDef="let element"> {{element.estatus}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="comentarios">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Comentarios</th>
+                                <td mat-cell *matCellDef="let element"> {{element.comentarios}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="histColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: histColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+        
+        </form>
+    </div>
+</div>

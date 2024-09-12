@@ -1,0 +1,256 @@
+/**
+ * Tabla de Contenido
+ *
+ * 	1. Globals
+ *	2. Headers
+ *	3. Navigations
+ *	4. Banners
+ *	5. Footers
+ *	6. Posts
+ *	7. Widgets
+ *	8. Custom Templates
+ */
+
+
+@import "variable";
+
+@import "icons/themify-icons/themify-icons.css";
+@import "icons/font-awesome/css/font-awesome.css";
+@import "icons/flag-icon-css/flag-icon.min.css";
+@import "spinner";
+@import "app";
+@import "header";
+@import "widgets";
+
+@import "horizontal.scss";
+
+@import "pages";
+@import "sidebar";
+@import "dark-sidebar";
+@import "responsive";
+@import "rtl";
+
+// Red Theme
+
+.danger {
+  @import "colors/red";
+  @include angular-material-theme($red-app-theme);
+}
+
+// Blue Theme
+
+.blue {
+  @import "colors/blue";
+  @include angular-material-theme($blue-app-theme);
+}
+
+// Green Theme
+
+.green {
+  @import "colors/green";
+  @include angular-material-theme($green-app-theme);
+}
+
+// Dark Theme
+
+.dark {
+  @import "colors/dark";
+  @include angular-material-theme($dark-theme);
+}
+
+$custom-typography: mat-typography-config(
+  $font-family: "Poppins",
+);
+@include mat-core($custom-typography);
+/***************************EDICION**************
+DIALOG
+*****************************/
+.mat-dialog-title {
+  background-color: #78198d;
+  color: #FFF;
+  margin: 0 0 10px;
+  display: block;
+  line-height: 30px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.mat-dialog-container {
+  display: block;
+  border-radius: 4px;
+  box-sizing: border-box;
+  overflow: auto;
+  outline: 0;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  max-height: inherit;
+  padding: 5px !important;
+}
+.mat-dialog-content {
+  display: block;
+  margin: 0 0px !important;
+  padding: 0 0px !important;
+  max-height: 65vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.png-icon{
+  margin: 0px auto auto;
+  font-weight: bold;
+  padding: 0;
+  display: inline-block;
+  background-repeat: no-repeat no-repeat;
+  pointer-events: none;
+}
+
+
+.cdk-global-overlay-wrapper {
+  display: flex;
+  position: absolute;
+  z-index: 1000;
+  overflow: auto;
+  pointer-events: auto;  
+}
+/************************EDICION********************************************************/
+.verde{
+  color:#08a406;
+}
+.rojo{
+  color:#BB220B;
+}
+.primario{
+  color:#9B26B6;  
+}
+.azul{
+  color:#2339b1;
+}
+.gris{
+  color:#7e7e7e;
+}
+
+.dialog-exportar {
+  width: 40%;
+}
+@media only screen and (max-width: 760px) {
+  .dialog-exportar {
+      width: 100%;
+  }
+}
+
+.dialog-confirmar {
+  width: 50%;
+}
+@media only screen and (max-width: 760px) {
+  .dialog-confirmar {
+      width: 100%;
+  }
+}
+
+.valign-top {
+  vertical-align: top;
+}
+
+
+.mat-expansion-panel-header-description, 
+.mat-expansion-indicator::after {
+    color: #9B26B6;
+}
+.mat-expansion-panel-header-title {
+  color: #9B26B6;
+}
+.mat-expansion-panel-header {
+  background: #fcf5fd;
+}
+.blue .mat-expansion-panel-header-title {
+  color: #9B26B6;
+}
+
+.blue .mat-sort-header-arrow {
+  color: #8a1aa3;
+}
+
+body {
+  font-family: 'Gotham Rounded Light';
+}
+.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+  background-color:#8a1aa3;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #8a1aa3!important;
+  // opacity: 1!important;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 1.05em;
+}
+
+.msj-zazz {
+  background: #8a1aa3;
+  color: #FFF;
+}
+
+.msj-success {
+  background: #0b8609;
+  color: #FFF;
+}
+
+.msj-danger {
+  background: #bb1010;
+  color: #FFF;
+}
+
+.msj-warning {
+  background: #fdb71f;
+  color: #000;
+}
+
+
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0 .75em 0 .75em;
+  margin-top: 0.1em;
+  position: relative;
+}
+.mat-form-field-wrapper {
+  padding-bottom: 0.5em;
+}
+
+.overlay {
+  position:fixed;
+  display:block;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  background-color:rgba(74,74,74,.8);
+  z-index:99999;
+}
+.spinner {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+
+/*
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.3em 0 0.3em 0;
+}
+*/
+
+
+
+
+/*
+.mat-expansion-panel-header-title .mat-expanded,
+.mat-expansion-panel-header-title .mat-expanded:hover {
+  color: #a95bbb !important;
+}*/
+
+/*
+.mat-expansion-panel-header-title :hover,
+.mat-expansion-panel-header-title :focus  {
+  color: #a95bbb !important;
+}*/
